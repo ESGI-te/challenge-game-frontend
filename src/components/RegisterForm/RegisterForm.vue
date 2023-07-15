@@ -17,7 +17,8 @@
 </template>
 
 <script setup>
-import useRegisterMutation from '../../queries/auth/useRegisterMutation'
+import router from '@/router';
+import useRegisterMutation from 'queries/auth/useRegisterMutation'
 import { reactive } from 'vue';
 
 const formData = reactive({
@@ -30,7 +31,7 @@ const { mutate: register } = useRegisterMutation()
 
 const onSubmit = () => {
   register(formData, {
-    onSuccess: () => console.log('Success')
+    onSuccess: () => router.push ({ name: 'login' })
   });
 }
 </script>
