@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import LoginForm from "../components/LoginForm";
+import LoginForm from "components/LoginForm";
 </script>
 
 <style scoped>

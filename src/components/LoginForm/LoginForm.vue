@@ -1,19 +1,20 @@
 <template>
   <form @submit.prevent="onSubmit">
     <label>
-        Username
-        <input v-model="formData.username" name="username" type="text" />
+      Username
+      <input v-model="formData.username" name="username" type="text" />
     </label>
     <label>
-        Password
-        <input v-model="formData.password" name="password" type="password" />
+      Password
+      <input v-model="formData.password" name="password" type="password" />
     </label>
     <button type="submit">Login</button>
   </form>
 </template>
 
 <script setup>
-import useLoginMutation from '../../queries/auth/useLoginMutation'
+import router from '@/router';
+import useLoginMutation from 'queries/auth/useLoginMutation'
 import { reactive } from 'vue'
 
 const formData = reactive({
@@ -24,10 +25,12 @@ const formData = reactive({
 const { mutate: login } = useLoginMutation()
 
 const onSubmit = () => {
-  login(formData, { 
-    onSuccess: (token) => {
-        console.log(token)
-  } })
+  login(formData, {
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.token);
+      router.push({ name: 'home' });
+    }
+  })
 }
 </script>
 
