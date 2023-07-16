@@ -13,24 +13,17 @@
 </template>
 
 <script setup>
-import router from '@/router';
-import useLoginMutation from 'queries/auth/useLoginMutation'
+import { useAuthStore } from '@/stores/auth.store';
 import { reactive } from 'vue'
 
 const formData = reactive({
   username: '',
   password: ''
 })
-
-const { mutate: login } = useLoginMutation()
+const { login } = useAuthStore();
 
 const onSubmit = () => {
-  login(formData, {
-    onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
-      router.push({ name: 'home' });
-    }
-  })
+  login(formData);
 }
 </script>
 
