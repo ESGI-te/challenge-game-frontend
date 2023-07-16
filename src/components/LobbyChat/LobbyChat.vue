@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useLobbySocket } from '@/composables/useLobbySocket';
 
 const message = ref('');
@@ -24,7 +24,7 @@ const sendMessage = () => {
     message.value = '';
 }
 
-watch(socket, () => {
+watchEffect(() => {
     if (!socket) return
 
     socket.on('message', (msg) => {
