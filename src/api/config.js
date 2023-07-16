@@ -1,10 +1,7 @@
-const BASE_URL =  import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export const callApi = async ({ url, method = 'GET', data = null, headers = {} }) => {
-  
-  const URL = BASE_URL + url;
-
-  console.log(BASE_URL, URL)
+  const URL = BASE_URL + url
 
   const options = {
     method,

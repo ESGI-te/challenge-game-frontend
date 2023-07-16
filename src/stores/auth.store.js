@@ -7,7 +7,7 @@ export const useAuthStore = defineStore({
   state: () => ({
     token: localStorage.getItem('token') || null,
     returnUrl: null,
-    isAuthenticated: false
+    isAuthenticated: !!localStorage.getItem('token') // Mettre à jour ici
   }),
   actions: {
     async login(credentials) {
@@ -20,6 +20,7 @@ export const useAuthStore = defineStore({
         localStorage.setItem('token', token)
 
         router.push(this.returnUrl || { name: 'home' })
+        this.returnUrl = null
       } catch (error) {
         console.log(error)
       }
@@ -29,6 +30,9 @@ export const useAuthStore = defineStore({
       this.isAuthenticated = false
       localStorage.removeItem('token')
       router.push({ name: 'login' })
+    },
+    setReturnUrl(url) {
+      this.returnUrl = url
     }
   }
 })

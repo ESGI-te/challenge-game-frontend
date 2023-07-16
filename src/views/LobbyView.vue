@@ -1,5 +1,7 @@
 <template>
-  <div v-if="isConnected">
+  <h2 v-if="isLoading">Is loading...</h2>
+  <h2 v-else-if="!lobby">Lobby not found.</h2>
+  <div v-else-if="isConnected">
     <div>
       connected : {{ isConnected }}
       notification : {{ notification }}
@@ -7,11 +9,10 @@
     </div>
     <LobbyChat />
   </div>
-  <h2 v-else>Is loading...</h2>
 </template>
 
 <script setup>
-import { computed, onUnmounted, reactive, ref } from 'vue';
+import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 import LobbyChat from 'components/LobbyChat';
 import { useLobbyQuery } from 'queries/lobby/useLobbyQuery';
 import { useRouter } from 'vue-router';
@@ -19,19 +20,18 @@ import { lobbySocketProvider } from '@/providers/lobbySocketProvider';
 
 const { currentRoute } = useRouter()
 const lobbyId = currentRoute.value.params.lobbyId;
-const { data: lobby } = useLobbyQuery(lobbyId);
-const socket = lobbySocketProvider(lobbyId);
+const { data: lobby, isLoading } = useLobbyQuery(lobbyId);
+// const socket = lobbySocketProvider(lobbyId);
 const notification = reactive({});
 const error = reactive({});
 const isConnected = ref(false);
 const players = ref([]);
 const playersConnected = computed(() => `${players.value.length} / ${lobby?.value.playersMax}`);
 
-onUnmounted(() => {
-  socket?.disconnect();
-})
+watch(lobby, () => {
+  if(!lobby) return
 
-if (socket) {
+  const socket = lobbySocketProvider(lobbyId);
 
   socket.on('connect', () => {
     isConnected.value = true;
@@ -44,7 +44,6 @@ if (socket) {
 
   socket.on('disconnect', () => {
     isConnected.value = false;
-
   })
 
   socket.on('notification', (msg) => {
@@ -54,9 +53,7 @@ if (socket) {
   socket.on('players', (playersArr) => {
     players.value = playersArr;
   })
-}
-
-
+})
 
 
 </script>
