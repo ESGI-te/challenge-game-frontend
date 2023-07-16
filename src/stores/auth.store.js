@@ -14,6 +14,8 @@ export const useAuthStore = defineStore({
       try {
         const { token } = await login(credentials)
 
+        if (!token) return
+
         this.token = token
         this.isAuthenticated = true
 
