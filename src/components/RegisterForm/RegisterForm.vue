@@ -18,7 +18,7 @@
 
 <script setup>
 import router from '@/router';
-import useRegisterMutation from 'queries/auth/useRegisterMutation'
+import { useRegister } from 'queries/auth/useRegister'
 import { reactive } from 'vue';
 
 const formData = reactive({
@@ -27,7 +27,7 @@ const formData = reactive({
     password: ''
 });
 
-const { mutate: register } = useRegisterMutation()
+const { mutate: register } = useRegister()
 
 const onSubmit = () => {
   register(formData, {

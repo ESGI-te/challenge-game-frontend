@@ -15,6 +15,16 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import('views/RegisterView.vue')
+  },
+  {
+    path: '/lobby/:lobbyId',
+    name: 'lobby',
+    component: () => import('views/LobbyView.vue')
+  },
+  {
+    path: '/create-game',
+    name: 'create_game',
+    component: () => import('views/CreateGameView.vue')
   }
 ]
 
