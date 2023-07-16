@@ -1,4 +1,6 @@
 import { mergeQueryKeys } from '@lukemorales/query-key-factory'
-import { usersKeys } from './users/keys';
+import { userKeys } from './user/userKeys'
+import { gameKeys } from './game/gameKeys'
+import { lobbyKeys } from './lobby/lobbyKeys'
 
-export const queryKeys = mergeQueryKeys(usersKeys);
+export const queryKeys = mergeQueryKeys(userKeys, gameKeys, lobbyKeys)
