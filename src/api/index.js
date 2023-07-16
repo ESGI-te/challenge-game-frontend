@@ -21,9 +21,9 @@ export const createGame = (formData) =>
     data: formData
   })
 
-export const checkInvitationCode = (code) =>
+export const getLobbyByCode = (code) =>
   callApi({
-    url: `/lobbies/invitation-code/${code}`
+    url: `/lobbies/search/${code}`
   })
 
 export const getUser = () =>
