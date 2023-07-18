@@ -1,4 +1,2 @@
-export * from './RegisterForm.vue';
-export { default } from './RegisterForm.vue';
-
-
+export * from './RegisterForm.vue'
+export { default } from './RegisterForm.vue'

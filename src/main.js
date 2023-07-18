@@ -10,7 +10,7 @@ const pinia = createPinia()
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 /* ms */ * 60 /* sec */ * 60 /* min */ // 60 min
+      staleTime: 1000 /* ms */ * 60 /* sec */ * 60 /* min */ // 60 min,
     }
   }
 })

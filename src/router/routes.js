@@ -30,6 +30,29 @@ const routes = [
     path: '/search-game',
     name: 'search_game',
     component: () => import('views/SearchGameView.vue')
+  },
+  {
+    path: '/friends',
+    name: 'friends',
+    component: () => import('views/FriendsView.vue'),
+    children: [
+      {
+        path: '',
+        redirect: '/friends/invitations'
+      },
+      {
+        path: 'invitations',
+        component: () => import('components/UserInvitationsList')
+      },
+      {
+        path: 'requests',
+        component: () => import('components/UserInvitationRequestsList')
+      },
+      {
+        path: 'add',
+        component: () => import('components/UserInvitationForm')
+      }
+    ]
   }
 ]
 
