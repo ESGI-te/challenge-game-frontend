@@ -28,7 +28,11 @@ export const getLobbyByCode = (code) =>
 
 export const getUser = () =>
   callApi({
-    url: '/users/authenticated'
+    url: '/user'
+  })
+export const getUserFriends = () =>
+  callApi({
+    url: '/users/friends'
   })
 
 export const getLobby = (lobbyId) =>
