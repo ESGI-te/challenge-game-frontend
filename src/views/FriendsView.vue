@@ -13,6 +13,9 @@
         <div>
             <router-link to="/friends/add">Add a friend</router-link>
         </div>
+        <div>
+            <router-link to="/friends/list">My friends</router-link>
+        </div>
     </div>
     <div>
         <router-view></router-view>
