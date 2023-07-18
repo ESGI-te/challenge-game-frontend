@@ -38,7 +38,7 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: '/friends/invitations'
+        redirect: '/friends/list'
       },
       {
         path: 'invitations',
@@ -51,6 +51,10 @@ const routes = [
       {
         path: 'add',
         component: () => import('components/UserInvitationForm')
+      },
+      {
+        path: 'list',
+        component: () => import('components/UserFriendsList')
       }
     ]
   }
