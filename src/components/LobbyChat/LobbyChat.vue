@@ -1,15 +1,3 @@
-<template lang="">
-    <div>
-        <p v-for="msg in messages" :key="msg">
-            {{ msg.player }} : {{ msg.msg }}
-        </p>
-    </div>
-    <form @submit.prevent="sendMessage">
-        <input v-model="message" type="text" />
-        <button type="submit">Send</button>
-    </form>
-</template>
-
 <script setup>
 import { ref, watchEffect } from 'vue';
 import { useLobbySocket } from '@/composables/useLobbySocket';
@@ -32,8 +20,19 @@ watchEffect(() => {
     })
 })
 
-
 </script>
+
+<template lang="">
+    <div>
+        <p v-for="msg in messages" :key="msg">
+            {{ msg.player }} : {{ msg.msg }}
+        </p>
+    </div>
+    <form @submit.prevent="sendMessage">
+        <input v-model="message" type="text" />
+        <button type="submit">Send</button>
+    </form>
+</template>
 
 <style lang="">
     

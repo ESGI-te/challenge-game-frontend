@@ -7,7 +7,7 @@ export const useAuthStore = defineStore({
   state: () => ({
     token: localStorage.getItem('token') || null,
     returnUrl: null,
-    isAuthenticated: !!localStorage.getItem('token') // Mettre à jour ici
+    isAuthenticated: !!localStorage.getItem('token')
   }),
   actions: {
     async login(credentials) {

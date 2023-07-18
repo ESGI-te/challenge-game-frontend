@@ -1,13 +1,3 @@
-<template>
-  <form @submit.prevent="onSubmit">
-    <label>
-      Max. players
-      <input v-model="formData.playersMax" name="playersMax" type="text" />
-    </label>
-    <button type="submit">CreateGame</button>
-  </form>
-</template>
-
 <script setup>
 import router from '@/router';
 import { reactive } from 'vue';
@@ -25,5 +15,15 @@ const onSubmit = () => {
   });
 }
 </script>
+
+<template>
+  <form @submit.prevent="onSubmit">
+    <label>
+      Max. players
+      <input v-model="formData.playersMax" name="playersMax" type="text" />
+    </label>
+    <button type="submit">CreateGame</button>
+  </form>
+</template>
 
 <style scoped></style>

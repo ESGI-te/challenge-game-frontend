@@ -16,14 +16,14 @@ export const callApi = async ({ url, method = 'GET', data = null, headers = {} }
     options.body = JSON.stringify(data)
   }
 
-  try {
-    const response = await fetch(URL, options)
-    const responseData = await response.json()
-    return responseData
-  } catch (error) {
-    console.error('Request error:', error)
-    throw error
+  const response = await fetch(URL, options)
+  const responseData = await response.json()
+
+  if (!response.ok) {
+    throw new Error('Request failed')
   }
+
+  return responseData
 }
 
 const authHeader = () => {
