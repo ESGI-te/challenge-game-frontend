@@ -39,7 +39,7 @@ export const getLobby = (lobbyId) =>
   callApi({
     url: `/lobbies/${lobbyId}`
   })
-
+/* User invitation */
 export const getUserRequests = () =>
   callApi({
     url: '/user-invitations?type=requested'
@@ -71,5 +71,35 @@ export const acceptUserInvitation = (invitationId) =>
 export const declineUserInvitation = (invitationId) =>
   callApi({
     url: `/user-invitations/${invitationId}/decline`,
+    method: 'POST'
+  })
+/* Game invitation */
+export const getGameInvitations = () =>
+  callApi({
+    url: '/game-invitations'
+  })
+export const getGameInvitation = (invitationId) =>
+  callApi({
+    url: `/game-invitations/${invitationId}`
+  })
+export const inviteToGame = ({ userId, lobbyId }) =>
+  callApi({
+    url: '/game-invitations',
+    method: 'POST',
+    data: { userId, lobbyId }
+  })
+export const cancelGameInvitation = (invitationId) =>
+  callApi({
+    url: `/game-invitations/${invitationId}/cancel`,
+    method: 'POST'
+  })
+export const acceptGameInvitation = (invitationId) =>
+  callApi({
+    url: `/game-invitations/${invitationId}/accept`,
+    method: 'POST'
+  })
+export const declineGameInvitation = (invitationId) =>
+  callApi({
+    url: `/game-invitations/${invitationId}/decline`,
     method: 'POST'
   })
