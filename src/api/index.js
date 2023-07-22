@@ -88,18 +88,21 @@ export const inviteToGame = ({ userId, lobbyId }) =>
     method: 'POST',
     data: { userId, lobbyId }
   })
-export const cancelGameInvitation = (invitationId) =>
+export const cancelGameInvitation = (data) =>
   callApi({
-    url: `/game-invitations/${invitationId}/cancel`,
-    method: 'POST'
+    url: `/game-invitations/cancel`,
+    method: 'POST',
+    data
   })
-export const acceptGameInvitation = (invitationId) =>
+export const acceptGameInvitation = (data) =>
   callApi({
-    url: `/game-invitations/${invitationId}/accept`,
-    method: 'POST'
+    url: `/game-invitations/accept`,
+    method: 'POST',
+    data
   })
-export const declineGameInvitation = (invitationId) =>
+export const declineGameInvitation = (data) =>
   callApi({
-    url: `/game-invitations/${invitationId}/decline`,
-    method: 'POST'
+    url: `/game-invitations/decline`,
+    method: 'POST',
+    data
   })
