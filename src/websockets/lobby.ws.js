@@ -14,6 +14,7 @@ const URL = import.meta.env.VITE_WS_URL + WS_LOBBY_NAMESPACE
 const socket = io(URL, {
   // reconnectionDelayMax: 10000,
   autoConnect: false,
+  forceNew: true,
   auth: {
     token: localStorage.getItem('token')
   }

@@ -6,7 +6,7 @@ export const useGameInvitationsQuery = (invitationId) => {
   if (!invitationId) return
 
   return useQuery({
-    queryKey: queryKeys.userInvitation.detail(invitationId).queryKey,
+    queryKey: queryKeys.gameInvitation.detail(invitationId).queryKey,
     queryFn: () => getGameInvitation(invitationId)
   })
 }

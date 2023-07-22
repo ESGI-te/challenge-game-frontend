@@ -25,7 +25,11 @@ socket.on('disconnect', () => {
   state.connected = false
 })
 
-socket.on('receive_invitation', (username) => {
+socket.on('receive_user_invitation', (username) => {
+  console.log(username)
+})
+
+socket.on('receive_game_invitation', (username) => {
   console.log(username)
 })
 

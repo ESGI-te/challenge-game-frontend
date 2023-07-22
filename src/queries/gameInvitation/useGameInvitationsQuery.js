@@ -4,7 +4,7 @@ import { getGameInvitations } from 'api'
 
 export const useGameInvitationsQuery = () => {
   return useQuery({
-    queryKey: queryKeys.userInvitation.list().queryKey,
+    queryKey: queryKeys.gameInvitation.list().queryKey,
     queryFn: () => getGameInvitations()
   })
 }
