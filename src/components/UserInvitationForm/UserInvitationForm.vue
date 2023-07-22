@@ -3,10 +3,10 @@ import { ref } from 'vue';
 
 const username = ref('');
 import { useInviteUserMutation } from 'queries/userInvitation/useInviteUserMutation';
-const { mutate: inviteUser, isLoading } = useInviteUserMutation();
+const inviteUser = useInviteUserMutation();
 
 const sendInvitation = () => {
-    inviteUser(username.value, {
+    inviteUser.mutate(username.value, {
         onSuccess: () => {
             username.value = '';
         }
