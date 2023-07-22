@@ -176,4 +176,11 @@ export const getStatsAverage = (days) =>
 export const getGameByCode = (code) =>
   callApi({
     url: `/games/${code}`
+})
+
+export const createStripeCheckoutSession = (product) =>
+  callApi({
+    url: '/payment/checkout',
+    method: 'POST',
+    data: product
   })
