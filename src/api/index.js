@@ -103,3 +103,10 @@ export const declineGameInvitation = (invitationId) =>
     url: `/game-invitations/${invitationId}/decline`,
     method: 'POST'
   })
+
+export const createStripeCheckoutSession = (product) =>
+  callApi({
+    url: '/payment/checkout',
+    method: 'POST',
+    data: product
+  })

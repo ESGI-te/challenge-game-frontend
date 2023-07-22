@@ -15,7 +15,6 @@ export const callApi = async ({ url, method = 'GET', data = null, headers = {} }
   if (data) {
     options.body = JSON.stringify(data)
   }
-
   const response = await fetch(URL, options)
   const responseData = await response.json()
 
