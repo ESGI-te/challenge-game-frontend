@@ -31,6 +31,10 @@ socket.on('receive_user_invitation', (username) => {
   state.userInvitation = username
 })
 
+socket.on('receive_game_invitation', (username) => {
+  console.log(username)
+})
+
 socket.on('receive_game_invitation', (invitation) => {
   state.gameInvitation = invitation
   console.log(invitation)
