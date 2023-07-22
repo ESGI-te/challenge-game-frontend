@@ -6,8 +6,8 @@ export const useCancelGameInvitationMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (invitationId) => cancelGameInvitation(invitationId),
+    mutationFn: (invitationId) => cancelGameInvitation({ id: invitationId }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: queryKeys.gameInvitation.requestList().queryKey })
+      queryClient.invalidateQueries({ queryKey: queryKeys.gameInvitation.list().queryKey })
   })
 }
