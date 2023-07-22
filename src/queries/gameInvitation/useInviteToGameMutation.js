@@ -7,6 +7,6 @@ export const useInviteToGameMutation = () => {
 
   return useMutation({
     mutationFn: ({ userId, lobbyId }) => inviteToGame({ userId, lobbyId }),
-    onSuccess: () => queryClient.invalidateQueries(queryKeys.userInvitation.requestList().queryKey)
+    onSuccess: () => queryClient.invalidateQueries(queryKeys.gameInvitation.list().queryKey)
   })
 }
