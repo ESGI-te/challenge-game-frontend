@@ -1,21 +1,11 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import { notificationSocketProvider } from './providers/notificationSocketProvider';
-import { useAuthStore } from './stores/auth.store';
-import { watchEffect } from 'vue';
-import { storeToRefs } from 'pinia';
+import friendsSocket from './websockets/friends.ws';
+import { onMounted } from 'vue';
 
-const { isAuthenticated } = storeToRefs(useAuthStore());
-
-watchEffect(() => {
-  if(!isAuthenticated.value) return
-  const socket = notificationSocketProvider();
-
-  socket.on('receive_invitation', (username) => {
-    console.log(username);
-  })
-})
-
+// onMounted(() => {
+//   friendsSocket.connect();
+// })
 
 </script>
 
@@ -23,5 +13,4 @@ watchEffect(() => {
   <RouterView />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
