@@ -7,7 +7,7 @@ import socket, { state } from '@/websockets/lobby.ws';
 
 const { currentRoute } = useRouter()
 const code = currentRoute.value.params.code;
-const playersConnected = computed(() => `${state.lobby?.players.length} / ${state.lobby?.playersMax}`);
+const playersConnected = computed(() => `${state.lobby?.players.length} / ${state.lobby?.settings.playersMax}`);
 
 onMounted(() => {
 	if (!code) return
