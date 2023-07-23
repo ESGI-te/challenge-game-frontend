@@ -38,10 +38,6 @@ export const getLobby = (lobbyId) =>
   callApi({
     url: `/lobbies/${lobbyId}`
   })
-export const getLobbyByCode = (code) =>
-  callApi({
-    url: `/lobbies/search/${code}`
-  })
 export const createLobby = (formData) =>
   callApi({
     url: '/lobbies',
