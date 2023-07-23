@@ -38,6 +38,10 @@ export const getLobby = (lobbyId) =>
   callApi({
     url: `/lobbies/${lobbyId}`
   })
+export const getLobbyByCode = (code) =>
+  callApi({
+    url: `/lobbies/search/${code}`
+  })
 export const createLobby = (formData) =>
   callApi({
     url: '/lobbies',
@@ -53,10 +57,10 @@ export const createLobby = (formData) =>
 //     url: `/quizz-themes/search?${params.toString()}`
 //   })
 // }
-export const getQuizzThemes = () =>
-  callApi({
-    url: '/quizz-themes'
-  })
+// export const getQuizzThemes = () =>
+//   callApi({
+//     url: '/quizz-themes'
+//   })
 export const getQuizzTheme = (quizzThemeId) =>
   callApi({
     url: `/quizzs/${quizzThemeId}`
@@ -89,6 +93,14 @@ export const deleteQuizz = (quizzId) =>
     method: 'DELETE'
   })
 
+/* Quizz Theme */
+export const getQuizzThemes = (ids) => {
+  const params = new URLSearchParams()
+  params.append('ids', ids.join(','))
+  return callApi({
+    url: `/quizz-themes/search?${params.toString()}`
+  })
+}
 /* User invitation */
 export const getUserRequests = () =>
   callApi({

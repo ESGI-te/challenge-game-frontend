@@ -5,9 +5,10 @@ import { WS_LOBBY_NAMESPACE } from '@/utils/constants'
 export const state = reactive({
   connected: false,
   notification: null,
-  lobby: null,
+  players: [],
   error: null,
-  messages: []
+  messages: [],
+  themes: []
 })
 
 const URL = import.meta.env.VITE_WS_URL + WS_LOBBY_NAMESPACE
@@ -49,6 +50,11 @@ socket.on('notification', (msg) => {
 
 socket.on('message', (msg) => {
   state.messages.push(msg)
+})
+
+socket.on('theme_voted', (themes) => {
+  state.themes = themes
+  console.log(themes)
 })
 
 export default socket
