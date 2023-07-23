@@ -1,30 +1,19 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { useLobbySocket } from '@/composables/useLobbySocket';
+import { ref } from 'vue';
+import socket, { state } from '@/websockets/lobby.ws';
 
 const message = ref('');
-const messages = ref([]);
-
-const socket = useLobbySocket();
 
 const sendMessage = () => {
     socket.emit('new_message', message.value);
     message.value = '';
 }
 
-watchEffect(() => {
-    if (!socket) return
-
-    socket.on('message', (msg) => {
-        messages.value.push(msg);
-    })
-})
-
 </script>
 
 <template lang="">
     <div>
-        <p v-for="msg in messages" :key="msg">
+        <p v-for="msg in state.messages" :key="msg">
             {{ msg.player }} : {{ msg.msg }}
         </p>
     </div>
