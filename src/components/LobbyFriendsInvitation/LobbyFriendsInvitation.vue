@@ -4,7 +4,6 @@ import { useCancelGameInvitationMutation } from 'queries/gameInvitation/useCance
 import { useGameInvitationsQuery } from 'queries/gameInvitation/useGameInvitationsQuery';
 import { useRouter } from 'vue-router';
 import { state } from '@/websockets/friends.ws';
-import { watchEffect } from 'vue';
 
 const { currentRoute } = useRouter();
 const lobbyId = currentRoute.value.params.lobbyId;
@@ -12,11 +11,6 @@ const sendInvitation = useInviteToGameMutation();
 const cancelInvitation = useCancelGameInvitationMutation();
 const { data: invitations } = useGameInvitationsQuery();
 
-watchEffect(() => {
-    if (invitations.value) {
-        console.log(invitations.value);
-    }
-})
 const isInvited = (friendId) => invitations.value?.some(invitation => invitation.recipient.id === friendId);
 
 const handleCancelInvitation = (friendId) => {

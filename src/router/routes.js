@@ -17,7 +17,7 @@ const routes = [
     component: () => import('views/RegisterView.vue')
   },
   {
-    path: '/lobby/:lobbyId',
+    path: '/lobby/:code',
     name: 'lobby',
     component: () => import('views/LobbyView.vue')
   },
