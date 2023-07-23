@@ -34,10 +34,16 @@ export const getUserFriends = () =>
   callApi({
     url: '/users/friends'
   })
-
+/* Lobby */
 export const getLobby = (lobbyId) =>
   callApi({
     url: `/lobbies/${lobbyId}`
+  })
+export const createLobby = (formData) =>
+  callApi({
+    url: '/lobbies',
+    method: 'POST',
+    data: formData
   })
 /* User invitation */
 export const getUserRequests = () =>
