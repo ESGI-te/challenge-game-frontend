@@ -1,9 +1,9 @@
 <template>
-        <CreateGameForm />
+        <GameForm />
 </template>
 
 <script setup>
-import CreateGameForm from 'components/CreateGameForm';
+import GameForm from 'components/GameForm';
 </script>
 
 <style lang="">
