@@ -33,7 +33,7 @@ const SubmitButton = styled(Button)`
 </script>
 
 <template>
-  <Form @submit.prevent="onSubmit" @keydown.enter="$event.preventDefault()">
+  <Form @submit.prevent="onSubmit">
     <InputText name="username" label="Username" />
     <InputText name="password" label="Password" type="password" />
     <div>
