@@ -11,7 +11,7 @@ const { mutate: createGame } = useCreateGameMutation()
 
 const onSubmit = () => {
   createGame(formData, {
-    onSuccess: ({ lobbyId }) => router.push({ name: 'lobby', params: { lobbyId } })
+    onSuccess: ({ code }) => router.push({ name: 'lobby', params: { code } })
   });
 }
 </script>

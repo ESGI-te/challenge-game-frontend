@@ -6,12 +6,12 @@ import LobbyFriendsInvitation from 'components/LobbyFriendsInvitation';
 import socket, { state } from '@/websockets/lobby.ws';
 
 const { currentRoute } = useRouter()
-const lobbyId = currentRoute.value.params.lobbyId;
+const code = currentRoute.value.params.code;
 const playersConnected = computed(() => `${state.lobby?.players.length} / ${state.lobby?.playersMax}`);
 
 onMounted(() => {
-	if (!lobbyId) return
-	socket.io.opts.query = { lobbyId };
+	if (!code) return
+	socket.io.opts.query = { code };
 	socket.connect();
 })
 
