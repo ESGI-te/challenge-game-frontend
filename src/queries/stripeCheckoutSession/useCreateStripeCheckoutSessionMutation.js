@@ -6,7 +6,7 @@ export const useCreateStripeCheckoutSessionMutation = () => {
   //   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (products) => createStripeCheckoutSession({ products })
+    mutationFn: (product) => createStripeCheckoutSession({ product })
     // onSuccess: () => queryClient.invalidateQueries(queryKeys.userInvitation.requestList().queryKey)
   })
 }
