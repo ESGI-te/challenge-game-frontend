@@ -7,3 +7,4 @@ export const USER_ROLES = {
   ADMIN: 'admin',
   USER: 'user'
 }
+export const WS_BOUTIQUE_NAMESPACE = '/boutique'

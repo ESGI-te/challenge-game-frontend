@@ -10,6 +10,11 @@ const routes = [
     component: () => import('views/LandingView.vue')
   },
   {
+    path: '/boutique',
+    name: 'boutique',
+    component: () => import('views/BoutiqueView.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     meta: { layout: PublicLayout },
