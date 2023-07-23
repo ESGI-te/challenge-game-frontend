@@ -35,7 +35,6 @@ socket.on('connect_error', (err) => {
 socket.on('update', (friends) => {
   state.online = friends.online
   state.offline = friends.offline
-  console.log(friends)
 })
 
 export default socket

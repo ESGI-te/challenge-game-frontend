@@ -6,7 +6,8 @@ export const state = reactive({
   connected: false,
   notification: null,
   lobby: null,
-  error: null
+  error: null,
+  messages: []
 })
 
 const URL = import.meta.env.VITE_WS_URL + WS_LOBBY_NAMESPACE
@@ -44,6 +45,10 @@ socket.on('error', (err) => {
 
 socket.on('notification', (msg) => {
   state.notification = msg
+})
+
+socket.on('message', (msg) => {
+  state.messages.push(msg)
 })
 
 export default socket
