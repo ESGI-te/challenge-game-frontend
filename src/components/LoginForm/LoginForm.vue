@@ -30,7 +30,7 @@ const Form = styled.form`
   <Form @submit.prevent="onSubmit">
     <InputText name="username" label="Username" />
     <InputText name="password" label="Password" type="password" />
-    <button :disabled="!meta.dirty || !meta.valid" type="submit">Register</button>
+    <button :disabled="!meta.dirty || !meta.valid" type="submit">Login</button>
   </Form>
 </template>
 
