@@ -1,39 +1,42 @@
 <script setup>
-import router from '@/router';
 import { useRegister } from 'queries/auth/useRegister'
-import { reactive } from 'vue';
+import { useForm } from 'vee-validate'
+import schema from './RegisterForm.schema';
+import InputText from 'components/InputText';
+import { useRouter } from 'vue-router';
+import styled from 'vue3-styled-components';
 
-const formData = reactive({
+const router = useRouter();
+const { handleSubmit, meta } = useForm({
+  initialValues: {
     username: '',
     email: '',
-    password: ''
+    password: '',
+  }, validationSchema: schema
 });
-
 const { mutate: register } = useRegister()
 
-const onSubmit = () => {
-  register(formData, {
-    onSuccess: () => router.push ({ name: 'login' })
+const onSubmit = handleSubmit(values => {
+  register(values, {
+    onSuccess: () => router.push({ name: 'login' })
   });
-}
+})
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1rem;
+`
+
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <label>
-      Username
-      <input v-model="formData.username" name="username" type="text" />
-    </label>
-    <label>
-      Email
-      <input v-model="formData.email" name="email" type="text" />
-    </label>
-    <label>
-      Password
-      <input v-model="formData.password" name="password" type="password" />
-    </label>
-    <button type="submit">Register</button>
-  </form>
+  <Form @submit.prevent="onSubmit">
+    <InputText name="username" label="Username" />
+    <InputText name="email" label="Email" type="email" />
+    <InputText name="password" label="Password" type="password" />
+    <button :disabled="!meta.dirty || !meta.valid" type="submit">Register</button>
+  </Form>
 </template>
-
-<style scoped></style>
