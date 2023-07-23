@@ -5,15 +5,9 @@ import { WS_LOBBY_NAMESPACE } from '@/utils/constants'
 export const state = reactive({
   connected: false,
   notification: null,
-  players: [],
+  lobby: null,
   error: null,
-  messages: [],
-  themes: [],
-  votedTheme: null,
-  isValidationInProgress: false,
-  validationTime: 30,
-  validatedUsers: [],
-  gameCreationInProgress: false
+  messages: []
 })
 
 const URL = import.meta.env.VITE_WS_URL + WS_LOBBY_NAMESPACE
@@ -55,36 +49,6 @@ socket.on('notification', (msg) => {
 
 socket.on('message', (msg) => {
   state.messages.push(msg)
-})
-
-socket.on('theme_voted', (themes) => {
-  state.themes = themes
-})
-
-socket.on('all_players_voted', (votedTheme) => {
-  state.votedTheme = votedTheme
-  console.log(votedTheme)
-})
-
-socket.on('validation_started', (validationTime) => {
-  state.isValidationInProgress = true
-  state.validationTime = validationTime
-})
-
-socket.on('validation_ended', () => {
-  state.isValidationInProgress = false
-})
-
-socket.on('user_validated', (users) => {
-  state.validatedUsers = users
-})
-
-socket.on('game_creation_started', () => {
-  state.gameCreationInProgress = true
-})
-
-socket.on('game_created', () => {
-  state.gameCreationInProgress = false
 })
 
 export default socket
