@@ -1,30 +1,37 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth.store';
-import { reactive } from 'vue'
+import { useForm } from 'vee-validate'
+import schema from './LoginForm.schema';
+import InputText from 'components/InputText';
+import styled from 'vue3-styled-components';
 
-const formData = reactive({
-  username: '',
-  password: ''
-})
+const { handleSubmit, meta } = useForm({
+  initialValues: {
+    username: '',
+    password: '',
+  }, validationSchema: schema
+});
 const { login } = useAuthStore();
 
-const onSubmit = () => {
-  login(formData);
-}
+const onSubmit = handleSubmit(values => {
+  login(values)
+})
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1rem;
+`
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <label>
-      Username
-      <input v-model="formData.username" name="username" type="text" />
-    </label>
-    <label>
-      Password
-      <input v-model="formData.password" name="password" type="password" />
-    </label>
-    <button type="submit">Login</button>
-  </form>
+  <Form @submit.prevent="onSubmit">
+    <InputText name="username" label="Username" />
+    <InputText name="password" label="Password" type="password" />
+    <button :disabled="!meta.dirty || !meta.valid" type="submit">Register</button>
+  </Form>
 </template>
 
 <style scoped></style>
