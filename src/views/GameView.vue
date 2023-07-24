@@ -27,6 +27,14 @@
         </li>
       </ul>
     </div>
+    <div v-if="game.data && game.currentQuestion" class="question">
+      <h2>{{ game.currentQuestion.question }}</h2>
+      <ul>
+        <li v-for="(prop, index) in game.currentQuestion.propositions" :key="index">
+          {{ prop }}
+        </li>
+      </ul>
+    </div>
     <div v-else>
       <h2>Le jeu est terminé !</h2>
     </div>
@@ -39,19 +47,12 @@ import { useRouter } from 'vue-router'
 import { useGameQuery } from 'queries/game/useGameQuery'
 import socket from '@/websockets/game.ws'
 import { state as socketState } from '@/websockets/game.ws'
-import { ref } from 'vue'
 
-const isAnswered = ref(false)
 const { currentRoute } = useRouter()
-const code = currentRoute.value.params.code
-const game = reactive({ data: {}, currentQuestion: {} })
-const { data: gameData } = useGameQuery(code)
+const gameId = currentRoute.value.params.gameId
 
-const submitAnswer = (answer) => {
-  socket.emit('answer', { gameId: game.id, questionId: game.currentQuestion.id, answer: answer })
-  isAnswered.value = true
-  console.log(answer)
-}
+const game = reactive({ data: {}, currentQuestion: {} })
+const { data: gameData } = useGameQuery(gameId)
 
 watchEffect(() => {
   if (gameData.value) {
@@ -63,6 +64,8 @@ watchEffect(() => {
 onMounted(() => {
   if (!code) return
   socket.io.opts.query = { code }
+  if (!gameId) return
+  socket.io.opts.query = { gameId }
   socket.connect()
 
   socket.emit('start_game')
