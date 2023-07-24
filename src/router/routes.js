@@ -1,4 +1,5 @@
 import HomeView from 'views/HomeView.vue'
+import GameView from 'views/GameView.vue'
 
 const routes = [
   {
@@ -62,6 +63,12 @@ const routes = [
     path: '/create-game',
     name: 'create_game',
     component: () => import('views/CreateGameView.vue')
+  },
+
+  {
+    path: '/game/:gameId',
+    name: 'game',
+    component: GameView
   },
   {
     path: '/search-game',
