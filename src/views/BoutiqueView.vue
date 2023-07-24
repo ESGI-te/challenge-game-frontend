@@ -1,23 +1,27 @@
 <template>
     <div class="boutique">
-      <h1>Ma Boutique de Jeux</h1>
+      <h1>Ma Boutique</h1>
       <div class="product-list">
+        <button @click="fetchProducts()">Charger les produits</button>
+        <div v-for="product in products" :key="product.id">
+          {{ product.name }} - {{ product }}
+        </div>
         <!-- Jeu 1 -->
         <div class="product-card">
           <h2>Icon 1 </h2>
-          <img src="https://via.placeholder.com/200" alt="Jeu 1" />
+          <img src="https://via.placeholder.com/200" alt="Pack d'ICon 1" />
           <p>Prix : 19.99 €</p>
           <p>Description : blablablablabla</p>
-          <button @click="addToCart('Jeu 1')">Ajouter au panier</button>
+          <button @click="addToCart('Pack d\'ICon 1')">Ajouter au panier</button>
         </div>
         
         <!-- Jeu 2 -->
         <div class="product-card">
           <h2>Teamplate 2</h2>
-          <img src="https://via.placeholder.com/200" alt="Jeu 2" />
+          <img src="https://via.placeholder.com/200" alt="Pack de Background 2" />
           <p>Prix : 24.99 €</p>
           <p>Description : blablablablabla</p>
-          <button @click="addToCart('Jeu 2')">Ajouter au panier</button>
+          <button @click="addToCart('Pack de Background 2')">Ajouter au panier</button>
         </div>
   
         <!-- Ajouter d'autres jeux ici -->
@@ -41,6 +45,7 @@
     data() {
       return {
         cart: [], // Panier d'achat
+        product: []
       };
     },
     computed: {
@@ -49,6 +54,17 @@
       },
     },
     methods: {
+      fetchProducts(){
+        fetch('http://localhost:3000/boutique/')
+          .then(response => response.json())
+          .then(data => {
+            console.log("DATA : ", data);
+            this.product = data;
+          })
+          .catch(error => {
+            console.error("GetAll : ", error);
+          })
+      },
       addToCart(gameName) {
         // Ajoute le jeu au panier (simulé)
         // Dans une application réelle, tu utiliserais un gestionnaire d'état (comme Vuex) pour gérer le panier.
