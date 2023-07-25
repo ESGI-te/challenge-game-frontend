@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { inviteToGame } from 'api'
+import { sendGameInvitation } from 'api'
 import { queryKeys } from '../queryKeys'
 
-export const useInviteToGameMutation = () => {
+export const useSendGameInvitationMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ userId, lobbyId }) => inviteToGame({ userId, lobbyId }),
+    mutationFn: ({ userId, code }) => sendGameInvitation({ userId, code }),
     onSuccess: () => queryClient.invalidateQueries(queryKeys.gameInvitation.list().queryKey)
   })
 }
