@@ -33,7 +33,7 @@ const Form = styled.form`
 </script>
 
 <template>
-  <Form @submit.prevent="onSubmit">
+  <Form @submit.prevent="onSubmit" @keydown.enter="$event.preventDefault()">
     <InputText name="username" label="Username" />
     <InputText name="email" label="Email" type="email" />
     <InputText name="password" label="Password" type="password" />

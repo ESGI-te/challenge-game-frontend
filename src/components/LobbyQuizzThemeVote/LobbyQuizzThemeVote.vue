@@ -25,7 +25,7 @@ const handleVote = (id) => {
     socket.emit('vote_theme', id);
 }
 
-const ThemeCard = styled('button', { hasVoted })`
+const ThemeCard = styled.button`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,17 +34,13 @@ const ThemeCard = styled('button', { hasVoted })`
     cursor: pointer;
     min-width: 200px;
 
-    ${({ hasVoted }) => hasVoted && `
-        border-color: lightblue;
-        cursor: not-allowed;
-    `}
 `;
 
 </script>
 
 <template>
     <div>
-        <ThemeCard :disabled="hasVoted" v-for="theme in quizzThemes" @click="handleVote(theme.id)" :key="theme.id">
+        <ThemeCard v-for="theme in quizzThemes" :disabled="hasVoted" @click="handleVote(theme.id)" :key="theme.id">
             <p>{{ theme.name }}</p>
             <span v-if="hasVoted">{{ theme.voters.length }}</span>
         </ThemeCard>

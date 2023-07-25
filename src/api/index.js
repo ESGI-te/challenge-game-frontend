@@ -95,11 +95,11 @@ export const getGameInvitation = (invitationId) =>
   callApi({
     url: `/game-invitations/${invitationId}`
   })
-export const inviteToGame = ({ userId, lobbyId }) =>
+export const sendGameInvitation = (invitation) =>
   callApi({
     url: '/game-invitations',
     method: 'POST',
-    data: { userId, lobbyId }
+    data: invitation
   })
 export const cancelGameInvitation = (data) =>
   callApi({
