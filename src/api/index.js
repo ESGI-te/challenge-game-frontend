@@ -192,3 +192,9 @@ export const createStripeCheckoutSession = (product) =>
     method: 'POST',
     data: product
   })
+
+export const getProducts = () =>
+  callApi({
+    url: `/shop/products`,
+    method: 'GET'
+  })

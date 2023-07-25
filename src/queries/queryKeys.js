@@ -9,6 +9,7 @@ import { quizzThemeKeys } from './quizzTheme/quizzThemeKeys'
 import { historyKeys } from './history/historykeys'
 import { statsKeys } from './stats/statsKeys'
 import { quizzKeys } from './quizz/quizzKeys'
+import { productKeys } from './product/productKeys'
 
 export const queryKeys = mergeQueryKeys(
   userKeys,
@@ -20,5 +21,6 @@ export const queryKeys = mergeQueryKeys(
   quizzThemeKeys,
   historyKeys,
   statsKeys,
-  quizzKeys
+  quizzKeys,
+  productKeys
 )

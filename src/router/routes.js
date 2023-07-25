@@ -10,9 +10,9 @@ const routes = [
     component: () => import('views/LandingView.vue')
   },
   {
-    path: '/boutique',
-    name: 'boutique',
-    component: () => import('views/BoutiqueView.vue')
+    path: '/shop',
+    name: 'shop',
+    component: () => import('views/ShopView.vue')
   },
   {
     path: '/login',
@@ -104,7 +104,17 @@ const routes = [
         component: () => import('components/UserFriendsList')
       }
     ]
-  }
+  },
+  {
+    path: '/payment/succes',
+    name: 'payment_succes',
+    component: () => import('views/PaymentSuccesView.vue')
+  },
+  {
+    path: '/payment/cancel',
+    name: 'payment_cancel',
+    component: () => import('views/PaymentCancelView.vue')
+  },
 ]
 
 export default routes
