@@ -17,9 +17,41 @@ const routes = [
     component: () => import('views/RegisterView.vue')
   },
   {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('views/admin/AdminDashboardView.vue'),
+    children: [
+      {
+        path: '',
+        redirect: '/admin/quizz'
+      },
+      {
+        path: 'quizz',
+        component: () => import('components/admin/QuizzTab')
+      },
+      {
+        path: 'quizz-theme',
+        component: () => import('components/admin/QuizzThemeTab')
+      },
+      {
+        path: 'quizz-theme/add',
+        component: () => import('components/admin/QuizzThemeForm')
+      },
+      {
+        path: 'quizz/add',
+        component: () => import('components/admin/QuizzForm')
+      }
+    ]
+  },
+  {
     path: '/lobby/:code',
     name: 'lobby',
     component: () => import('views/LobbyView.vue')
+  },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('views/HistoryView.vue')
   },
   // {
   //   path: '/game/:code',

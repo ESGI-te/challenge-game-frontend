@@ -1,5 +1,6 @@
 import { login } from '@/api'
 import router from '@/router'
+import { USER_ROLES } from '@/utils/constants'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore({
@@ -7,7 +8,8 @@ export const useAuthStore = defineStore({
   state: () => ({
     token: localStorage.getItem('token') || null,
     returnUrl: null,
-    isAuthenticated: !!localStorage.getItem('token')
+    isAuthenticated: !!localStorage.getItem('token'),
+    userRoles: [USER_ROLES.USER]
   }),
   actions: {
     async login(credentials) {
@@ -26,6 +28,9 @@ export const useAuthStore = defineStore({
       } catch (error) {
         console.log(error)
       }
+    },
+    setUserRoles(roles) {
+      this.userRoles = roles
     },
     logout() {
       this.token = null
