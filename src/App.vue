@@ -5,6 +5,8 @@ import notificationSocket from './websockets/notification.ws'
 import { watchEffect } from 'vue'
 import { useAuthStore } from './stores/auth.store'
 import { useUserQuery } from 'queries/user/useUserQuery'
+import './assets/main.css'
+import NavBarDesktop from 'components/NavBar/Desktop'
 
 const authStore = useAuthStore()
 
