@@ -199,8 +199,8 @@ export const getProducts = () =>
     method: 'GET'
   })
 
-  export const getInventory = () =>
+  export const getInventory = (inventoryId) =>
   callApi({
-    url: `/payment/succes`,
+    url: `/inventory/${inventoryId}`,
     method: 'GET'
   })

@@ -5,7 +5,6 @@ import { computed } from 'vue';
 
 const { data: products } = useProductsQuery();
 const isEmpty = computed(() => products.value?.length === 0);
-
 </script>
 <template>
     <h2>Shop</h2>

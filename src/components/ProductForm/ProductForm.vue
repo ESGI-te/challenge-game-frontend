@@ -6,7 +6,7 @@ import styled from 'vue3-styled-components';
 const props = defineProps({
   product: Object
 })
-const SUCCESS_URL = 'http://localhost:5173/payment/succes';
+const SUCCESS_URL = 'http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}';
 const CANCEL_URL = 'http://localhost:5173/payment/cancel';
 const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
 
@@ -14,7 +14,7 @@ const handlePayment = () => {
   if (!props.product) return;
   const product = {
     ...props.product,
-    successUrl: SUCCESS_URL,
+    successUrl: SUCCESS_URL, //success?session_id={CHECKOUT_SESSION_ID}
     cancelUrl: CANCEL_URL
   }
   createCheckoutSession(product, {
@@ -46,4 +46,5 @@ const Card = styled.div`
   </Card>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
