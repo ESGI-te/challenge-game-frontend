@@ -9,9 +9,9 @@ const isEmpty = computed(() => products.value?.length === 0);
 </script>
 <template>
     <h2>Shop</h2>
-    <div>
+    <div class="grid-container">
         <p v-if="isEmpty">No products</p>
-        <ProductForm v-else v-for="product in products" :product="product" :key="product.id" />
+        <ProductForm v-else v-for="product in products" :product="product" :key="product.id" class="grid-item"/>
     </div>
 </template>
 <style lang="">
