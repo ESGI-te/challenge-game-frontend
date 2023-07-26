@@ -3,7 +3,7 @@
 
 <template>
     <h2>Friends and invitations</h2>
-    <div>
+    <nav>
         <div>
             <router-link to="/friends/requests">My requests</router-link>
         </div>
@@ -16,7 +16,7 @@
         <div>
             <router-link to="/friends/list">My friends</router-link>
         </div>
-    </div>
+    </nav>
     <div>
         <router-view></router-view>
     </div>

@@ -1,15 +1,17 @@
 <script setup>
 import { useField } from 'vee-validate';
-import { computed } from 'vue';
 import styled from 'vue3-styled-components';
 
 const props = defineProps({
   label: String,
-  type: String,
+  options: Array,
+  disabled: Boolean,
   name: String,
+  optionValue: String,
+  optionText: String,
 });
-const { value, errorMessage, setErrors } = useField(() => props.name);
-const isTextArea = computed(() => props.type === 'textarea');
+
+const { value, errorMessage, handleBlur, setErrors } = useField(() => props.name);
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,28 +25,25 @@ const ErrorMessage = styled.span`
   color: red;
 `
 const onBlur = () => {
+  handleBlur();
   setErrors([]);
 }
-
 </script>
 
 <template lang="">
     <Wrapper>
-      <v-textarea v-if="isTextArea" class="input textarea" @blur="onBlur" v-model="value" :name="props.name" :type="props.type || 'text'" :label="label" variant="outlined"></v-textarea>
-        <v-text-field v-else  class="input" @blur="onBlur" v-model="value" :name="props.name" :type="props.type || 'text'" :label="label" variant="outlined"></v-text-field>
+      <v-select class="select" :items="options" v-model="value" @blur="onBlur" :disabled="props.disabled" :name="name"
+            :label="label">
+            <slot></slot>
+        </v-select>
         <ErrorMessage v-if="errorMessage">{{ errorMessage }}</ErrorMessage> 
     </Wrapper>
    
 </template>
 
 <style lang="scss">
-.input {
+.select {
   width: 100%;
   max-width: 320px;
-
-  &.textarea {
-    max-width: 500px;
-    height: 500px;
-  }
 }
 </style>
