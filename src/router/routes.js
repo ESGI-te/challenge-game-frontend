@@ -7,6 +7,11 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/landing',
+    name: 'landing',
+    component: () => import('views/LandingView.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('views/LoginView.vue')
