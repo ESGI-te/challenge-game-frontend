@@ -1,5 +1,6 @@
 import { callApi } from './config'
 
+/* Auth */
 export const login = (formData) =>
   callApi({
     url: '/login',
@@ -14,6 +15,7 @@ export const register = (formData) =>
     data: formData
   })
 
+/* Game */
 export const createGame = (formData) =>
   callApi({
     url: '/games',
@@ -21,6 +23,7 @@ export const createGame = (formData) =>
     data: formData
   })
 
+/* User */
 export const getUser = () =>
   callApi({
     url: '/user'
@@ -29,6 +32,7 @@ export const getUserFriends = () =>
   callApi({
     url: '/users/friends'
   })
+
 /* Lobby */
 export const getLobby = (lobbyId) =>
   callApi({
@@ -44,14 +48,51 @@ export const createLobby = (formData) =>
     method: 'POST',
     data: formData
   })
+
 /* Quizz Theme */
-export const getQuizzThemes = (ids) => {
-  const params = new URLSearchParams()
-  params.append('ids', ids.join(','))
-  return callApi({
-    url: `/quizz-themes/search?${params.toString()}`
+// export const getQuizzThemes = (ids) => {
+//   const params = new URLSearchParams()
+//   params.append('ids', ids.join(','))
+//   return callApi({
+//     url: `/quizz-themes/search?${params.toString()}`
+//   })
+// }
+export const getQuizzThemes = () =>
+  callApi({
+    url: '/quizz-themes'
   })
-}
+export const getQuizzTheme = (quizzThemeId) =>
+  callApi({
+    url: `/quizzs/${quizzThemeId}`
+  })
+export const createQuizzTheme = (data) =>
+  callApi({
+    url: '/quizz-themes',
+    method: 'POST',
+    data
+  })
+
+/* Quizz */
+export const getQuizzes = () =>
+  callApi({
+    url: '/quizzs'
+  })
+export const getQuizz = (quizzId) =>
+  callApi({
+    url: `/quizzs/${quizzId}`
+  })
+export const createQuizz = (data) =>
+  callApi({
+    url: '/quizzs',
+    method: 'POST',
+    data
+  })
+export const deleteQuizz = (quizzId) =>
+  callApi({
+    url: `/quizzs/${quizzId}`,
+    method: 'DELETE'
+  })
+
 /* User invitation */
 export const getUserRequests = () =>
   callApi({
@@ -86,6 +127,7 @@ export const declineUserInvitation = (invitationId) =>
     url: `/user-invitations/${invitationId}/decline`,
     method: 'POST'
   })
+
 /* Game invitation */
 export const getGameInvitations = () =>
   callApi({
