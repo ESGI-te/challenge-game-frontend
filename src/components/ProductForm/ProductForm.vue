@@ -14,7 +14,7 @@ const handlePayment = () => {
   if (!props.product) return;
   const product = {
     ...props.product,
-    successUrl: SUCCESS_URL, //success?session_id={CHECKOUT_SESSION_ID}
+    successUrl: SUCCESS_URL,
     cancelUrl: CANCEL_URL
   }
   createCheckoutSession(product, {
