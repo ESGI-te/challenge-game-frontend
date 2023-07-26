@@ -32,7 +32,7 @@ const Form = styled.form`
 </script>
 
 <template>
-  <Form @submit.prevent="onSubmit">
+  <Form @submit.prevent="onSubmit" @keydown.enter="$event.preventDefault()">
     <InputText name="playersMax" label="Nombre de joueurs" type="number" />
     <InputText name="questionTime" label="Nombre de joueurs" type="number" />
     <button :disabled="!meta.valid" type="submit">Create Game</button>
