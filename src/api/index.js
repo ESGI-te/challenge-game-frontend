@@ -119,3 +119,15 @@ export const declineGameInvitation = (data) =>
     method: 'POST',
     data
   })
+export const getHistory = () =>
+  callApi({
+    url: '/history'
+  })
+export const getHistoryLastEntries = () =>
+callApi({
+  url: '/history/stats/last-entries'
+})
+export const getStatsAverage = (days) =>
+callApi({
+  url: `/stats/average?days=${days}`
+})
