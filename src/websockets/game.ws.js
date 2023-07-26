@@ -26,7 +26,11 @@ socket.on('connect', () => {
 socket.on('disconnect', () => {
   state.connected = false
 })
-
+socket.on('score_updated', (updatedScore) => {
+  // Update the UI with the new score
+  // Example: Display the score in a DOM element with id "scoreElement"
+  document.getElementById('scoreElement').innerText = updatedScore
+})
 socket.on('question', (question) => {
   state.currentQuestion = question
 })

@@ -175,7 +175,7 @@ export const getStatsAverage = (days) =>
   })
 
 /// game
-export const getGame = (gameId) =>
+export const getGameByCode = (code) =>
   callApi({
-    url: `/games/${gameId}`
+    url: `/games/${code}`
   })

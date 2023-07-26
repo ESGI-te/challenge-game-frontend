@@ -1,5 +1,4 @@
 import HomeView from 'views/HomeView.vue'
-import GameView from 'views/GameView.vue'
 
 const routes = [
   {
@@ -54,22 +53,17 @@ const routes = [
     name: 'history',
     component: () => import('views/HistoryView.vue')
   },
-  // {
-  //   path: '/game/:code',
-  //   name: 'game',
-  //   component: () => import('views/GameView.vue')
-  // },
+  {
+    path: '/game/:code',
+    name: 'game',
+    component: () => import('views/GameView.vue')
+  },
   {
     path: '/create-game',
     name: 'create_game',
     component: () => import('views/CreateGameView.vue')
   },
 
-  {
-    path: '/game/:gameId',
-    name: 'game',
-    component: GameView
-  },
   {
     path: '/search-game',
     name: 'search_game',
