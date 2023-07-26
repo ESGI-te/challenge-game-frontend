@@ -6,6 +6,8 @@ import { userInvitationKeys } from './userInvitation/userInvitationKeys'
 import { userFriendsKeys } from './userFriends/userFriendsKeys'
 import { gameInvitationKeys } from './gameInvitation/gameInvitationKeys'
 import { quizzThemeKeys } from './quizzTheme/quizzThemeKeys'
+import { historyKeys } from './history/historykeys'
+import {statsKeys} from './stats/statsKeys'
 
 export const queryKeys = mergeQueryKeys(
   userKeys,
@@ -14,5 +16,7 @@ export const queryKeys = mergeQueryKeys(
   userInvitationKeys,
   userFriendsKeys,
   gameInvitationKeys,
-  quizzThemeKeys
+  quizzThemeKeys,
+  historyKeys,
+  statsKeys
 )
