@@ -34,7 +34,7 @@ const themeOptions = computed(() => {
         value: theme._id,
     }))
 })
-console.log(themeOptions.value)
+
 const showQuestionForm = () => {
     isQuestionFormShown.value = !isQuestionFormShown.value;
 }
