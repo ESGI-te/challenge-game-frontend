@@ -21,6 +21,11 @@ const routes = [
     name: 'lobby',
     component: () => import('views/LobbyView.vue')
   },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('views/HistoryView.vue')
+  },
   // {
   //   path: '/game/:code',
   //   name: 'game',
