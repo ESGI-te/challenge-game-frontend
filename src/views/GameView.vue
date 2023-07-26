@@ -6,6 +6,8 @@
     <div class="current-question" v-if="game.currentQuestion">
       <h2>Question actuelle</h2>
       <p>{{ game.currentQuestion.question }}</p>
+      <p>Temps restant : {{ game.remainingTime }}</p>
+
       <div class="propositions">
         <button
           class="proposition"
@@ -47,12 +49,23 @@ import { useRouter } from 'vue-router'
 import { useGameQuery } from 'queries/game/useGameQuery'
 import socket from '@/websockets/game.ws'
 import { state as socketState } from '@/websockets/game.ws'
+import { ref } from 'vue'
+const isAnswered = ref(false)
 
 const { currentRoute } = useRouter()
-const gameId = currentRoute.value.params.gameId
+const code = currentRoute.value ? currentRoute.value.params.code : null
+const game = reactive({ data: {}, currentQuestion: {}, remainingTime: 0 })
+const { data: gameData } = useGameQuery(code)
 
-const game = reactive({ data: {}, currentQuestion: {} })
-const { data: gameData } = useGameQuery(gameId)
+const submitAnswer = (answer) => {
+  socket.emit('answer', {
+    gameId: game.data._id,
+    questionId: game.currentQuestion.id,
+    answer: answer
+  })
+  isAnswered.value = true
+  console.log(answer)
+}
 
 watchEffect(() => {
   if (gameData.value) {
@@ -64,8 +77,6 @@ watchEffect(() => {
 onMounted(() => {
   if (!code) return
   socket.io.opts.query = { code }
-  if (!gameId) return
-  socket.io.opts.query = { gameId }
   socket.connect()
 
   socket.emit('start_game')
@@ -73,11 +84,24 @@ onMounted(() => {
   socket.on('question', (question) => {
     console.log('Received question from socket: ', question)
     game.currentQuestion = question
+    game.remainingTime = question.remainingTime
     isAnswered.value = false
   })
 
   socket.on('notification', (notification) => {
     console.log(notification)
+  })
+  socket.on('score_updated', (updatedScore) => {
+    game.data.players = game.data.players.map((player) => {
+      if (player.id === updatedScore.playerId) {
+        player.score = updatedScore.score
+      }
+      return player
+    })
+  })
+  socket.on('remaining_time', (remainingTime) => {
+    console.log('Received remaining time from socket: ', remainingTime)
+    game.remainingTime = remainingTime
   })
 })
 
@@ -85,6 +109,7 @@ onUnmounted(() => {
   socket.disconnect()
 })
 </script>
+>
 
 <style scoped>
 .game-view {

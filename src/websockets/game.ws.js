@@ -4,7 +4,8 @@ import { WS_GAME_NAMESPACE } from '@/utils/constants'
 
 export const state = reactive({
   connected: false,
-  error: null
+  error: null,
+  remainingTime: null
 })
 
 const URL = import.meta.env.VITE_WS_URL + WS_GAME_NAMESPACE
@@ -39,7 +40,10 @@ socket.on('connect_error', (err) => {
   console.error(err.message)
   state.error = err.message
 })
-
+socket.on('remaining_time', (remainingTime) => {
+  // Update your state/UI with the remaining time
+  state.remainingTime = remainingTime
+})
 socket.on('error', (err) => {
   state.error = err
   console.log(err)
