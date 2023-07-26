@@ -42,7 +42,7 @@ const showQuestionForm = () => {
 const addQuestion = (formData) => {
     const question = {
         question: formData.question,
-        answers: [
+        propositions: [
             formData.answer1,
             formData.answer2,
             formData.answer3,
