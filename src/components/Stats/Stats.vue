@@ -1,35 +1,31 @@
 <script setup>
 
-import {useStatsQuery} from 'queries/stats/useStatsQuery'
+import styled from 'vue3-styled-components'
+import { useStatsQuery } from 'queries/stats/useStatsQuery'
+import StatsCard from 'components/StatsCard';
 
-const props = defineProps({
-  days: Number
-})
+const { data: weeklyStats } = useStatsQuery(7);
+const { data: mounthlyStats } = useStatsQuery(30);
 
-const { data : statsObject } = useStatsQuery(props.days)
+
+console.log(weeklyStats.value);
+
+const Wrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+`
 
 </script>
 
 <template>
-  <div>
-    <h4 class="title">Last {{ props.days }} days statistics : </h4>
-    <div class="card">
-      <p>Average rank : {{ statsObject?.stats.AverageRank}}</p>
-      <p>Average score : {{ statsObject?.stats.AverageScore}}</p>
-      <p>Average lives remained : {{ statsObject?.stats.AverageLivesRemained}}</p>
-    </div>
-  </div>
+  <Wrapper v-if="!!weeklyStats && !!mounthlyStats">
+    <StatsCard :stats="weeklyStats.stats"/>
+    <StatsCard :stats="mounthlyStats.stats"/>
+  </Wrapper>
 </template>
 
 <style scoped>
-.card {
-    border : 1px black solid;
-    padding : 10px;
-    margin : 10px;    
-    width: 200px;
-}
-.title
-{
-    padding : 10px;
-}
 </style>
