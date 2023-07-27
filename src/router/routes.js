@@ -1,25 +1,32 @@
 import HomeView from 'views/HomeView.vue'
+import PublicLayout from '@/layouts/PublicLayout.vue'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/landing',
     name: 'landing',
+    meta: { layout: PublicLayout },
     component: () => import('views/LandingView.vue')
   },
   {
     path: '/login',
     name: 'login',
+    meta: { layout: PublicLayout },
+
     component: () => import('views/LoginView.vue')
   },
   {
     path: '/register',
     name: 'register',
+    meta: { layout: PublicLayout },
     component: () => import('views/RegisterView.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    meta: { layout: DefaultLayout },
+    component: HomeView
   },
   {
     path: '/admin',
@@ -51,11 +58,13 @@ const routes = [
   {
     path: '/lobby/:code',
     name: 'lobby',
+    meta: { layout: DefaultLayout },
     component: () => import('views/LobbyView.vue')
   },
   {
     path: '/history',
     name: 'history',
+    meta: { layout: DefaultLayout },
     component: () => import('views/HistoryView.vue')
   },
   // {
@@ -66,16 +75,19 @@ const routes = [
   {
     path: '/create-game',
     name: 'create_game',
+    meta: { layout: DefaultLayout },
     component: () => import('views/CreateGameView.vue')
   },
   {
     path: '/search-game',
     name: 'search_game',
+    meta: { layout: DefaultLayout },
     component: () => import('views/SearchGameView.vue')
   },
   {
     path: '/friends',
     name: 'friends',
+    meta: { layout: DefaultLayout },
     component: () => import('views/FriendsView.vue'),
     children: [
       {
