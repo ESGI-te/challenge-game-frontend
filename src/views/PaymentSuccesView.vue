@@ -1,23 +1,21 @@
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
-import { useInventoryQuery } from 'queries/inventory/useInventoryQuery.js'
-import { useStripeCheckoutQuery } from 'queries/stripeCheckoutSession/useCreateStripeCheckoutSession'
-import InventoryForm from 'components/UserInventoryRequests'
-// import { computed } from 'vue';
-const inventoryId = "64c04901a5e1ab5789778c12";
-const url = "succes?session_id=cs_test_a1DEw7Mg6ARadbAEf2WbhIGA3esn6Yiqp0SobOW52a7qleabtTNfk5UEpW"
-const {data: inventory} = useInventoryQuery(inventoryId);
-// const {data: stripeData} = useStripeCheckoutQuery(url);
-// console.log("stripe data : ", stripeData);
-const isEmpty = computed( () => inventory.value?.length === 0);
+import { watchEffect } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useUpdateInventoryMutation} from 'queries/inventory/useUpdateInventoryMutation';
 
+const router = useRouter()
 
-onMounted(() => { // au chargement de la page
-	// Récupération de l'item 
-    // Vérification de si l'utilisateur à un inventaire
-    // Si oui Ajout de l'item à son inventaire
-    // Sinon Création de l'inventaire + ajout id inventaire dans l'utilisateur
+const route = useRoute();
+const sessionId = route.fullPath.match(/[^/]+$/)[0];
 
+const updateInventory = useUpdateInventoryMutation();
+watchEffect( () => {
+    if(!sessionId) return
+    updateInventory.mutate({sessionId}, {
+        onSuccess: () => {
+            router.replace({name :'shop'});
+        }
+    })
 })
 
 </script>

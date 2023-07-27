@@ -197,6 +197,12 @@ export const getProducts = () =>
   callApi({
     url: `/shop/products`,
     method: 'GET'
+  })  
+
+  export const updateInventory = (data) =>
+  callApi({
+    url: `/payment/checkout/${data.sessionId}`,
+    method: 'POST'
   })
 
   export const getInventory = (inventoryId) =>
