@@ -3,30 +3,10 @@ import { useCreateStripeCheckoutSessionMutation } from 'queries/stripeCheckoutSe
 import stripe from 'utils/stripe';
 import styled from 'vue3-styled-components';
 
-const props = defineProps({
-  product: Object
-})
-const SUCCESS_URL = 'http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}';
-const CANCEL_URL = 'http://localhost:5173/payment/cancel';
-const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
-
-const handlePayment = () => {
-  if (!props.product) return;
-  const product = {
-    ...props.product,
-    successUrl: SUCCESS_URL,
-    cancelUrl: CANCEL_URL
-  }
-  createCheckoutSession(product, {
-    onSuccess: (session) => {
-      stripe.redirectToCheckout({ sessionId: session.id })
-    }
-  })
-}
 const Card = styled.div`
-  // display: flex;
-  // flex-direction: row;
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: auto;
   heigth: 12 rem;
   align-items: center;
   justify-content: center;
@@ -38,23 +18,58 @@ const Card = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
+const cards1 = [
+  { id: 1, image: '../../public/icons/profil/icon1.png' },
+  { id: 2, image: '../../public/icons/profil/icon2.png' },
+  { id: 3, image: '../../public/icons/profil/icon3.png'},
+  { id: 4, image: '../../public/icons/profil/icon4.png'},
+  { id: 5, image: '../../public/icons/profil/icon5.png'},
+];
+const cards2 = [
+  { id: 1, image: '../../public/icons/profil/icon6.png' },
+  { id: 2, image: '../../public/icons/profil/icon7.png'},
+  { id: 3, image: '../../public/icons/profil/icon8.png'},
+  { id: 4, image: '../../public/icons/profil/icon2.png' },
+  { id: 5, image: '../../public/icons/profil/icon9.png'},
+];
+
 </script>
 
 <template>
-  <div class="cardList">
-    <Card>
-      <h3>{{ product.name }}</h3>
-      <img src="../../../public/icons/themes/theme1.png" alt="Card Image" />
-      <p>{{ product.price / 100 }} € </p>
-      <button :disabled="isLoading" @click="handlePayment">Buy</button>
-    </Card>
+  <div class="card-container">
+  <div class="card-row">
+    <div v-for="card in cards1" :key="card.id" class="card">
+      <Card>
+        <img :src="card.image" alt="Card Image" />
+      </Card>
+    </div>
+  </div>
+  
+  <div class="card-row">
+    <div v-for="card in cards2" :key="card.id" class="card">
+      <Card>
+        <img :src="card.image" alt="Card Image" />
+      </Card>
+    </div>
+  </div>
 </div>
 </template>
 
 <style scoped>
-  /* .cardList {
-    display: flex;
-  } */
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card-row {
+  display: flex;
+  gap: 20px;
+}
+.card img {
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+}
   button {
     background-color: gray ;
     border: solid 1px;

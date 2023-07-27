@@ -26,6 +26,10 @@ watchEffect( () => {
         <p v-else> Inventaire Existant</p>
     </div>
 </template>
-<style lang="">
-    
+<style scoped>
+    .payment-success{
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
 </style>
