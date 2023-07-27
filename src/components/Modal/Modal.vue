@@ -52,7 +52,6 @@ const ModalInner = styled.div`
   border-color: solid 2px var(--black);
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem;
 
   ${({ theme }) => theme.mediaQueries.mobile} {
     height: 100%;
@@ -73,6 +72,7 @@ const ModalHeader = styled.div`
 const ModalContent = styled.div`
   width: 100%;
   padding: 1rem;
+  flex: 1;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     padding: 0 2.5rem 2.5rem 2.5rem;

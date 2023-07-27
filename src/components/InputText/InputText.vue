@@ -2,7 +2,6 @@
 import { useField } from 'vee-validate'
 import { computed } from 'vue'
 import styled from 'vue3-styled-components'
-import Text from '../Text'
 
 const props = defineProps({
   label: String,
@@ -79,7 +78,6 @@ const IconRight = styled.img`
   <Wrapper>
     <Text as="label" variant="footnote">{{ props.label }}</Text>
     <InputWrapper>
-      <!-- Render the left icon if available -->
       <IconLeft v-if="props.iconLeft" :src="props.iconLeft" alt="Icon" />
       <TextArea
         v-if="isTextArea"
@@ -108,7 +106,6 @@ const IconRight = styled.img`
         :iconRight="props.iconRight"
         :placeholder="props.placeholder"
       ></Input>
-      <!-- Render the right icon if available -->
       <IconRight v-if="props.iconRight" :src="props.iconRight" alt="Icon" />
     </InputWrapper>
     <ErrorMessage v-if="errorMessage">{{ errorMessage }}</ErrorMessage>
