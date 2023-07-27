@@ -6,7 +6,6 @@ import { state } from '@/websockets/friends.ws'
 
 const { data: friends } = useUserFriendsQuery()
 
-console.log(state.offline)
 
 const isConnected = (id) => {
   const isOnline = state.online.some((friend) => friend.id === id)
