@@ -9,6 +9,10 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'p'
+  },
+  bold: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -69,11 +73,12 @@ const textVariants = {
 const Text = styled('p', props)`
   ${({ variant }) => textVariants[variant]};
   color: ${({ color }) => `var(${color})`};
+  ${({ bold }) => bold && 'font-weight: 800;'}
 `
 </script>
 
 <template>
-  <Text :as="VARIANTS[props.variant]" :variant="variant" :color="color">
+  <Text :as="VARIANTS[props.variant]" :variant="variant" :color="color" :bold="props.bold">
     <slot />
   </Text>
 </template>

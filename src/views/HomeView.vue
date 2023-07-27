@@ -11,8 +11,17 @@ import HomeHistory from 'components/HomeHistory'
 import HomeStats from 'components/HomeStats'
 import { ref } from 'vue'
 import Modal from 'components/Modal'
+import GameForm from 'components/GameForm'
 
 const { isDesktopAndUp } = useResponsive()
+const isCreateGameModalOpen = ref(false)
+
+const openCreateGameModal = () => {
+  isCreateGameModalOpen.value = true
+}
+const closeCreateGameModal = () => {
+  isCreateGameModalOpen.value = false
+}
 
 const JoinGameWrapper = styled.div`
   display: flex;
@@ -120,15 +129,6 @@ const StatsWrapper = styled.div`
     }
   }
 `
-
-const isModalOpen = ref(false)
-
-const openModal = () => {
-  isModalOpen.value = true
-}
-const closeModal = () => {
-  isModalOpen.value = false
-}
 </script>
 
 <template>
@@ -158,7 +158,7 @@ const closeModal = () => {
             Lorem ipsum dolor sit amet consectetur. Blandit in ut faucibus donec in ac varius. Amet
             sit donec eu aliquet lectus a. Odio risus ornare duis nunc.</Text
           >
-          <CreateGameButton @click="openModal">Create a game</CreateGameButton>
+          <CreateGameButton @click="openCreateGameModal">Create a game</CreateGameButton>
         </TextWrapper>
       </CreateGameWrapper>
     </GameWrapper>
@@ -167,7 +167,7 @@ const closeModal = () => {
       <HomeHistory />
     </StatsWrapper>
   </Container>
-  <Modal :onClose="closeModal" :isOpen="isModalOpen" title="Awesome title">
-    <Text> CECI EST UN TEST</Text>
+  <Modal :onClose="closeCreateGameModal" :isOpen="isCreateGameModalOpen" title="Create a game">
+    <GameForm />
   </Modal>
 </template>
