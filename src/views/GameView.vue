@@ -20,7 +20,9 @@
         </button>
       </div>
     </div>
-
+    <div v-else>
+      <h2>Le jeu est terminé !</h2>
+    </div>
     <div class="players" v-if="game.data">
       <h2>Joueurs</h2>
       <ul>
@@ -28,17 +30,6 @@
           {{ player.username }}: {{ player.score }} points, {{ player.lives }} vies
         </li>
       </ul>
-    </div>
-    <div v-if="game.data && game.currentQuestion" class="question">
-      <h2>{{ game.currentQuestion.question }}</h2>
-      <ul>
-        <li v-for="(prop, index) in game.currentQuestion.propositions" :key="index">
-          {{ prop }}
-        </li>
-      </ul>
-    </div>
-    <div v-else>
-      <h2>Le jeu est terminé !</h2>
     </div>
   </div>
 </template>
@@ -50,6 +41,7 @@ import { useGameQuery } from 'queries/game/useGameQuery'
 import socket from '@/websockets/game.ws'
 import { state as socketState } from '@/websockets/game.ws'
 import { ref } from 'vue'
+
 const isAnswered = ref(false)
 
 const { currentRoute } = useRouter()
@@ -70,6 +62,10 @@ const submitAnswer = (answer) => {
 watchEffect(() => {
   if (gameData.value) {
     Object.assign(game.data, gameData.value)
+    // Game data is ready, request remaining time
+    socket.emit('request_remaining_time', {
+      gameId: game.data._id
+    })
   }
   game.currentQuestion = socketState.currentQuestion
 })
@@ -77,20 +73,33 @@ watchEffect(() => {
 onMounted(() => {
   if (!code) return
   socket.io.opts.query = { code }
+  console.log('voici le code', code)
   socket.connect()
 
   socket.emit('start_game')
 
   socket.on('question', (question) => {
     console.log('Received question from socket: ', question)
-    game.currentQuestion = question
-    game.remainingTime = question.remainingTime
-    isAnswered.value = false
+    if (question) {
+      game.currentQuestion = question
+      game.remainingTime = question.remainingTime
+      isAnswered.value = false
+      if (question.remainingTime === null) {
+        console.log('Remaining time is null, requesting remaining time from server...')
+        socket.emit('request_remaining_time', {
+          gameId: game.data._id,
+          questionId: game.currentQuestion.id
+        })
+      }
+    } else {
+      console.log('Received null question from socket')
+    }
   })
 
   socket.on('notification', (notification) => {
     console.log(notification)
   })
+
   socket.on('score_updated', (updatedScore) => {
     game.data.players = game.data.players.map((player) => {
       if (player.id === updatedScore.playerId) {
@@ -99,6 +108,7 @@ onMounted(() => {
       return player
     })
   })
+
   socket.on('remaining_time', (remainingTime) => {
     console.log('Received remaining time from socket: ', remainingTime)
     game.remainingTime = remainingTime
@@ -109,8 +119,6 @@ onUnmounted(() => {
   socket.disconnect()
 })
 </script>
->
-
 <style scoped>
 .game-view {
   font-family: Arial, sans-serif;
@@ -127,9 +135,11 @@ onUnmounted(() => {
 
 .current-question h2 {
   margin-bottom: 10px;
+  color: black;
 }
 
 .current-question p {
+  color: black;
   font-size: 1.2em;
   margin-bottom: 10px;
 }
@@ -157,6 +167,7 @@ onUnmounted(() => {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  color: black;
 }
 
 .players h2 {

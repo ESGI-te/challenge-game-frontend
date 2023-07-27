@@ -35,7 +35,10 @@ socket.on('score_updated', (updatedScore) => {
 socket.on('question', (question) => {
   state.currentQuestion = question
 })
-
+socket.on('reconnect', () => {
+  console.log('Reconnected!')
+  socket.emit('start_game')
+})
 socket.on('connect_error', (err) => {
   console.error(err.message)
   state.error = err.message
