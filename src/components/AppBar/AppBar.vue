@@ -12,7 +12,6 @@ import Text from 'components/Text'
 const route = useRoute()
 const isRouteActive = (to) => route.path === to
 const { isDesktopAndUp } = useResponsive()
-console.log(isRouteActive)
 
 const Wrapper = styled.header`
   display: flex;
@@ -21,10 +20,14 @@ const Wrapper = styled.header`
   align-items: center;
   padding: 0.625rem 1.5rem;
   background: var(--white);
+  position: sticky;
+  bottom: 0;
+  left: 0;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     padding: 1.25rem;
     background: var(--black);
+    position: initial;
   }
 `
 const Nav = styled.nav`

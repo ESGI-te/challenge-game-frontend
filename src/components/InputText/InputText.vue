@@ -9,7 +9,8 @@ const props = defineProps({
   type: String,
   name: String,
   iconLeft: String,
-  iconRight: String
+  iconRight: String,
+  placeholder: String
 })
 
 const { value, errorMessage, setErrors, handleBlur } = useField(() => props.name)
@@ -90,6 +91,7 @@ const IconRight = styled.img`
         :label="label"
         :iconLeft="props.iconLeft"
         :iconRight="props.iconRight"
+        :placeholder="props.placeholder"
       ></TextArea>
       <Input
         dense
@@ -104,6 +106,7 @@ const IconRight = styled.img`
         :label="label"
         :iconLeft="props.iconLeft"
         :iconRight="props.iconRight"
+        :placeholder="props.placeholder"
       ></Input>
       <!-- Render the right icon if available -->
       <IconRight v-if="props.iconRight" :src="props.iconRight" alt="Icon" />
