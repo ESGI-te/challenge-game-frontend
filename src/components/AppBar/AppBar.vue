@@ -67,13 +67,9 @@ const Link = styled(RouterLink)`
   `}
 `
 const LinkText = styled(Text)`
-  font-weight: inherit;
-  font-size: inherit;
-  color: var(--black);
-
-  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    color: var(--white);
-  }
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  color: inherit !important;
 `
 
 const Logo = styled.img`
