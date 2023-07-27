@@ -6,7 +6,6 @@ import InputText from 'components/InputText'
 import styled from 'vue3-styled-components'
 import Button from 'components/Button'
 import Link from 'components/Link'
-import searchIcon from 'public/icons/search.svg'
 
 const { handleSubmit, meta } = useForm({
   initialValues: {

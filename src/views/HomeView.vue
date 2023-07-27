@@ -162,7 +162,7 @@ const CreateButton = styled.button`
 </script>
 
 <template>
-  <StyledHeader>
+  <!-- <StyledHeader>
     <Logo src="../../public/Logo.png" alt="Logo" />
   </StyledHeader>
   <div class="content">
@@ -231,5 +231,5 @@ const CreateButton = styled.button`
       <FooterItemImage src="../../public/profil.png" alt="Profil" />
       <FooterItemP>Profil</FooterItemP>
     </FooterItem>
-  </Footer>
+  </Footer> -->
 </template>
