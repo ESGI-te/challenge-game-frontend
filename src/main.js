@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query'
+// import { ThemeProvider } from 'vue3-styled-components'
 
 import App from './App.vue'
 import router from './router'
@@ -15,9 +16,6 @@ import '@mdi/font/css/materialdesignicons.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 const vuetify = createVuetify({
-  theme: {
-    defaultTheme: 'dark'
-  },
   icons: {
     defaultSet: 'mdi',
     aliases,
