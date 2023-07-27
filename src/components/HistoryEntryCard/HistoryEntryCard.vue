@@ -2,6 +2,8 @@
 import Text from '@/components/Text'
 import styled from 'vue3-styled-components'
 import gameIcon from 'public/img/history-game.svg'
+import scoreIcon from 'public/icons/score.svg'
+import rankIcon from 'public/icons/rank.svg'
 
 const props = defineProps({
   data: Object
@@ -33,6 +35,7 @@ const GameInfo = styled.div`
   flex-direction: column;
   width: 100%;
   flex-wrap: wrap;
+  row-gap : 0.3rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     height: 5rem;
@@ -53,6 +56,29 @@ const GameIcon = styled.img`
   border: 2px solid #000;
   background: var(--black, #111);
 `
+
+const Icone = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    flex-direction: row;
+    column-gap: 2rem;
+  }
+`
+
+const row = styled.div`
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+`
+
 </script>
 
 <template>
@@ -60,7 +86,16 @@ const GameIcon = styled.img`
     <GameIcon :src="gameIcon" />
     <GameInfo>
       <Text variant="h4"> Game : {{ formatDate(data.createdAt) }} </Text>
-      <Text variant="p"> Score : {{ data.score }}</Text>
+      <Wrapper>
+        <row>
+          <Icone :src="rankIcon"></Icone>
+          <Text variant="p"> Rank : {{ data.rank }} </Text>
+        </row>
+        <row>
+          <Icone :src="scoreIcon"></Icone>
+          <Text variant="p"> Score : {{ data.score }} </Text>
+        </row>
+      </Wrapper>
     </GameInfo>
   </Card>
 </template>
