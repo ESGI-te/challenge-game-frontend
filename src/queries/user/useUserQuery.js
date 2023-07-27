@@ -5,11 +5,9 @@ import { useAuthStore } from '@/stores/auth.store'
 
 export const useUserQuery = () => {
   const { token } = useAuthStore()
-
-  if (!token) return
-
   return useQuery({
-    queryKey: queryKeys.user.detail(token).queryKey,
-    queryFn: () => getUser()
+    queryKey: queryKeys.user.detail().queryKey,
+    queryFn: () => getUser(),
+    enabled: !!token
   })
 }

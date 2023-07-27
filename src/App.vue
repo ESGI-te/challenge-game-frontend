@@ -6,10 +6,8 @@ import { watchEffect } from 'vue'
 import { useAuthStore } from './stores/auth.store'
 import { useUserQuery } from 'queries/user/useUserQuery'
 import './assets/main.css'
-import NavBarDesktop from 'components/NavBar/Desktop'
 
 const authStore = useAuthStore()
-
 const { data: user } = useUserQuery()
 
 watchEffect(() => {
@@ -27,8 +25,9 @@ watchEffect(() => {
 </script>
 
 <template>
-  <NavBarDesktop></NavBarDesktop>
-  <RouterView />
+  <component :is="$route.meta.layout || 'div'">
+    <RouterView />
+  </component>
 </template>
 
 <style scoped></style>
