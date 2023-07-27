@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 `
 
 const Card = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   border: 2px solid var(--black);
@@ -77,18 +78,16 @@ const Line = styled.div`
       </HorizontalBox>
       <Line></Line>
       <VerticalBox>
-        <Text variant="title" color="--primary"
-          >{{ toInt(stats?.AverageScore) }}pt</Text
-        >
+        <Text variant="title" color="--primary">{{ toInt(stats?.AverageScore) }}pt</Text>
         <Text variant="p"> <b>de score moyen</b> </Text>
       </VerticalBox>
       <Line></Line>
-      <HorizontalBox>
+      <!-- <HorizontalBox>
         <Text variant="title" color="--primary">{{
           toInt(stats?.AverageLivesRemained)
         }}</Text>
         <Text variant="p"><b> remaining lives </b> </Text>
-      </HorizontalBox>
+      </HorizontalBox> -->
     </Card>
   </Wrapper>
 </template>

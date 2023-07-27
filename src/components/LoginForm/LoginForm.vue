@@ -28,7 +28,7 @@ const Form = styled.form`
   max-width: 400px;
 `
 const SubmitButton = styled(Button)`
-  width: 100%;
+  width: 100% !important;
 `
 </script>
 
