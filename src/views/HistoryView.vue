@@ -1,23 +1,24 @@
 <script setup>
-import { useHistoryQuery } from 'queries/history/useHistoryQuery';
-import  HistoryEntry  from 'components/History/HistoryEntry'
+import HistoryEntryList from 'components/History/HistoryEntryList'
+import Text from '@/components/Text'
+import styled from 'vue3-styled-components'
 
 
-const {data : history} = useHistoryQuery();
+const Wrapper = styled.div`
+    display: flex
+    flex-direction: column;
+    width:100%
+    padding : 1rem;
+    row-gap: 2rem;
+`
 
 </script>
 
 <template>
-    <h2 v-if="!history">History Empty</h2>
-    <div v-else>
-        <h4>History of all games :</h4>
-        <div v-for="gameStats in history.games">
-            <HistoryEntry :game="gameStats"></HistoryEntry>
-        </div>
-    </div>
-    
+    <Wrapper>
+        <Text variant="h4"> All games history :</Text>
+        <HistoryEntryList></HistoryEntryList>
+    </Wrapper>
 </template>
 
-<style scoped lang="css">
-
-</style>
+<style scoped lang="css"></style>
