@@ -4,7 +4,7 @@
     --beige : #EEE5DA;
     --black : #111111;
     --yellow : #FFCC3E;
-    --green : #467966;
+    --primary : #467966;
     --white : #FFFFFF;
     --red : #EB4C37;
     --blue : #466D79;
@@ -22,63 +22,10 @@ body{
     margin: 0;
     padding: 0;
 }
-
-input{
-    width: 342px;
-    height: 58px;
-    border: 2px solid var(--black, #111);
-    padding: 16px;
-    background: var(--white, #fff);
-    min-width: 342px;
+* {
+    box-sizing: border-box;
 }
 
-button{
-    display: flex;
-    width: 100%;
-    padding: 16px 32px;
-    justify-content: center;
-    align-items: center;
-    width: 342px;
-}
-
-.primary{
-    background: var(--green);
-    color: var(--white);
-}
-
-a{
-    color: var(--black)
-}
-
-h1{
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 48px;
-}
-
-h2
-{
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 40px;
-}
-
-h3{
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 32px;
-}
-
-h4{
-    font-family: 'Dela Gothic One', cursive;
-    font-size: 24px;
-}
-
-p{
-    font-size: 16px;
-}
-
-.bold{
-    font-weight: 800;
-}
-
-.whiteText{
-    color: var(--white);
+#app {
+    width: 100vw;
 }
