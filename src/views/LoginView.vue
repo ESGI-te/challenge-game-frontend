@@ -1,23 +1,24 @@
-<template>
-    <LoginForm />
-</template>
-
 <script setup>
-import { useAuthStore } from "@/stores/auth.store";
-import LoginForm from "components/LoginForm";
-import { onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
+import LoginForm from 'components/LoginForm'
+import styled from 'vue3-styled-components'
+import Text from 'components/Text'
 
-const router = useRouter();
-const { isAuthenticated } = useAuthStore();
-
-onBeforeMount(() => {
-    if (isAuthenticated) {
-        router.replace({ name: 'home' });
-    }
-})
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  padding: 1rem;
+`
 </script>
 
-<style scoped>
+<template>
+  <Container>
+    <Text variant="h2">Login to start a game</Text>
+    <LoginForm />
+  </Container>
+</template>
 
-</style>
+<style scoped></style>
