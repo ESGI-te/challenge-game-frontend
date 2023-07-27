@@ -166,10 +166,14 @@ export const getHistory = () =>
     url: '/history'
   })
 export const getHistoryLastEntries = () =>
-callApi({
-  url: '/history/stats/last-entries'
-})
+  callApi({
+    url: '/history/stats/last-entries'
+  })
 export const getStatsAverage = (days) =>
-callApi({
-  url: `/stats/average?days=${days}`
-})
+  callApi({
+    url: `/stats/average?days=${days}`
+  })
+export const getGameByCode = (code) =>
+  callApi({
+    url: `/games/${code}`
+  })
