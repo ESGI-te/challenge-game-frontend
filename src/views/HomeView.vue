@@ -9,6 +9,8 @@ import Button from 'components/Button'
 import { useResponsive } from '@/composables/useResponsive'
 import HomeHistory from 'components/HomeHistory'
 import HomeStats from 'components/HomeStats'
+import { ref } from 'vue'
+import Modal from 'components/Modal'
 
 const { isDesktopAndUp } = useResponsive()
 
@@ -118,6 +120,15 @@ const StatsWrapper = styled.div`
     }
   }
 `
+
+const isModalOpen = ref(false)
+
+const openModal = () => {
+  isModalOpen.value = true
+}
+const closeModal = () => {
+  isModalOpen.value = false
+}
 </script>
 
 <template>
@@ -147,7 +158,7 @@ const StatsWrapper = styled.div`
             Lorem ipsum dolor sit amet consectetur. Blandit in ut faucibus donec in ac varius. Amet
             sit donec eu aliquet lectus a. Odio risus ornare duis nunc.</Text
           >
-          <CreateGameButton>Create a game</CreateGameButton>
+          <CreateGameButton @click="openModal">Create a game</CreateGameButton>
         </TextWrapper>
       </CreateGameWrapper>
     </GameWrapper>
@@ -156,4 +167,7 @@ const StatsWrapper = styled.div`
       <HomeHistory />
     </StatsWrapper>
   </Container>
+  <Modal :onClose="closeModal" :isOpen="isModalOpen" title="Awesome title">
+    <Text> CECI EST UN TEST</Text>
+  </Modal>
 </template>

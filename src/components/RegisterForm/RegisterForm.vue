@@ -5,6 +5,8 @@ import schema from './RegisterForm.schema'
 import InputText from 'components/InputText'
 import { useRouter } from 'vue-router'
 import styled from 'vue3-styled-components'
+import Button from '../Button'
+import Link from '../Link'
 
 const router = useRouter()
 const { handleSubmit, meta } = useForm({
@@ -23,43 +25,27 @@ const onSubmit = handleSubmit((values) => {
   })
 })
 
-const wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+`
+const SubmitButton = styled(Button)`
+  width: 100% !important;
 `
 </script>
 
 <template>
-  <wrapper>
-    <Form @submit.prevent="onSubmit" @keydown.enter="$event.preventDefault()">
-      <h2 class="title">Créer un compte</h2>
-      <InputText name="username" label="Username" />
-      <InputText name="email" label="Email" type="email" />
-      <InputText name="password" label="Password" type="password" />
-      <div
-        >Vous avez déjà un compte
-        <RouterLink :to="'/login'" class="bold"> Se connecter </RouterLink></div
-      >
-      <button class="primary" :disabled="!meta.dirty || !meta.valid" type="submit">Register</button>
-    </Form>
-  </wrapper>
+  <Form @submit.prevent="onSubmit" @keydown.enter="$event.preventDefault()">
+    <InputText name="username" label="Username" />
+    <InputText name="email" label="Email" type="email" />
+    <InputText name="password" label="Password" type="password" />
+    <div>
+      Already have an account?
+      <Link :to="'/login'"> Log in </Link>
+    </div>
+    <SubmitButton :disabled="!meta.dirty || !meta.valid" type="submit">Register</SubmitButton>
+  </Form>
 </template>
-
-<style scoped>
-.primary{
-  min-width: 342px;
-}
-@media screen and (max-width: 630px) {
-  h2 {
-    max-width: 342px;
-  }
-}
-</style>
