@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/vue-query'
 import { queryKeys } from '../queryKeys'
-import { getGameInvitation } from 'api'
+import { getGameByCode } from '@/api'
 
-export const useGameInvitationsQuery = (invitationId) => {
-  if (!invitationId) return
-
+export const useGameQuery = (code) => {
   return useQuery({
-    queryKey: queryKeys.gameInvitation.detail(invitationId).queryKey,
-    queryFn: () => getGameInvitation(invitationId)
+    queryKey: queryKeys.game.detail(code).queryKey,
+    queryFn: () => getGameByCode(code)
   })
 }
