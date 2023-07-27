@@ -1,7 +1,7 @@
 <script setup>
 import Text from '@/components/Text'
 import styled from 'vue3-styled-components'
-import gameIcone from 'public/img/game-icone.svg'
+import gameIcon from 'public/img/history-game.svg'
 
 const props = defineProps({
   data: Object
@@ -16,7 +16,7 @@ const formatDate = (dateString) => {
   return `${month}/${day} - ${hour}h:${minute}`
 }
 
-const card = styled.div`
+const Card = styled.div`
   height: 6.5rem;
   width: 100%;
   display: flex;
@@ -28,10 +28,11 @@ const card = styled.div`
   border: 2px solid #000;
   background: var(--white);
 `
-const game = styled.div`
+const GameInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex-wrap: wrap;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     height: 5rem;
@@ -55,13 +56,13 @@ const GameIcon = styled.img`
 </script>
 
 <template>
-  <card class="card">
-    <GameIcon :src="gameIcone" />
-    <game>
+  <Card>
+    <GameIcon :src="gameIcon" />
+    <GameInfo>
       <Text variant="h4"> Game : {{ formatDate(data.createdAt) }} </Text>
       <Text variant="p"> Score : {{ data.score }}</Text>
-    </game>
-  </card>
+    </GameInfo>
+  </Card>
 </template>
 
 <style scoped></style>
