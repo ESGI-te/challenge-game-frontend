@@ -79,7 +79,7 @@ const InviteFriendsButton = styled(Button)`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem;
+  row-gap: 1rem;
   width: 100%;
   height: 100%;
   padding-bottom: 2.5rem;
