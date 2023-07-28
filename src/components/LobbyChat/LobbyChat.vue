@@ -20,21 +20,22 @@ const sendMessage = handleSubmit(({ message }) => {
 const Container = styled.div`
   padding: 1rem 1.5rem;
   background-color: var(--white);
-  min-height: 600px;
-  max-width: 700px;
+  height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem;
+  row-gap: 0.5rem;
   width: 100%;
   border: 2px solid var(--black);
   overflow-y: auto;
 `
 const Chat = styled.div`
   width: 100%;
+  height: 200px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 0.25rem;
 `
 const Input = styled(InputText)`
   height: 74px !important;

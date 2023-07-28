@@ -23,11 +23,13 @@ const Wrapper = styled.header`
   position: sticky;
   bottom: 0;
   left: 0;
+  z-index: 10;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     padding: 1.25rem 1.5rem;
     background: var(--black);
     position: initial;
+    height: 88px;
   }
 `
 const Nav = styled.nav`
