@@ -1,6 +1,7 @@
 <script setup>
 import { useCreateStripeCheckoutSessionMutation } from 'queries/stripeCheckoutSession/useCreateStripeCheckoutSessionMutation'
 import stripe from 'utils/stripe';
+import Button from 'components/Button'
 import styled from 'vue3-styled-components';
 
 const props = defineProps({
@@ -24,12 +25,12 @@ const handlePayment = () => {
   })
 }
 const Card = styled.div`
-  // display: flex;
+  display: flex;
   // flex-direction: row;
   width: 100%;
   heigth: 12 rem;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   row-gap: 1rem;
   border: 1px solid #ccc;
   background-color: white;
@@ -41,54 +42,23 @@ const Card = styled.div`
 </script>
 
 <template>
-  <div class="cardList">
+  <div class="grid-item">
     <Card>
-      <h3>{{ product.name }}</h3>
+      <div class="cardContent">
+        <h3>{{ product.name }}</h3>
+        <h3>{{ product.price / 100 }} € </h3>
+      </div>
       <img src="../../../public/icons/themes/theme1.png" alt="Card Image" />
-      <p>{{ product.price / 100 }} € </p>
-      <button :disabled="isLoading" @click="handlePayment">Buy</button>
+      <Button :disabled="isLoading" @click="handlePayment">Buy</Button>
     </Card>
 </div>
 </template>
 
 <style scoped>
-  /* .cardList {
-    display: flex;
-  } */
-  button {
-    background-color: gray ;
-    border: solid 1px;
-  }
-  h3 {
-    font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-  }
+.cardContent {
+  display: flex;
+  flex-direction: column;
+}
 
-  button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Styles additionnels au survol du bouton */
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    /* Styles additionnels lorsque le bouton est cliqué */
-    button:active {
-      transform: translateY(1px);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
+  
 </style>

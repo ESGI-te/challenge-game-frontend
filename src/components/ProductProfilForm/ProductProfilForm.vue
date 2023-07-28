@@ -2,11 +2,14 @@
 import { useCreateStripeCheckoutSessionMutation } from 'queries/stripeCheckoutSession/useCreateStripeCheckoutSessionMutation'
 import stripe from 'utils/stripe';
 import styled from 'vue3-styled-components';
+const CardContainer = styled.div`
 
+`;
 const Card = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: auto;
+  //display: flex;
+  //flex-direction: row;
+   width: 100%;
+   max-width: 12rem;
   heigth: 12 rem;
   align-items: center;
   justify-content: center;
@@ -16,6 +19,9 @@ const Card = styled.div`
   padding: 1rem;
   border-radius: 8px;card-title
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  img{
+    align-content: center;
+  }
 `;
 
 const cards1 = [
@@ -36,17 +42,17 @@ const cards2 = [
 </script>
 
 <template>
-  <div class="card-container">
-  <div class="card-row">
-    <div v-for="card in cards1" :key="card.id" class="card">
+  <div class="grid-containerContent">
+  <div class="grid-containerLine1">
+    <div v-for="card in cards1" :key="card.id" class="grid-item">
       <Card>
         <img :src="card.image" alt="Card Image" />
       </Card>
     </div>
   </div>
   
-  <div class="card-row">
-    <div v-for="card in cards2" :key="card.id" class="card">
+  <div class="grid-containerLine2">
+    <div v-for="card in cards2" :key="card.id" class="grid-item">
       <Card>
         <img :src="card.image" alt="Card Image" />
       </Card>
@@ -56,54 +62,26 @@ const cards2 = [
 </template>
 
 <style scoped>
-.card-container {
+.grid-containerLine2{
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
-.card-row {
+.grid-containerLine1{
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
+  width: 100%;
 }
-.card img {
-  width: auto;
-  height: auto;
-  border-radius: 8px;
+.grid-containerContent {
+  display: contents;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne lorsque l'espace est insuffisant */
+  justify-content: center; /* Centre les éléments horizontalement */
 }
-  button {
-    background-color: gray ;
-    border: solid 1px;
-  }
-  h3 {
-    font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-  }
+.grid-item {
+  flex-basis: calc(20% - 20px); /* Largeur de chaque élément (20% avec un espace de 20px entre eux) */
+  margin: 10px; /* Espace entre les éléments */
+  max-width: 200px; /* Limite la largeur des éléments */
+}
 
-  button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      background-color: #007bff;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
 
-    /* Styles additionnels au survol du bouton */
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    /* Styles additionnels lorsque le bouton est cliqué */
-    button:active {
-      transform: translateY(1px);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
 </style>

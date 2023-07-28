@@ -12,6 +12,7 @@ const routes = [
   {
     path: '/shop',
     name: 'shop',
+    meta: { layout: DefaultLayout },
     component: () => import('views/ShopView.vue')
   },
   {

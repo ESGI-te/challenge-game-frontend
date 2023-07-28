@@ -7,7 +7,7 @@ import { ref } from 'vue';
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  width: 25rem;
+  width: 22rem;
   heigth: 12 rem;
   align-items: center;
   justify-content: center;
@@ -88,10 +88,12 @@ const getCardClass = () => {
 
 .card-row {
   display: flex;
-  gap: 20px;
+  gap: 2px;
 }
 
-
+.card-container {
+  display: contents;
+}
 .yellow-card {
   background-color: #FFCC3E;
 }
