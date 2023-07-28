@@ -38,16 +38,19 @@ const Card = styled.div`
   border-radius: 8px;card-title
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
-
+const cardContent = styled.div`
+display: flex;
+  flex-direction: column;
+`
 </script>
 
 <template>
   <div class="grid-item">
     <Card>
-      <div class="cardContent">
+      <cardContent>
         <h3>{{ product.name }}</h3>
         <h3>{{ product.price / 100 }} € </h3>
-      </div>
+      </cardContent>
       <img src="../../../public/icons/themes/theme1.png" alt="Card Image" />
       <Button :disabled="isLoading" @click="handlePayment">Buy</Button>
     </Card>
@@ -55,10 +58,6 @@ const Card = styled.div`
 </template>
 
 <style scoped>
-.cardContent {
-  display: flex;
-  flex-direction: column;
-}
 
   
 </style>

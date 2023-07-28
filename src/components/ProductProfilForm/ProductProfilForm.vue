@@ -23,6 +23,21 @@ const Card = styled.div`
     align-content: center;
   }
 `;
+const gridItem = styled.div`
+flex-basis: calc(20% - 20px); /* Largeur de chaque élément (20% avec un espace de 20px entre eux) */
+  margin: 10px; /* Espace entre les éléments */
+  max-width: 200px; /* Limite la largeur des éléments */
+`
+const gridContainerLine = styled.div`
+display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+const gridContainerContent = styled.div`
+display: contents;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne lorsque l'espace est insuffisant */
+  justify-content: center; /* Centre les éléments horizontalement */
+`
 
 const cards1 = [
   { id: 1, image: '../../public/icons/profil/icon1.png' },
@@ -42,46 +57,25 @@ const cards2 = [
 </script>
 
 <template>
-  <div class="grid-containerContent">
-  <div class="grid-containerLine1">
-    <div v-for="card in cards1" :key="card.id" class="grid-item">
+  <gridContainerContent>
+  <gridContainerLine>
+    <gridItem v-for="card in cards1" :key="card.id">
       <Card>
         <img :src="card.image" alt="Card Image" />
       </Card>
-    </div>
-  </div>
+    </gridItem>
+  </gridContainerLine>
   
-  <div class="grid-containerLine2">
-    <div v-for="card in cards2" :key="card.id" class="grid-item">
+  <gridContainerLine>
+    <gridItem v-for="card in cards2" :key="card.id">
       <Card>
         <img :src="card.image" alt="Card Image" />
       </Card>
-    </div>
-  </div>
-</div>
+    </gridItem>
+  </gridContainerLine>
+</gridContainerContent>
 </template>
 
 <style scoped>
-.grid-containerLine2{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.grid-containerLine1{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.grid-containerContent {
-  display: contents;
-  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne lorsque l'espace est insuffisant */
-  justify-content: center; /* Centre les éléments horizontalement */
-}
-.grid-item {
-  flex-basis: calc(20% - 20px); /* Largeur de chaque élément (20% avec un espace de 20px entre eux) */
-  margin: 10px; /* Espace entre les éléments */
-  max-width: 200px; /* Limite la largeur des éléments */
-}
-
 
 </style>

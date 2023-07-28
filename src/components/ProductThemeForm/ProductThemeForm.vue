@@ -33,6 +33,14 @@ padding: 0 1.5rem;
   height: 30%;
   align-content: center;
 `;
+const CardRow = styled.div`
+display: flex;
+  gap: 2px;
+`
+const CardContent = styled.div`
+display: contents;
+
+`
 
 const cards1 = [
   { id: 1,name:'Theme : solar', image: '../../public/icons/themes/theme0.png'},
@@ -59,8 +67,8 @@ const getCardClass = () => {
 </script>
 
 <template>
-  <div class="card-container">
-  <div class="card-row">
+  <CardContent>
+  <CardRow>
     <div v-for="card in cards1" :key="card.id">
       <Card :class="getCardClass()">
         <img :src="card.image" class="card-image" alt="Card Image" />
@@ -69,31 +77,21 @@ const getCardClass = () => {
         </CardFooter>
       </Card>
     </div>
-  </div>
-  
-  <div class="card-row">
-    <div v-for="card in cards2" :key="card.id">
-      <Card :class="getCardClass()">
-        <img :src="card.image" alt="Card Image" />
-        <CardFooter>
-          <h1>{{ card.name }}</h1>
-        </CardFooter>
-      </Card>
-    </div>
-  </div>
-</div>
+  </CardRow>
+  <CardRow>
+      <div v-for="card in cards2" :key="card.id">
+        <Card :class="getCardClass()">
+          <img :src="card.image" alt="Card Image" />
+          <CardFooter>
+            <h1>{{ card.name }}</h1>
+          </CardFooter>
+        </Card>
+      </div>
+  </CardRow>
+</CardContent>
 </template>
 
 <style scoped>
-
-.card-row {
-  display: flex;
-  gap: 2px;
-}
-
-.card-container {
-  display: contents;
-}
 .yellow-card {
   background-color: #FFCC3E;
 }

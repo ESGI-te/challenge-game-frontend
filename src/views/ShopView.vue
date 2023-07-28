@@ -38,6 +38,21 @@ const SearchInput = styled(InputText)`
     max-width: 25rem;
   }
 `
+
+const gridContainer = styled.div`  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Deux colonnes de largeur égale */
+  grid-gap: 20px; /* Espacement entre les éléments de la grille */
+  width: 100%; /* Largeur totale de la grille */
+  max-width: 220rem; /* Limite la largeur de la grille à 1200px, ajustez selon vos préférences */
+  margin: 0 auto; /* Centre la grille horizontalement */
+  padding: 20px; /* Marge intérieure pour l'espace autour de la grille */`;
+  const gridContainerTheme = styled.div `  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Deux colonnes de largeur égale */
+  grid-gap: 20px; /* Espacement entre les éléments de la grille */
+  width: 100%; /* Largeur totale de la grille */
+  max-width: 220rem; /* Limite la largeur de la grille à 1200px, ajustez selon vos préférences */
+  margin: 0 auto; /* Centre la grille horizontalement */
+  padding: 20px; /* Marge intérieure pour l'espace autour de la grille */`;
 </script>
 <template>
     <Wrapper>
@@ -45,66 +60,21 @@ const SearchInput = styled(InputText)`
       <Text variant="h3">Shop</Text>
       <SearchInput placeholder="search" :icon-left="searchIcon"></SearchInput>
     </SearchContainer>
-    <div class="grid-container">
+    <gridContainer>
         <p v-if="isEmpty">No products</p>
         <ProductForm v-else v-for="product in products" :product="product" :key="product.id" class="grid-item"/>
-    </div>
+    </gridContainer>
     <h2>Thèmes</h2>
-    <div class="grid-container3">
+    <gridContainerTheme>
         <p v-if="isEmpty">No products</p>
         <ProductThemeForm v-else class="grid-item"/>
-    </div>
+    </gridContainerTheme>
     <h2>Avatars</h2>
-    <div class="grid-container2">
+    <gridContainerTheme>
         <p v-if="isEmpty">No products</p>
         <ProductProfilForm v-else class="grid-item"/>
-    </div>
+    </gridContainerTheme>
     </Wrapper>
 </template>
 <style scoped>
-    .grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Deux colonnes de largeur égale */
-  grid-gap: 20px; /* Espacement entre les éléments de la grille */
-  width: 100%; /* Largeur totale de la grille */
-  max-width: 220rem; /* Limite la largeur de la grille à 1200px, ajustez selon vos préférences */
-  margin: 0 auto; /* Centre la grille horizontalement */
-  padding: 20px; /* Marge intérieure pour l'espace autour de la grille */
-}
-.grid-container3 {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); /* Deux colonnes de largeur égale */
-  grid-gap: 20px; /* Espacement entre les éléments de la grille */
-  width: 100%; /* Largeur totale de la grille */
-  max-width: 220rem; /* Limite la largeur de la grille à 1200px, ajustez selon vos préférences */
-  margin: 0 auto; /* Centre la grille horizontalement */
-  padding: 20px; /* Marge intérieure pour l'espace autour de la grille */
-}
-.grid-container2 {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); /* Deux colonnes de largeur égale */
-  grid-gap: 20px; /* Espacement entre les éléments de la grille */
-  width: 100%; /* Largeur totale de la grille */
-  max-width: 220rem; /* Limite la largeur de la grille à 1200px, ajustez selon vos préférences */
-  margin: 0 auto; /* Centre la grille horizontalement */
-  padding: 20px; /* Marge intérieure pour l'espace autour de la grille */
-}
-
-
-
-    /* .card-container2 {
-        display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      max-width: 100%;
-      background-color: red;
-    } */
-
-    .card-container3 {
-        display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      max-width: 100%;
-    }
-
 </style>
