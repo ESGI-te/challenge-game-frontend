@@ -1,38 +1,70 @@
 <script setup>
-import { computed } from 'vue';
-import socket, { state } from '@/websockets/lobby.ws';
-import { useUserQuery } from 'queries/user/useUserQuery';
+import { computed } from 'vue'
+import socket, { state } from '@/websockets/lobby.ws'
+import { useUserQuery } from 'queries/user/useUserQuery'
+import Button from 'components/Button'
+import Text from 'components/Text'
+import styled from 'vue3-styled-components'
+import { onUnmounted } from 'vue'
 
 const props = defineProps({
-    isOwner: Boolean,
-    lobbyId: String,
+  isOwner: Boolean,
+  lobbyId: String
 })
 
-const { data: user } = useUserQuery();
-const hasValidated = computed(() => state?.validatedUsers?.includes(user.value?._id));
-const nbValidatedUsers = computed(() => `${state?.validatedUsers?.length} / ${state?.players?.length}`);
+const { data: user } = useUserQuery()
+const hasValidated = computed(() => state?.validatedUsers?.includes(user.value?._id))
+const nbValidatedUsers = computed(
+  () => `${state?.validatedUsers?.length} / ${state?.players?.length}`
+)
+
+const updateProgressBar = () => {
+  if (state.validationTime > 0) {
+    state.validationTime -= 1
+  }
+}
+
+const intervalId = setInterval(updateProgressBar, 1000)
+
+onUnmounted(() => {
+  clearInterval(intervalId)
+})
 
 const cancelValidation = () => {
-    if (!props.isOwner) return;
-    socket.emit('cancel_validation', { lobbyId: props.lobbyId });
+  if (!props.isOwner) return
+  socket.emit('cancel_validation', { lobbyId: props.lobbyId })
 }
 
 const validate = () => {
-    if (hasValidated.value) return;
-    socket.emit('validate');
+  if (hasValidated.value) return
+  socket.emit('validate')
 }
 
+const Stack = styled('div')`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`
+const ButtonsWrapper = styled('div')`
+  display: flex;
+  column-gap: 2rem;
+
+  & > * {
+    flex: 1;
+  }
+`
 </script>
 
 <template>
-    <div>
-        <h3>Are you ready ?</h3>
-        <button v-if="isOwner" @click="cancelValidation">Cancel</button>
-        <button v-if="!hasValidated" @click="validate">Validate</button>
-        <p v-else>{{ nbValidatedUsers }}</p>
-    </div>
+  <Stack>
+    <Text variant="h4">The game is about to start, please confirm</Text>
+    <v-progress-linear height="4" max="30" :model-value="state.validationTime"></v-progress-linear>
+    <Text>{{ nbValidatedUsers }}</Text>
+    <ButtonsWrapper>
+      <Button bgColor="--red" v-if="isOwner" @click="cancelValidation">Cancel</Button>
+      <Button :disabled="hasValidated" @click="validate">Validate</Button>
+    </ButtonsWrapper>
+  </Stack>
 </template>
 
-<style lang="">
-    
-</style>
+<style lang=""></style>

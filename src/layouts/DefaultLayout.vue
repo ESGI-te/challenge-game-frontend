@@ -9,6 +9,7 @@ const Main = styled.main`
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     order: 1;
+    height: 100%;
   }
 `
 const Wrapper = styled.div`

@@ -12,12 +12,15 @@ const router = createRouter({
 /* Navigation Guard */
 router.beforeEach(async (to, from) => {
   const { isAuthenticated, returnUrl, userRoles } = storeToRefs(useAuthStore())
-  const publicRoutes = ['login', 'register']
+  const publicRoutes = ['login', 'register', 'landing']
   const isAdminRoute = to.path.startsWith('/admin')
 
   if (!isAuthenticated.value && !publicRoutes.includes(to.name)) {
     returnUrl.value = to.fullPath
     return { name: 'login' }
+  }
+  if (isAuthenticated.value && publicRoutes.includes(to.name)) {
+    return { name: 'home' }
   }
   if (isAdminRoute && !userRoles.value.includes(USER_ROLES.ADMIN)) {
     return from
