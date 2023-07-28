@@ -52,9 +52,11 @@ const ModalInner = styled.div`
   border-color: solid 2px var(--black);
   display: flex;
   flex-direction: column;
+  height: 100%;
 
-  ${({ theme }) => theme.mediaQueries.mobile} {
-    height: 100%;
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    row-gap: 2rem;
+    height: initial;
   }
 `
 const ModalHeader = styled.div`
@@ -73,6 +75,7 @@ const ModalContent = styled.div`
   width: 100%;
   padding: 1rem;
   flex: 1;
+  overflow-y: auto;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     padding: 0 2.5rem 2.5rem 2.5rem;
@@ -88,7 +91,7 @@ const CloseButton = styled.button``
         <ModalInner>
           <ModalHeader>
             <Text :variant="isDesktopAndUp ? 'h2' : 'h4'">{{ props.title }}</Text>
-            <CloseButton @click="handleClose">
+            <CloseButton v-if="!!props.onClose" @click="handleClose">
               <img :src="crossIcon" alt="close" />
             </CloseButton>
           </ModalHeader>

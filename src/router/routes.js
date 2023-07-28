@@ -67,22 +67,10 @@ const routes = [
     meta: { layout: DefaultLayout },
     component: () => import('views/HistoryView.vue')
   },
-  // {
-  //   path: '/game/:code',
-  //   name: 'game',
-  //   component: () => import('views/GameView.vue')
-  // },
   {
-    path: '/create-game',
-    name: 'create_game',
-    meta: { layout: DefaultLayout },
-    component: () => import('views/CreateGameView.vue')
-  },
-  {
-    path: '/search-game',
-    name: 'search_game',
-    meta: { layout: DefaultLayout },
-    component: () => import('views/SearchGameView.vue')
+    path: '/game/:code',
+    name: 'game',
+    component: () => import('views/GameView.vue')
   },
   {
     path: '/friends',

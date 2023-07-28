@@ -1,12 +1,19 @@
 <script setup>
+import { watchEffect } from 'vue'
 import styled from 'vue3-styled-components'
 
 const props = defineProps({
   bgColor: {
     type: String,
     default: '--primary'
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
+
+watchEffect(() => console.log(props.disabled))
 
 const Button = styled('button', props)`
   width: fit-content;
@@ -20,16 +27,18 @@ const Button = styled('button', props)`
   font-weight: 800;
   font-size: 1rem;
 
-  &:disabled {
-    background-color: #d4d4d4;
-    color: var(--white);
+  ${({ disabled }) =>
+    disabled &&
+    `
+    background-color: #D4D4D4 !important;
     cursor: not-allowed;
-  }
+    pointer-events: none;
+  `}
 `
 </script>
 
 <template lang="">
-  <Button v-bind="props">
+  <Button :bgColor="props.bgColor" :disabled="props.disabled">
     <slot />
   </Button>
 </template>
