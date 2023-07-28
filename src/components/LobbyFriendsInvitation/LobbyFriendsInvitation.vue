@@ -11,9 +11,11 @@ import Text from 'components/Text'
 import { computed } from 'vue'
 import Button from '../Button'
 import { watchEffect } from 'vue'
+import { useUserFriendsQuery } from 'queries/userFriends/useUserFriendsQuery'
 
 const { currentRoute } = useRouter()
 const code = currentRoute.value.params.code
+const { data: friends } = useUserFriendsQuery()
 const sendInvitation = useSendGameInvitationMutation()
 const cancelInvitation = useCancelGameInvitationMutation()
 const { data: invitations } = useGameInvitationsQuery()
@@ -21,7 +23,7 @@ const isInvited = (friendId) =>
   invitations.value?.some((invitation) => invitation.recipient.id === friendId)
 const isInLobby = (friendId) => lobbyState.players?.some((player) => player.id === friendId)
 const allFriends = computed(() => [...state.online, ...state.offline])
-const isOnline = (friendId) => state.online?.some((player) => player.id === friendId)
+const isOnline = (id) => state.online.some((friend) => friend.id === id)
 
 const handleCancelInvitation = (friendId) => {
   const invitation = invitations.value?.find((invitation) => invitation.recipient.id === friendId)
@@ -77,22 +79,34 @@ const Wrapper = styled.div`
     gap: 1rem;
   }
 `
-
-watchEffect(() => console.log(allFriends.value))
+const StatusIndicator = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${({ isOnline }) => (isOnline ? `var(--primary};` : `var(--red);`)};
+`
+const StatusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+`
 </script>
 
 <template>
   <Wrapper>
     <Text v-if="allFriends.length === 0">You don't have friends yet</Text>
-    <UserCard v-else v-for="friend in allFriends" :key="friend.id">
+    <UserCard v-else v-for="friend in friends" :key="friend.id">
       <AvatarWrapper>
         <img :src="avatarIcon" alt="avatar" />
       </AvatarWrapper>
       <InfoWrapper>
         <Text bold>{{ friend.username }}</Text>
-        <Text :color="isOnline(friend.id) ? '--primary' : '--red'">{{
-          isOnline(friend.id) ? 'Online' : 'Offline'
-        }}</Text>
+        <StatusWrapper>
+          <StatusIndicator :isOnline="isOnline(friend.id)" />
+          <Text :color="isOnline(friend.id) ? '--primary' : '--red'">{{
+            isOnline(friend.id) ? 'Online' : 'Offline'
+          }}</Text>
+        </StatusWrapper>
       </InfoWrapper>
       <div v-if="isInvited(friend.id)">
         <CancelButton @click="handleCancelInvitation(friend.id)">Cancel</CancelButton>

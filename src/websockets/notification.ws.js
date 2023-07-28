@@ -5,7 +5,8 @@ import { WS_USERS_NAMESPACE } from '@/utils/constants'
 export const state = reactive({
   connected: false,
   error: null,
-  gameInvitation: null
+  gameInvitation: null,
+  userInvitation: null
 })
 
 const URL = import.meta.env.VITE_WS_URL + WS_USERS_NAMESPACE
@@ -27,7 +28,7 @@ socket.on('disconnect', () => {
 })
 
 socket.on('receive_user_invitation', (username) => {
-  console.log(username)
+  state.userInvitation = username
 })
 
 socket.on('receive_game_invitation', (invitation) => {

@@ -45,11 +45,6 @@ const Wrapper = styled.div`
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
-
-  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    flex-wrap: wrap;
-    overlow-x: initial;
-  }
 `
 const ThemeCard = styled.div`
   position: relative;
