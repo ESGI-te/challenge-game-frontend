@@ -4,12 +4,13 @@ import AppBar from 'components/AppBar'
 
 const Main = styled.main`
   width: 100%;
-  flex: 1;
+  height: 100%;
   display: flex;
+  overlow: hidden;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     order: 1;
-    height: 100%;
+    height: calc(100% - 88px);
   }
 `
 const Wrapper = styled.div`

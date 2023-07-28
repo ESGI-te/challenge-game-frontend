@@ -58,7 +58,12 @@ const ButtonsWrapper = styled('div')`
 <template>
   <Stack>
     <Text variant="h4">The game is about to start, please confirm</Text>
-    <v-progress-linear height="4" max="30" :model-value="state.validationTime"></v-progress-linear>
+    <v-progress-linear
+      color="var(--primary)"
+      height="10"
+      max="30"
+      :model-value="state.validationTime"
+    ></v-progress-linear>
     <Text>{{ nbValidatedUsers }}</Text>
     <ButtonsWrapper>
       <Button bgColor="--red" v-if="isOwner" @click="cancelValidation">Cancel</Button>

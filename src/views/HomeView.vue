@@ -115,7 +115,7 @@ const GameWrapper = styled.div`
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     & > :first-child,
     & > :last-child {
-      flex: 1;
+      height: 50%;
     }
   }
 `

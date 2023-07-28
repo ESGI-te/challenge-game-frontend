@@ -14,7 +14,7 @@ import Text from 'components/Text'
 import Modal from 'components/Modal'
 import { ref } from 'vue'
 import { useResponsive } from 'composables/useResponsive'
-import profileIcon from 'public/icons/profile.svg'
+import usersIcon from 'public/icons/users.svg'
 
 const { currentRoute, replace } = useRouter()
 const { isDesktopAndUp } = useResponsive()
@@ -89,7 +89,7 @@ const HeaderStack = styled.div`
   flex-direction: column;
   row-gap: 1rem;
   width: 100%;
-  padding: 2.5rem 1.5rem 0 1.5rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     flex-direction: row;
@@ -119,6 +119,7 @@ const ThemesStack = styled.div`
   flex-direction: column;
   row-gap: 1rem;
   width: 100%;
+  padding-left: 1.5rem;
 `
 const StartGameButton = styled(Button)`
   width: 100% !important;
@@ -132,21 +133,15 @@ const PlayersStack = styled.div`
   padding-inline: 1.5rem;
   margin-top: auto;
 `
-const Wrapper = styled.div`
-  width: 100%;
-  padding-left: 1.5rem;
-  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    padding: 1.5rem;
-    display: flex;
-    column-gap: 1rem;
-  }
-`
 const PlayersConnected = styled.div`
   display: flex;
   align-items: center;
   column-gap: 0.5rem;
 `
-
+const ChatWrapper = styled.div`
+  padding-inline: 1.5rem;
+  max-width: 1000px;
+`
 const Cluster = styled.div`
   display: flex;
   align-items: center;
@@ -161,9 +156,8 @@ const Cluster = styled.div`
         ><Text variant="h3">N° {{ lobby.invitation_code }}</Text>
         <PlayersConnected>
           <Text variant="h4">{{ playersConnected }}</Text>
-          <img :src="profileIcon" alt="profile icon" /> </PlayersConnected
+          <img :src="usersIcon" alt="users icon" /> </PlayersConnected
       ></Cluster>
-
       <ButtonsWrapper>
         <InviteFriendsButton @click="onOpenFriendsInvitationModal">
           Invite friends
@@ -171,13 +165,13 @@ const Cluster = styled.div`
         <LeaveButton @click="handleLeaveLobby"> Leave </LeaveButton>
       </ButtonsWrapper>
     </HeaderStack>
-    <Wrapper>
-      <ThemesStack>
-        <Text variant="h3">Themes</Text>
-        <LobbyQuizzThemeVote v-if="!!lobby?.themes" :themes="lobby?.themes" />
-      </ThemesStack>
-      <LobbyChat v-if="isDesktopAndUp" />
-    </Wrapper>
+    <ThemesStack>
+      <Text variant="h3">Themes</Text>
+      <LobbyQuizzThemeVote v-if="!!lobby?.themes" :themes="lobby?.themes" />
+    </ThemesStack>
+    <ChatWrapper v-if="isDesktopAndUp">
+      <LobbyChat />
+    </ChatWrapper>
 
     <PlayersStack>
       <StartGameButton v-if="isOwner" :disabled="!votedTheme" @click="startValidation"
