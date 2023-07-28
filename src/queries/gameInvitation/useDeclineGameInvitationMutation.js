@@ -6,7 +6,7 @@ export const useDeclineGameInvitationMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (invitationId) => declineGameInvitation(invitationId),
+    mutationFn: (id) => declineGameInvitation({ id }),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: queryKeys.gameInvitation.list().queryKey })
   })

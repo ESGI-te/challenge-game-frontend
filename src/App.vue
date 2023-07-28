@@ -7,7 +7,7 @@ import { useAuthStore } from './stores/auth.store'
 import { useUserQuery } from 'queries/user/useUserQuery'
 import { ThemeProvider } from 'vue3-styled-components'
 import theme from 'utils/theme'
-
+import InvitationGameModal from 'components/InvitationGameModal'
 import './assets/main.css'
 
 const authStore = useAuthStore()
@@ -32,6 +32,7 @@ watchEffect(() => {
     <component :is="$route.meta.layout || 'div'">
       <RouterView />
     </component>
+    <InvitationGameModal />
   </ThemeProvider>
 </template>
 

@@ -36,6 +36,7 @@ const JoinGameWrapper = styled.div`
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     column-gap: 0.5rem;
     flex-direction: row;
+    justify-content: space-between;
     padding-bottom: 0;
     padding-left: 0;
 
@@ -78,7 +79,7 @@ const GameIllustrationWrapper = styled.div`
   max-width: 220px;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    max-width: 100%;
+    max-width: 500px;
     height: 100%;
     align-items: flex-end;
   }
@@ -90,7 +91,7 @@ const Container = styled.div`
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     flex-direction: row;
-
+    height: 100%;
     & > :first-child {
       width: 60%;
     }
@@ -106,6 +107,7 @@ const CreateGameButton = styled(Button)`
 `
 const GameWrapper = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   height: 100%;

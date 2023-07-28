@@ -1,6 +1,8 @@
 <script setup>
 import styled from 'vue3-styled-components'
 import logo from 'public/img/landing-logo.svg'
+import Button from 'components/Button'
+import { RouterLink } from 'vue-router'
 
 const Container = styled.div`
   display: flex;
@@ -16,16 +18,23 @@ const Logo = styled.img`
   width: 100%;
   max-width: 664px;
 `
+
+const StyledButton = styled(Button)`
+  width: 100% !important;
+`
+const Link = styled(RouterLink)`
+  width: 100% !important;
+  max-width: 342px;
+`
 </script>
 
 <template>
   <Container>
     <Logo :src="logo" alt="logo" />
     <h4>Les quizz qui animeront vos soirées</h4>
-
-    <RouterLink :to="'/login'">
-      <button class="primary bold">Jouer</button>
-    </RouterLink>
+    <Link :as="StyledButton" :to="'/login'">
+      <StyledButton>Play</StyledButton>
+    </Link>
   </Container>
 </template>
 

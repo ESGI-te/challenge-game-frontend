@@ -10,7 +10,7 @@ import { useResponsive } from 'composables/useResponsive'
 import Text from 'components/Text'
 
 const route = useRoute()
-const isRouteActive = (to) => route.path === to
+const isRouteActive = (to) => route.name === to.name
 const { isDesktopAndUp } = useResponsive()
 
 const Wrapper = styled.header`
@@ -25,7 +25,7 @@ const Wrapper = styled.header`
   left: 0;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    padding: 1.25rem;
+    padding: 1.25rem 1.5rem;
     background: var(--black);
     position: initial;
   }
@@ -88,19 +88,19 @@ const Logo = styled.img`
   <Wrapper>
     <Logo :src="headerLogo" alt="Logo" />
     <Nav>
-      <Link active-class="active-link" to="/home">
+      <Link :to="{ name: 'home' }">
         <img v-if="!isDesktopAndUp" :src="homeIcon" alt="Home" />
         <LinkText as="span">Home</LinkText>
       </Link>
-      <Link active-class="active-link" to="/shop">
+      <Link to="">
         <img v-if="!isDesktopAndUp" :src="shopIcon" alt="Shop" />
         <LinkText as="span">Shop</LinkText>
       </Link>
-      <Link active-class="active-link" to="/friends">
+      <Link :to="{ name: 'friends' }">
         <img v-if="!isDesktopAndUp" :src="friendsIcon" alt="Friends" />
         <LinkText as="span">Friends</LinkText>
       </Link>
-      <Link active-class="active-link" to="/profile">
+      <Link to="">
         <img v-if="!isDesktopAndUp" :src="profileIcon" alt="Profile" />
         <LinkText as="span">Profile</LinkText>
       </Link>

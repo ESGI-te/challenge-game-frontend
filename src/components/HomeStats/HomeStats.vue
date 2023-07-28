@@ -5,22 +5,36 @@ import StatsCard from 'components/StatsCard'
 import Text from 'components/Text'
 
 const { data: weeklyStats } = useStatsQuery(7)
-const { data: mounthlyStats } = useStatsQuery(30)
+const { data: monthlyStats } = useStatsQuery(30)
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
+`
+const Stack = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
 `
 </script>
 
 <template>
   <Wrapper>
     <Text variant="h4">Your stats</Text>
-    <StatsCard v-if="!!weeklyStats" :stats="weeklyStats.stats" />
-    <StatsCard v-if="!!mounthlyStats" :stats="mounthlyStats.stats" />
+    <Stack>
+      <Text bold>Weekly stats</Text>
+      <Text v-if="!weeklyStats">No stats</Text>
+      <StatsCard v-else :stats="weeklyStats.stats" />
+    </Stack>
+    <Stack>
+      <Text bold>Monthly stats</Text>
+      <Text v-if="!monthlyStats">No stats</Text>
+      <StatsCard v-else :stats="monthlyStats.stats" />
+    </Stack>
   </Wrapper>
 </template>
 
