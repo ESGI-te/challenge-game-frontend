@@ -94,7 +94,7 @@ const Logo = styled.img`
         <img v-if="!isDesktopAndUp" :src="homeIcon" alt="Home" />
         <LinkText as="span">Home</LinkText>
       </Link>
-      <Link to="">
+      <Link :to="{name: 'shop'}">
         <img v-if="!isDesktopAndUp" :src="shopIcon" alt="Shop" />
         <LinkText as="span">Shop</LinkText>
       </Link>
