@@ -22,12 +22,13 @@ const onBlur = () => {
 const isChecked = computed(() => value.value === props.value)
 
 const Label = styled.label`
-  padding: 0.5rem 1rem;
+  padding-block: 0.5rem;
   border: 1px solid var(--black);
   background-color: var(--white);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   row-gap: 0.5rem;
   width: 100%;
   cursor: pointer;

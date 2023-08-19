@@ -3,12 +3,10 @@ import styled from 'vue3-styled-components'
 import Text from '@/components/Text'
 import GirlAvatar from '@/assets/avatar/girl-avatar.svg'
 
-
 const props = defineProps({
-  logged: Boolean,
-  username: String,
+  isLogged: Boolean,
+  username: String
 })
-
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,7 +19,7 @@ const Wrapper = styled.div`
   border: 2px solid var(--black);
   background: var(--white);
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    max-width : 22rem;
+    max-width: 22rem;
   }
 `
 
@@ -41,12 +39,14 @@ const Avatar = styled.img`
   <Wrapper>
     <Avatar :src="GirlAvatar" />
     <Info>
-      <Text variant="p"><b>{{ username }}</b></Text>
-      <Text variant="p" :color="logged ? '--primary' : '--red'">
+      <Text variant="p"
+        ><b>{{ username }}</b></Text
+      >
+      <Text variant="p" :color="isLogged ? '--primary' : '--red'">
         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <circle cx="4" cy="4" r="4" :fill="logged ? 'var(--primary)' : 'var(--red)'" />
+          <circle cx="4" cy="4" r="4" :fill="isLogged ? 'var(--primary)' : 'var(--red)'" />
         </svg>
-        {{logged ? "En ligne" : "Hors ligne"}}
+        {{ isLogged ? 'Online' : 'Offline' }}
       </Text>
     </Info>
   </Wrapper>

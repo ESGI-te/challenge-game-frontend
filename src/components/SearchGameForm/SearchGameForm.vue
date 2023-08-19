@@ -38,7 +38,7 @@ const Form = styled.form`
 const SubmitButton = styled(Button)`
   width: 100% !important;
   background-color: var(--white);
-  color: var(--white);
+  color: var(--black);
 `
 </script>
 

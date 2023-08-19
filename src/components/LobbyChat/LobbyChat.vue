@@ -31,7 +31,7 @@ const Container = styled.div`
 `
 const Chat = styled.div`
   width: 100%;
-  height: 200px;
+  height: 300px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

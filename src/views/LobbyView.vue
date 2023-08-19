@@ -15,6 +15,8 @@ import Modal from 'components/Modal'
 import { ref } from 'vue'
 import { useResponsive } from 'composables/useResponsive'
 import usersIcon from 'public/icons/users.svg'
+import LobbyPlayerList from 'components/LobbyPlayerList'
+import Cluster from 'components/layout/Cluster'
 
 const { currentRoute, replace } = useRouter()
 const { isDesktopAndUp } = useResponsive()
@@ -83,8 +85,12 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   padding-bottom: 2.5rem;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    row-gap: 2rem;
+  }
 `
-const HeaderStack = styled.div`
+const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -114,18 +120,34 @@ const ButtonsWrapper = styled.div`
     width: auto;
   }
 `
-const ThemesStack = styled.div`
+const ThemesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   width: 100%;
   padding-left: 1.5rem;
 `
+const PlayersWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  width: 100%;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    flex: 1;
+  }
+`
+const PlayersChatWrapper = styled.div`
+  display: flex;
+  column-gap: 2.5rem;
+  width: 100%;
+  padding-inline: 1.5rem;
+`
 const StartGameButton = styled(Button)`
   width: 100% !important;
   background-color: var(--blue);
 `
-const PlayersStack = styled.div`
+const StartGameButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -139,57 +161,45 @@ const PlayersConnected = styled.div`
   column-gap: 0.5rem;
 `
 const ChatWrapper = styled.div`
-  padding-inline: 1.5rem;
-  max-width: 1000px;
-`
-const Cluster = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 1rem;
+  width: 1000px;
 `
 </script>
 
 <template>
   <Container v-if="state.connected && !state.error && !!lobby">
-    <HeaderStack>
-      <Cluster
-        ><Text variant="h3">N° {{ lobby.invitation_code }}</Text>
-        <PlayersConnected>
-          <Text variant="h4">{{ playersConnected }}</Text>
-          <img :src="usersIcon" alt="users icon" /> </PlayersConnected
-      ></Cluster>
+    <HeaderWrapper>
+      <Text variant="h3">Code: {{ lobby.invitation_code }}</Text>
       <ButtonsWrapper>
         <InviteFriendsButton @click="onOpenFriendsInvitationModal">
           Invite friends
         </InviteFriendsButton>
         <LeaveButton @click="handleLeaveLobby"> Leave </LeaveButton>
       </ButtonsWrapper>
-    </HeaderStack>
-    <ThemesStack>
+    </HeaderWrapper>
+    <ThemesWrapper>
       <Text variant="h3">Themes</Text>
       <LobbyQuizzThemeVote v-if="!!lobby?.themes" :themes="lobby?.themes" />
-    </ThemesStack>
-    <ChatWrapper v-if="isDesktopAndUp">
-      <LobbyChat />
-    </ChatWrapper>
+    </ThemesWrapper>
+    <PlayersChatWrapper>
+      <PlayersWrapper>
+        <Cluster gap="0.5rem" align="center" justify="space-between"
+          ><Text variant="h3">Players</Text>
+          <PlayersConnected>
+            <Text variant="h4">{{ playersConnected }}</Text>
+            <img :src="usersIcon" alt="users icon" /> </PlayersConnected
+        ></Cluster>
 
-    <PlayersStack>
+        <LobbyPlayerList />
+      </PlayersWrapper>
+      <ChatWrapper v-if="isDesktopAndUp">
+        <LobbyChat />
+      </ChatWrapper>
+    </PlayersChatWrapper>
+    <StartGameButtonWrapper>
       <StartGameButton v-if="isOwner" :disabled="!votedTheme" @click="startValidation"
         >Start game</StartGameButton
       >
-    </PlayersStack>
-    <!-- <div v-if="state.gameCreationInProgress">
-			<h2>The game's about to get started...</h2>
-		</div>
-		<div v-else>
-			<div>
-				notification : {{ state.notification }}
-				players connected : {{ playersConnected }}
-			</div>
-			<LobbyValidation v-if="state.isValidationInProgress" :isOwner="isOwner" :lobbyId="lobby.id" />
-			<button v-else-if="isOwner" :disabled="!votedTheme" @click="startValidation">Start game</button>
-			<LobbyChat />
-		</div> -->
+    </StartGameButtonWrapper>
     <Modal :isOpen="state.isValidationInProgress" title="Are you ready?">
       <LobbyValidation :isOwner="isOwner" :lobbyId="lobby.id" />
     </Modal>

@@ -6,12 +6,10 @@ import { useRouter } from 'vue-router'
 import { state } from '@/websockets/friends.ws'
 import { state as lobbyState } from '@/websockets/lobby.ws'
 import styled from 'vue3-styled-components'
-import avatarIcon from 'public/img/avatar-1.svg'
 import Text from 'components/Text'
 import { computed } from 'vue'
-import Button from '../Button'
-import { watchEffect } from 'vue'
 import { useUserFriendsQuery } from 'queries/userFriends/useUserFriendsQuery'
+import LobbyFriendsInvitationUserCard from 'components/LobbyFriendsInvitationUserCard'
 
 const { currentRoute } = useRouter()
 const code = currentRoute.value.params.code
@@ -34,37 +32,6 @@ const handleSendInvitation = (userId) => {
   sendInvitation.mutate({ userId, code })
 }
 
-const UserCard = styled.div`
-  border: 2px solid var(--black);
-  width: 100%;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  row-gap: 0.5rem;
-  background-color: var(--white);
-
-  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    max-width: 400px;
-  }
-`
-const AvatarWrapper = styled.div`
-  background-color: var(--yellow);
-  max-width: 80px;
-  max-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.875rem;
-`
-const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.5rem;
-`
-const CancelButton = styled(Button)`
-  background-color: var(--red);
-`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,45 +46,22 @@ const Wrapper = styled.div`
     gap: 1rem;
   }
 `
-const StatusIndicator = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: ${({ isOnline }) => (isOnline ? `var(--primary};` : `var(--red);`)};
-`
-const StatusWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 0.25rem;
-`
 </script>
 
 <template>
   <Wrapper>
     <Text v-if="allFriends.length === 0">You don't have friends yet</Text>
-    <UserCard v-else v-for="friend in friends" :key="friend.id">
-      <AvatarWrapper>
-        <img :src="avatarIcon" alt="avatar" />
-      </AvatarWrapper>
-      <InfoWrapper>
-        <Text bold>{{ friend.username }}</Text>
-        <StatusWrapper>
-          <StatusIndicator :isOnline="isOnline(friend.id)" />
-          <Text :color="isOnline(friend.id) ? '--primary' : '--red'">{{
-            isOnline(friend.id) ? 'Online' : 'Offline'
-          }}</Text>
-        </StatusWrapper>
-      </InfoWrapper>
-      <div v-if="isInvited(friend.id)">
-        <CancelButton @click="handleCancelInvitation(friend.id)">Cancel</CancelButton>
-      </div>
-      <Button
-        v-else-if="!isInLobby(friend.id) && isOnline(friend.id)"
-        @click="handleSendInvitation(friend.id)"
-      >
-        Invite
-      </Button>
-    </UserCard>
+    <LobbyFriendsInvitationUserCard
+      v-else
+      v-for="friend in friends"
+      :key="friend._id"
+      :user="friend"
+      :isInvited="isInvited(friend._id)"
+      :isInLobby="isInLobby(friend._id)"
+      :isOnline="isOnline(friend._id)"
+      :handleCancelInvitation="handleCancelInvitation"
+      :handleSendInvitation="handleSendInvitation"
+    />
   </Wrapper>
 </template>
 
