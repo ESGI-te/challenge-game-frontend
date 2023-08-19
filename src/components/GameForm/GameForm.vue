@@ -125,7 +125,7 @@ const RadioButton = styled(InputRadio)`
         <Stack>
           <Text>Difficulty</Text>
           <Cluster>
-            <RadioButton name="difficulty" :value="1"><Text>Eazy</Text></RadioButton>
+            <RadioButton name="difficulty" :value="1"><Text>Easy</Text></RadioButton>
             <RadioButton name="difficulty" :value="2"><Text>Normal</Text></RadioButton>
             <RadioButton name="difficulty" :value="3"><Text>Smart</Text></RadioButton>
             <RadioButton name="difficulty" :value="4"><Text>Einstein</Text></RadioButton>

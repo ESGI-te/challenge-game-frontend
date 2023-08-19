@@ -1,5 +1,4 @@
 <script setup>
-import { watchEffect } from 'vue'
 import styled from 'vue3-styled-components'
 
 const props = defineProps({
@@ -12,8 +11,6 @@ const props = defineProps({
     default: false
   }
 })
-
-watchEffect(() => console.log(props.disabled))
 
 const Button = styled('button', props)`
   width: fit-content;
@@ -33,6 +30,7 @@ const Button = styled('button', props)`
     background-color: #D4D4D4 !important;
     cursor: not-allowed;
     pointer-events: none;
+    color: var(--white);
   `}
 `
 </script>
