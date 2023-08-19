@@ -29,6 +29,12 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/profile',
+    name: 'profile',
+    meta: { layout: DefaultLayout },
+    component: () => import('views/ProfileView.vue')
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: () => import('views/admin/AdminDashboardView.vue'),
