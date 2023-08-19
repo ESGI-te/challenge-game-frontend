@@ -83,18 +83,17 @@ const routes = [
         redirect: '/friends/list'
       },
       {
+        name: 'friends_invitations',
         path: 'invitations',
         component: () => import('components/UserInvitationsList')
       },
       {
+        name: 'friends_requests',
         path: 'requests',
         component: () => import('components/UserInvitationRequestsList')
       },
       {
-        path: 'add',
-        component: () => import('components/UserInvitationForm')
-      },
-      {
+        name: 'friends_list',
         path: 'list',
         component: () => import('components/UserFriendsList')
       }

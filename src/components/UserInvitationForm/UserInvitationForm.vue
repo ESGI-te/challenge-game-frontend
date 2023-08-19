@@ -22,15 +22,15 @@ const AddInput = styled(InputText)`
   }
 `
 
-const AddForm = styled.form`
-    width:100%;
-    display: flex;
-    flex-direction: column;
-    row-gap : 1rem;
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 `
 
 const AddButton = styled(Button)`
-  width : 100%;
+  width: 100%;
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     max-width: 25rem;
   }
@@ -38,10 +38,8 @@ const AddButton = styled(Button)`
 </script>
 
 <template>
-  <AddForm @submit.prevent="sendInvitation">
+  <Form @submit.prevent="sendInvitation">
     <AddInput :disabled="isLoading" v-model="username" placeholder="username" type="text" />
     <AddButton :disabled="isLoading" type="submit">Search</AddButton>
-  </AddForm>
+  </Form>
 </template>
-
-<style lang=""></style>

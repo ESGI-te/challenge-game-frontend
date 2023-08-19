@@ -5,12 +5,7 @@ import styled from 'vue3-styled-components'
 import { state } from '@/websockets/friends.ws'
 
 const { data: friends } = useUserFriendsQuery()
-
-
-const isConnected = (id) => {
-  const isOnline = state.online.some((friend) => friend.id === id)
-  return isOnline
-}
+const isOnline = (id) => state.online.some((friend) => friend.id === id)
 
 const Wrapper = styled.div`
   width: 100%;
@@ -26,7 +21,7 @@ const Wrapper = styled.div`
       v-for="friend in friends"
       :key="friend._id"
       :username="friend.username"
-      :logged="isConnected(friend._id)"
+      :isLogged="isOnline(friend._id)"
     />
   </Wrapper>
 </template>

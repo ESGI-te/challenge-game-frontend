@@ -63,7 +63,6 @@ socket.on('theme_voted', (themes) => {
 
 socket.on('all_players_voted', (votedTheme) => {
   state.votedTheme = votedTheme
-  console.log(votedTheme)
 })
 
 socket.on('validation_started', (validationTime) => {

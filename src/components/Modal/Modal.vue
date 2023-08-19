@@ -8,7 +8,8 @@ import { useResponsive } from 'composables/useResponsive'
 const props = defineProps({
   isOpen: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   },
   onClose: {
     type: Function,
@@ -17,6 +18,10 @@ const props = defineProps({
   title: {
     type: String,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'lg'
   }
 })
 
@@ -30,6 +35,14 @@ const { isDesktopAndUp } = useResponsive()
 const handleClose = () => {
   props.onClose()
   document.body.classList.toggle('no-scroll')
+}
+
+const MODAL_SIZE = {
+  auto: 'auto',
+  'fit-content': 'fit-content',
+  sm: '400px',
+  md: '600px',
+  lg: '1200px'
 }
 
 const ModalOverlay = styled.div`
@@ -46,7 +59,7 @@ const ModalInner = styled.div`
   top: 50%;
   left: 50%;
   width: 100%;
-  max-width: 1200px;
+  max-width: ${MODAL_SIZE[props.size]};
   transform: translate(-50%, -50%);
   background-color: var(--beige);
   border-color: solid 2px var(--black);

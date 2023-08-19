@@ -10,7 +10,7 @@ import { useResponsive } from 'composables/useResponsive'
 import Text from 'components/Text'
 
 const route = useRoute()
-const isRouteActive = (to) => route.name === to.name
+const isRouteActive = (to) => route.path.startsWith(to) || route.name.startsWith(to.name)
 const { isDesktopAndUp } = useResponsive()
 
 const Wrapper = styled.header`
@@ -88,21 +88,23 @@ const Logo = styled.img`
 
 <template>
   <Wrapper>
-    <Logo :src="headerLogo" alt="Logo" />
+    <RouterLink to="/home">
+      <Logo :src="headerLogo" alt="Logo" />
+    </RouterLink>
     <Nav>
-      <Link :to="{ name: 'home' }">
+      <Link to="/home">
         <img v-if="!isDesktopAndUp" :src="homeIcon" alt="Home" />
         <LinkText as="span">Home</LinkText>
       </Link>
-      <Link to="">
+      <Link to="/shop">
         <img v-if="!isDesktopAndUp" :src="shopIcon" alt="Shop" />
         <LinkText as="span">Shop</LinkText>
       </Link>
-      <Link :to="{ name: 'friends' }">
+      <Link to="/friends">
         <img v-if="!isDesktopAndUp" :src="friendsIcon" alt="Friends" />
         <LinkText as="span">Friends</LinkText>
       </Link>
-      <Link to="">
+      <Link to="/profile">
         <img v-if="!isDesktopAndUp" :src="profileIcon" alt="Profile" />
         <LinkText as="span">Profile</LinkText>
       </Link>
