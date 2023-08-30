@@ -10,7 +10,7 @@ import Text from 'components/Text'
 import Button from '../Button'
 import { useQuizzThemesQuery } from 'queries/quizzTheme/useQuizzThemesQuery'
 import InputCheckboxCard from 'components/InputCheckboxCard'
-import gameIcon from 'public/img/history-game.svg'
+import gameIcon from '/img/history-game.svg'
 
 const { data: quizzThemes } = useQuizzThemesQuery()
 const { handleSubmit, meta } = useForm({

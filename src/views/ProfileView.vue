@@ -2,32 +2,48 @@
 import styled from 'vue3-styled-components'
 import Text from 'components/Text'
 import { useUserQuery } from '@/queries/user/useUserQuery'
-import Stack from 'components/layout/Stack'
-import Cluster from 'components/layout/Cluster'
+import { useUserAchievementsQuery } from 'queries/achievement/useUserAchievementsQuery'
+import AchievementCard from 'components/AchievementCard'
+import { computed } from 'vue'
+import { useAchievementsQuery } from '@/queries/achievement/useAchievementsQuery'
+import Link from '@/components/Link'
 
+const { data: achievements } = useAchievementsQuery()
+const { data: userAchievements } = useUserAchievementsQuery()
 const { data: user } = useUserQuery()
+
+const userAchievementsUnlocked = computed(() =>
+  userAchievements.value?.achievements?.filter((achievement) => achievement.achieved === true)
+)
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding-bottom: 2rem;
+  row-gap: 2rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    padding: 1.5rem 2.5rem;
-    row-gap: 2rem;
+    padding-bottom: 2.5rem;
   }
 `
 const HeaderWrapper = styled.div`
   width: 100%;
-  padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+  padding-inline: 1rem;
+  padding-top: 2rem;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    padding-top: 2.5rem;
+    padding-inline: 1.5rem;
+  }
 `
 const Block = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   width: 100%;
-  padding: 1.5rem;
+  padding: 1rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     flex: 1;
@@ -48,12 +64,13 @@ const ResponsiveWrapper = styled.div`
   align-self: stretch;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  flex: 1;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     flex-direction: row;
     align-items: start;
     column-gap: 2rem;
+    padding-inline: 1.5rem;
   }
 `
 const InformationInnerWrapper = styled.div`
@@ -81,7 +98,37 @@ const InformationLine = styled.div`
     }
   }
 `
+const AchievementsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding-left: 1rem;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    padding-left: 1.5rem;
+  }
+`
+const AchievementsList = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  width: 100%;
+  overflow-x: auto;
+`
+const AchievementsTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  width: 100%;
+  padding-right: 1rem;
+  column-gap: 0.5rem;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    padding-right: 1.5rem;
+  }
+`
 </script>
+
 <template lang="">
   <Container>
     <HeaderWrapper>
@@ -105,6 +152,23 @@ const InformationLine = styled.div`
         </InformationInnerWrapper>
       </InformationWrapper>
     </ResponsiveWrapper>
+    <AchievementsWrapper>
+      <AchievementsTitleWrapper>
+        <Text variant="h4">My achievements</Text>
+        <Link :to="{ name: 'achievements' }">See all</Link>
+      </AchievementsTitleWrapper>
+      <AchievementsList v-if="userAchievementsUnlocked?.length > 0">
+        <AchievementCard
+          :as="Link"
+          :to="{ name: 'achievements' }"
+          v-for="achievement in userAchievementsUnlocked"
+          :key="achievement.id"
+          :label="achievements?.find((a) => a._id === achievement.id)?.label"
+          :description="achievements?.find((a) => a._id === achievement.id)?.description"
+          isUnlocked
+        /> </AchievementsList
+      ><Text v-else>No achievement unlocked yet</Text>
+    </AchievementsWrapper>
   </Container>
 </template>
 

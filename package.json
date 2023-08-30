@@ -24,6 +24,7 @@
     "vue": "^3.3.4",
     "vue-router": "^4.2.2",
     "vue3-styled-components": "^1.2.1",
+    "vue3-toastify": "^0.1.12",
     "vuetify": "^3.3.9",
     "yup": "^1.2.0"
   },

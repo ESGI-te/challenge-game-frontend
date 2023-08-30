@@ -14,7 +14,7 @@ import Text from 'components/Text'
 import Modal from 'components/Modal'
 import { ref } from 'vue'
 import { useResponsive } from 'composables/useResponsive'
-import usersIcon from 'public/icons/users.svg'
+import usersIcon from '/icons/users.svg'
 import LobbyPlayerList from 'components/LobbyPlayerList'
 import Cluster from 'components/layout/Cluster'
 
