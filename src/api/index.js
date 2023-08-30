@@ -177,3 +177,13 @@ export const getGameByCode = (code) =>
   callApi({
     url: `/games/${code}`
   })
+
+/* Achievements */
+export const getAchievements = () =>
+  callApi({
+    url: '/achievements'
+  })
+export const getUserAchievements = () =>
+  callApi({
+    url: '/user-achievements'
+  })

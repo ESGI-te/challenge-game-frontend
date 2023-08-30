@@ -2,7 +2,7 @@
 import styled from 'vue3-styled-components'
 import Text from '@/components/Text'
 import InputText from '@/components/InputText'
-import searchIcon from 'public/icons/search.svg'
+import searchIcon from '/icons/search.svg'
 import { RouterLink, useRoute } from 'vue-router'
 import { useResponsive } from 'composables/useResponsive'
 import Button from '@/components/Button'

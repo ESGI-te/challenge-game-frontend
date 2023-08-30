@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 import styled from 'vue3-styled-components'
 import { useUserQuery } from 'queries/user/useUserQuery'
 import socket, { state } from '@/websockets/lobby.ws'
-import gameIcon from 'public/img/history-game.svg'
+import gameIcon from '/img/history-game.svg'
 import Text from 'components/Text'
 
 const props = defineProps({

@@ -74,6 +74,12 @@ const routes = [
     component: () => import('views/HistoryView.vue')
   },
   {
+    path: '/achievements',
+    name: 'achievements',
+    meta: { layout: DefaultLayout },
+    component: () => import('views/AchievementsView.vue')
+  },
+  {
     path: '/game/:code',
     name: 'game',
     component: () => import('views/GameView.vue')

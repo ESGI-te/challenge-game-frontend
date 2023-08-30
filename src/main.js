@@ -14,6 +14,8 @@ import { fa } from 'vuetify/iconsets/fa'
 import { aliases, mdi } from 'vuetify/lib/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import Vue3Toasity from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const vuetify = createVuetify({
   icons: {
@@ -38,6 +40,11 @@ const queryClient = new QueryClient({
   }
 })
 
+app.use(Vue3Toasity, {
+  position: 'bottom-right',
+  autoClose: 3000,
+  toastClassName: 'toast'
+})
 app.use(vuetify)
 app.use(VueQueryPlugin, queryClient)
 app.use(pinia)

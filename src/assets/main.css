@@ -35,3 +35,8 @@ body.no-scroll {
 #app {
     width: 100vw;
 }
+
+.toast {
+    border: solid 2px var(--black);
+    background-color: var(--white);
+}

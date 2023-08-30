@@ -6,7 +6,7 @@ import { useForm } from 'vee-validate'
 import schema from './SearchGameForm.schema'
 import Button from 'components/Button'
 import styled from 'vue3-styled-components'
-import searchIcon from 'public/icons/search.svg'
+import searchIcon from '/icons/search.svg'
 import { queryKeys } from 'queries/queryKeys'
 import { useQueryClient } from '@tanstack/vue-query'
 

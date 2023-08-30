@@ -6,7 +6,8 @@ export const state = reactive({
   connected: false,
   error: null,
   gameInvitation: null,
-  userInvitation: null
+  userInvitation: null,
+  newAchievement: null
 })
 
 const URL = import.meta.env.VITE_WS_URL + WS_USERS_NAMESPACE
@@ -33,7 +34,11 @@ socket.on('receive_user_invitation', (username) => {
 
 socket.on('receive_game_invitation', (invitation) => {
   state.gameInvitation = invitation
-  console.log(invitation)
+})
+
+socket.on('achievement_unlocked', (achievementName) => {
+  state.newAchievement = achievementName
+  console.log(achievementName)
 })
 
 export default socket

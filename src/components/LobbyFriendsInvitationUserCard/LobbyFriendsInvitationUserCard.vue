@@ -1,6 +1,6 @@
 <script setup>
 import styled from 'vue3-styled-components'
-import avatarIcon from 'public/img/avatar-1.svg'
+import avatarIcon from '/img/avatar-1.svg'
 import Text from 'components/Text'
 import Button from 'components/Button'
 

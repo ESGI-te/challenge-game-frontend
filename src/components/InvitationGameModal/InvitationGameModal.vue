@@ -48,7 +48,7 @@ const Stack = styled.div`
 `
 </script>
 <template lang="">
-  <Modal :isOpen="!!state.gameInvitation" title="Someone want you to join his game">
+  <Modal :isOpen="!!state.gameInvitation === true" title="Someone want you to join his game">
     <Stack>
       <Text
         >{{ state.gameInvitation?.inviter?.username }} has send you an invitation. Do you want to
