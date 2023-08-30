@@ -1,7 +1,7 @@
 <script setup>
 import { Teleport, Transition, watchEffect } from 'vue'
 import styled from 'vue3-styled-components'
-import crossIcon from 'public/icons/cross.svg'
+import crossIcon from '/icons/cross.svg'
 import Text from 'components/Text'
 import { useResponsive } from 'composables/useResponsive'
 

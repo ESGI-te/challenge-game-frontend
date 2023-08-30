@@ -1,13 +1,14 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import friendsSocket from './websockets/friends.ws'
-import notificationSocket from './websockets/notification.ws'
+import notificationSocket, { state } from './websockets/notification.ws'
 import { watchEffect } from 'vue'
 import { useAuthStore } from './stores/auth.store'
 import { useUserQuery } from 'queries/user/useUserQuery'
 import { ThemeProvider } from 'vue3-styled-components'
 import theme from 'utils/theme'
 import InvitationGameModal from 'components/InvitationGameModal'
+import { toast } from 'vue3-toastify'
 import './assets/main.css'
 
 const authStore = useAuthStore()
@@ -24,6 +25,19 @@ watchEffect(() => {
   notificationSocket.auth = { token: authStore.token }
   friendsSocket.connect()
   notificationSocket.connect()
+})
+
+watchEffect(() => {
+  if (!state.newAchievement) return
+  toast(
+    `<strong>${state.newAchievement}</strong>\nCongratulations ! You have unlocked a new achievement !`,
+    {
+      hideProgressBar: true,
+      autoClose: 5000,
+      dangerouslyHTMLString: true
+    }
+  )
+  state.newAchievement = null
 })
 </script>
 

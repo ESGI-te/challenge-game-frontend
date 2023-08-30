@@ -1,6 +1,6 @@
 <script setup>
 import styled from 'vue3-styled-components'
-import logo from 'public/img/landing-logo.svg'
+import logo from '/img/landing-logo.svg'
 import Button from 'components/Button'
 import { RouterLink } from 'vue-router'
 

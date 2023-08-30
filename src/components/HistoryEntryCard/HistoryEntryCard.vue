@@ -1,9 +1,9 @@
 <script setup>
 import Text from '@/components/Text'
 import styled from 'vue3-styled-components'
-import gameIcon from 'public/img/history-game.svg'
-import scoreIcon from 'public/icons/score.svg'
-import rankIcon from 'public/icons/rank.svg'
+import gameIcon from '/img/history-game.svg'
+import scoreIcon from '/icons/score.svg'
+import rankIcon from '/icons/rank.svg'
 
 const props = defineProps({
   data: Object
@@ -35,7 +35,7 @@ const GameInfo = styled.div`
   flex-direction: column;
   width: 100%;
   flex-wrap: wrap;
-  row-gap : 0.3rem;
+  row-gap: 0.3rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     height: 5rem;
@@ -78,7 +78,6 @@ const row = styled.div`
   flex-direction: row;
   column-gap: 0.5rem;
 `
-
 </script>
 
 <template>

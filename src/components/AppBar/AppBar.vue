@@ -1,11 +1,11 @@
 <script setup>
 import styled from 'vue3-styled-components'
 import { RouterLink, useRoute } from 'vue-router'
-import headerLogo from 'public/img/header-logo.svg'
-import homeIcon from 'public/icons/home.svg'
-import profileIcon from 'public/icons/profile.svg'
-import friendsIcon from 'public/icons/friends.svg'
-import shopIcon from 'public/icons/shop.svg'
+import headerLogo from '/img/header-logo.svg'
+import homeIcon from '/icons/home.svg'
+import profileIcon from '/icons/profile.svg'
+import friendsIcon from '/icons/friends.svg'
+import shopIcon from '/icons/shop.svg'
 import { useResponsive } from 'composables/useResponsive'
 import Text from 'components/Text'
 

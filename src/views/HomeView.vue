@@ -1,8 +1,8 @@
 <script setup>
 import styled from 'vue3-styled-components'
-import logo from 'public/img/landing-logo.svg'
-import joinGameIllustration from 'public/img/home-join-game-illustration.svg'
-import createGameIllustration from 'public/img/home-create-game-illustration.svg'
+import logo from '/img/landing-logo.svg'
+import joinGameIllustration from '/img/home-join-game-illustration.svg'
+import createGameIllustration from '/img/home-create-game-illustration.svg'
 import Text from 'components/Text'
 import SearchGameForm from 'components/SearchGameForm'
 import Button from 'components/Button'
