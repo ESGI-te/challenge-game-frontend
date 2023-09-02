@@ -42,8 +42,7 @@ const queryClient = new QueryClient({
 
 app.use(Vue3Toasity, {
   position: 'bottom-right',
-  autoClose: 3000,
-  toastClassName: 'toast'
+  autoClose: 3000
 })
 app.use(vuetify)
 app.use(VueQueryPlugin, queryClient)
