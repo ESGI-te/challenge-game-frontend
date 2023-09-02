@@ -32,6 +32,7 @@ const JoinGameWrapper = styled.div`
   width: 100%;
   padding: 1rem 1.5rem;
   background-color: var(--blue);
+  overflow: hidden;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     column-gap: 0.5rem;

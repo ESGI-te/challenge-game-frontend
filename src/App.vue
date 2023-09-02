@@ -1,5 +1,5 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import friendsSocket from './websockets/friends.ws'
 import notificationSocket, { state } from './websockets/notification.ws'
 import { watchEffect } from 'vue'
@@ -13,6 +13,7 @@ import './assets/main.css'
 
 const authStore = useAuthStore()
 const { data: user } = useUserQuery()
+const router = useRouter()
 
 watchEffect(() => {
   if (!user.value) return
@@ -30,11 +31,15 @@ watchEffect(() => {
 watchEffect(() => {
   if (!state.newAchievement) return
   toast(
-    `<strong>${state.newAchievement}</strong>\nCongratulations ! You have unlocked a new achievement !`,
+    `<strong>${state.newAchievement}</strong>\n<p>Congratulations ! You have unlocked a new achievement !</p>`,
     {
       hideProgressBar: true,
       autoClose: 5000,
-      dangerouslyHTMLString: true
+      dangerouslyHTMLString: true,
+      icon: '🏆',
+      onClick: () => {
+        router.push({ name: 'achievements' })
+      }
     }
   )
   state.newAchievement = null

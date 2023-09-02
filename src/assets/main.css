@@ -8,6 +8,9 @@
     --white : #FFFFFF;
     --red : #EB4C37;
     --blue : #466D79;
+
+    --toastify-toast-width: 400px !important;
+
 }
 
 body{
@@ -36,7 +39,36 @@ body.no-scroll {
     width: 100vw;
 }
 
-.toast {
+/* Toastify styles */
+.Toastify__toast {
+    background-color: var(--white) !important;
     border: solid 2px var(--black);
-    background-color: var(--white);
+    color: var(--black) !important;
+    padding: 1rem !important;
+    border-radius: unset !important;
 }
+
+.Toastify__toast strong {
+    font-size: 1.1rem !important;
+    font-family: 'Dela Gothic One', cursive !important;
+    font-weight: 400 !important;
+    line-height: 34.75px !important;
+}
+
+.Toastify__toast [data-testid="toast-content"] > div {
+    display: flex !important;
+    flex-direction: column !important;
+    row-gap: 0.5rem !important;
+    flex: 1 !important;
+}
+
+.Toastify__toast-icon {
+    font-size: 2rem !important;
+}
+
+.Toastify__toast-body {
+    display: flex !important;
+    align-items: center !important;
+    column-gap: 1.5rem !important;
+}
+

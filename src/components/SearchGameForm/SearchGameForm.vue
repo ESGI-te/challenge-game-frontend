@@ -23,7 +23,10 @@ const onSubmit = handleSubmit(async () => {
   try {
     const lobbyData = await getLobbyByCode(values.code)
     queryClient.setQueryData(queryKeys.lobby.detail(values.code).queryKey, lobbyData)
-    router.push({ name: 'lobby', params: { code: lobbyData.invitation_code } })
+    router.push({
+      name: 'lobby',
+      params: { code: lobbyData.invitation_code, hasJoinByCode: true }
+    })
   } catch (error) {
     console.error('Error fetching lobby:', error)
   }
