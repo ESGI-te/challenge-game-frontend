@@ -26,7 +26,7 @@ const inProgress = computed(
 
 const Container = styled('div', props)`
   width: 100%;
-  max-width: 300px;
+  max-width: 350px;
   display: flex;
   align-items: center;
   column-gap: 1rem;
@@ -57,6 +57,12 @@ const Container = styled('div', props)`
     }
   `}
 `
+const Description = styled(Text)`
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,7 +79,7 @@ const Title = styled(Text)`
     <img src="/icons/achievement.svg" alt="achievement" />
     <TextWrapper>
       <Title>{{ props.label }}</Title>
-      <Text v-if="props.description">{{ props.description }}</Text>
+      <Description v-if="props.description">{{ props.description }}</Description>
       <Text v-if="inProgress && !isUnlocked" bold color="--blue">
         Progress: {{ props.progress.current }} / {{ props.progress.goal }}
       </Text>

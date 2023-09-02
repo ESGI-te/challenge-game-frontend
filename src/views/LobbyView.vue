@@ -21,6 +21,7 @@ import Cluster from 'components/layout/Cluster'
 const { currentRoute, replace } = useRouter()
 const { isDesktopAndUp } = useResponsive()
 const code = currentRoute.value.params.code
+const hasJoinByCode = currentRoute.value.params.hasJoinByCode
 const { data: lobby } = useLobbyByCodeQuery(code)
 const { data: user } = useUserQuery()
 const playersConnected = computed(
@@ -32,7 +33,7 @@ const isFriendsInvitationModalOpen = ref(false)
 
 onMounted(() => {
   if (!code) return
-  socket.io.opts.query = { code }
+  socket.io.opts.query = { code, hasJoinByCode }
   socket.connect()
 })
 
