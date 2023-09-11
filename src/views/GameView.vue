@@ -42,7 +42,9 @@ je dois refresh avant d'avoir l'affichage de mes question et de mon temps
           <label :for="`checkbox${index}`">{{ proposition }}</label>
         </div>
       </div>
-      <button @click="submitAnswer" :disabled="isAnswered">Valider</button>
+      <button @click="submitAnswer" :disabled="isAnswered" :class="{ answered: isAnswered }">
+        {{ isAnswered ? 'Réponse envoyée!' : 'Valider' }}
+      </button>
     </div>
     <div v-else>
       <h2>Le jeu est terminé !</h2>
@@ -155,10 +157,12 @@ onMounted(() => {
 
   socket.on('question', (question) => {
     console.log('Received question from socket: ', question)
+
     if (question) {
       game.currentQuestion = question
       game.remainingTime = question.remainingTime
       isAnswered.value = false
+
       if (question.remainingTime === null) {
         console.log('Remaining time is null, requesting remaining time from server...')
         socket.emit('request_remaining_time', {
@@ -189,6 +193,11 @@ onMounted(() => {
     game.remainingTime = remainingTime
   })
 })
+
+socket.on('error', (error) => {
+  console.error('Socket Error:', error)
+})
+
 const handleLeaveLobby = () => {
   socket.disconnect()
   replace({ name: 'home' })
@@ -285,6 +294,10 @@ button {
   height: 25px;
   width: 25px;
   margin-right: 5px;
+}
+button.answered {
+  background-color: #88c9a7;
+  cursor: default;
 }
 .current-question {
   margin-bottom: 20px;
