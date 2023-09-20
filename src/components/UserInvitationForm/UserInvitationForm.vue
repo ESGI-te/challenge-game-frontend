@@ -5,6 +5,12 @@ import { ref } from 'vue'
 import { useInviteUserMutation } from 'queries/userInvitation/useInviteUserMutation'
 import styled from 'vue3-styled-components'
 
+const props = defineProps({
+  onCloseModal: {
+    type: Function,
+    required: true
+  }
+})
 const username = ref('')
 const inviteUser = useInviteUserMutation()
 
@@ -12,6 +18,7 @@ const sendInvitation = () => {
   inviteUser.mutate(username.value, {
     onSuccess: () => {
       username.value = ''
+      props.onCloseModal()
     }
   })
 }
@@ -39,7 +46,12 @@ const AddButton = styled(Button)`
 
 <template>
   <Form @submit.prevent="sendInvitation">
-    <AddInput :disabled="isLoading" v-model="username" placeholder="username" type="text" />
-    <AddButton :disabled="isLoading" type="submit">Search</AddButton>
+    <AddInput
+      :disabled="inviteUser.isLoading"
+      v-model="username"
+      placeholder="username"
+      type="text"
+    />
+    <AddButton :disabled="inviteUser.isLoading" type="submit">Search</AddButton>
   </Form>
 </template>

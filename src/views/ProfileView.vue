@@ -44,9 +44,9 @@ const Block = styled.div`
   row-gap: 1rem;
   width: 100%;
   padding: 1rem;
+  flex: 1;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    flex: 1;
     height: 100%;
     border: 2px solid var(--black);
     padding: 2.5rem;
