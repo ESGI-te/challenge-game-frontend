@@ -26,6 +26,7 @@ const inProgress = computed(
 
 const Container = styled('div', props)`
   width: 100%;
+  align-self: stretch;
   max-width: 350px;
   display: flex;
   align-items: center;
@@ -58,10 +59,14 @@ const Container = styled('div', props)`
   `}
 `
 const Description = styled(Text)`
-  width: auto;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 180px;
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    max-width: 100%;
+  }
 `
 const TextWrapper = styled.div`
   display: flex;
