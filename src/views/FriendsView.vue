@@ -115,7 +115,7 @@ const Link = styled(RouterLink)`
     :isOpen="isAddFriendModalOpen"
     title="Invite a friend"
   >
-    <UserInvitationForm />
+    <UserInvitationForm :onCloseModal="closeAddFriendModal" />
   </Modal>
 </template>
 
