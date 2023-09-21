@@ -1,4 +1,3 @@
-je dois refresh avant d'avoir l'affichage de mes question et de mon temps
 <template>
   <div class="game-view">
     <h1 v-if="game.data">{{ game.data.name }}</h1>
@@ -65,7 +64,7 @@ je dois refresh avant d'avoir l'affichage de mes question et de mon temps
                 online: player.status === 'En ligne',
                 offline: player.status !== 'En ligne'
               }"
-              >{{ 'En ligne' }}</span
+              >{{ player.status }}</span
             >
           </p>
           <div class="lives">
@@ -92,18 +91,18 @@ import { useGameByCodeQuery } from 'queries/game/useGameByCodeQuery'
 import socket from '@/websockets/game.ws'
 import { state as socketState } from '@/websockets/game.ws'
 import { ref } from 'vue'
+
 const isAnswered = ref(false)
 const timeBarWidth = ref('100%')
 const { currentRoute, replace } = useRouter()
 const code = currentRoute.value.params.code
-const game = reactive({ data: {}, currentQuestion: {}, remainingTime: 0 })
+const game = reactive({ data: {}, currentQuestion: {}, remainingTime: null })
 const { data: gameData } = useGameByCodeQuery(code)
 const selectedProposition = ref(null)
 const handleCheckboxChange = () => {}
 const updateSelectedProposition = (index) => {
   const clickedProposition = game.currentQuestion.propositions[index]
 
-  // Check if the clicked proposition is already selected
   if (selectedProposition.value === clickedProposition) {
     selectedProposition.value = null
   } else {
@@ -207,6 +206,7 @@ onUnmounted(() => {
   socket.disconnect()
 })
 </script>
+
 <style scoped>
 .question-info {
   display: flex;
