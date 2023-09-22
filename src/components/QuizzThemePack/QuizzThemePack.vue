@@ -9,6 +9,7 @@ import { defineProps, computed } from 'vue'
 
 const props = defineProps({
   themePack : Object,
+  isOwned : Boolean
 })
 
 console.log(props.themePack);
@@ -40,29 +41,29 @@ const handlePayment = () => {
   })
 }
 
-
-const Wrapper = styled.div`
-  width: 100%;
-  max-width : 550px
-  display: flex;
-  flex-direction: column;
-  border: 1px solid;
-`
-
-const Card = styled.div`
+const Card = styled('div', props)`
   width: 100%;
   height: 100%;
   display: flex;
+  max-width : 550px
   flex-direction: column;
   border: 2px solid var(--black);
   background: center / contain no-repeat url('/img/themepack-illustration.png'), var(--white);
   padding: 1rem 2.5rem;
   gap: 0.5rem;
+
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
+
+  ${({ isOwned }) => isOwned && `
+    opacity: 0.8;
+    pointer-events: none;
+    background-color: lightgrey;
+  `}
+
 `
 
 const InnerBox = styled.div`
@@ -80,8 +81,7 @@ const BuyButton = styled(Button)`
 </script>
 
 <template>
-  <Wrapper>
-    <Card class="card">
+    <Card :isOwned="props.isOwned">
       <InnerBox>
         <Text variant="h4">
           <b>{{ props.themePack.name }}</b>
@@ -90,10 +90,9 @@ const BuyButton = styled(Button)`
           <b> {{ computedPrice }}$</b>
         </Text>
       </InnerBox>
-
-      <BuyButton bgColor="--yellow" @Click="handlePayment" :disabled="isLoading">
-        <Text variant="p"> <b>Acheter</b> </Text>
+      <Text color="--primary" v-if="props.isOwned" bold>owned</Text>
+      <BuyButton v-else bgColor="--yellow" @Click="handlePayment" :disabled="isLoading">
+        <Text variant="p"> <b>Buy</b> </Text>
       </BuyButton>
     </Card>
-  </Wrapper>
 </template>

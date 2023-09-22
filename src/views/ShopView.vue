@@ -35,7 +35,6 @@ const SearchInput = styled(InputText)`
   }
 `
 
-
 </script>
 
 <template>
