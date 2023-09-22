@@ -19,5 +19,8 @@ export default defineConfig({
       api: fileURLToPath(new URL('./src/api', import.meta.url)),
       stores: fileURLToPath(new URL('./src/stores', import.meta.url))
     }
+  },
+  build: {
+    target: 'esnext'
   }
 })
