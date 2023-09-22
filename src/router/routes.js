@@ -29,6 +29,12 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/shop',
+    name: 'shop',
+    meta: { layout: DefaultLayout },
+    component: () => import('views/ShopView.vue')
+  },
+  {
     path: '/profile',
     name: 'profile',
     meta: { layout: DefaultLayout },
@@ -110,7 +116,19 @@ const routes = [
         component: () => import('components/UserFriendsList')
       }
     ]
-  }
+  },
+  {
+    path: '/payment/succes',
+    name: 'payment_succes',
+    meta: { layout: DefaultLayout },
+    component: () => import('views/PaymentSuccesView.vue')
+  },
+  {
+    path: '/payment/cancel',
+    name: 'payment_cancel',
+    meta: { layout: DefaultLayout },
+    component: () => import('views/PaymentCancelView.vue')
+  },
 ]
 
 export default routes
