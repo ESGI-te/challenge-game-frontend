@@ -45,15 +45,27 @@
         {{ isAnswered ? 'Réponse envoyée!' : 'Valider' }}
       </button>
     </div>
-    <div v-else>
-      <h2>Le jeu est terminé !</h2>
+    <div v-if="isModalVisible" class="modal">
+      <div class="modal-content">
+        <h3>Winners:</h3>
+        <ul>
+          <li v-for="winner in winners" :key="winner.id">
+            {{ winner.username }} - {{ winner.score }} points
+          </li>
+        </ul>
+        <button @click="closeModal">Close</button>
+      </div>
     </div>
-    <div class="players" v-if="game.data" v-show="isPlayerColumnVisible">
+    <div class="players" v-if="game.data" v-show="isPlayerColumnVisible" :key="refreshKey">
       <div class="playerBoard">
         <h2>Joueurs</h2>
         <h2>({{ game.data.players?.length }})</h2>
       </div>
-      <div class="player-card" v-for="player in game.data.players" :key="player.id">
+      <div
+        class="player-card"
+        v-for="player in game.data.players"
+        :key="player.id + player.score + player.lives"
+      >
         <img src="../../public/img/avatar-1.svg" alt="Player Image" class="player-image" />
         <div class="player-info">
           <h3>{{ player.username }}</h3>
@@ -88,10 +100,15 @@ import styled from 'vue3-styled-components'
 import { onMounted, onUnmounted, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGameByCodeQuery } from 'queries/game/useGameByCodeQuery'
-import socket from '@/websockets/game.ws'
+import socket, { refreshSocketConnection } from '@/websockets/game.ws'
 import { state as socketState } from '@/websockets/game.ws'
 import { ref } from 'vue'
+import { getCurrentInstance } from 'vue'
+const { forceUpdate } = getCurrentInstance()
 
+const refreshKey = ref(0)
+const winners = ref([])
+const isModalVisible = ref(false)
 const isAnswered = ref(false)
 const timeBarWidth = ref('100%')
 const { currentRoute, replace } = useRouter()
@@ -129,7 +146,15 @@ const submitAnswer = () => {
     console.log(selectedProposition.value)
   }
 }
-
+socket.on('game_over', (winnersData) => {
+  game.currentQuestion = null
+  winners.value = winnersData
+  isModalVisible.value = true
+  console.log('Game has ended. Winners:', winnersData)
+})
+const closeModal = () => {
+  isModalVisible.value = false
+}
 watchEffect(() => {
   if (gameData.value) {
     Object.assign(game.data, gameData.value)
@@ -181,15 +206,35 @@ onMounted(() => {
   socket.on('score_updated', (updatedScore) => {
     game.data.players = game.data.players.map((player) => {
       if (player.id === updatedScore.playerId) {
-        player.score = updatedScore.score
+        return {
+          ...player,
+          score: updatedScore.score
+        }
       }
       return player
     })
+    console.log('Updated players:', game.data.players)
+    refreshKey.value++
+    forceUpdate()
   })
+
+  let remainingTimeRetryCount = 0
 
   socket.on('remaining_time', (remainingTime) => {
     console.log('Received remaining time from socket: ', remainingTime)
-    game.remainingTime = remainingTime
+
+    if (remainingTime === null) {
+      console.log('Received null for remaining time, requesting again...')
+      if (remainingTimeRetryCount < 3) {
+        remainingTimeRetryCount++
+        refreshSocketConnection()
+      } else {
+        console.log('Failed to get remaining time after several retries. Please handle this case.')
+      }
+    } else {
+      game.remainingTime = remainingTime
+      remainingTimeRetryCount = 0
+    }
   })
 })
 
@@ -402,7 +447,57 @@ button.answered {
 
   .players {
     flex: 1;
+    margin-top: 0.2rem;
     max-width: 40%;
+  }
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+}
+.modal-content button {
+  display: block;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
+}
+.modal-content button:hover {
+  background-color: #1976d2;
+}
+.modal-content ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+  }
+}
+@media (min-width: 769px) {
+  .modal-content {
+    width: 50%;
+    max-width: 600px;
   }
 }
 </style>
