@@ -61,6 +61,10 @@ export const getQuizzThemes = () =>
   callApi({
     url: '/quizz-themes'
   })
+export const getQuizzThemesPack = () =>
+  callApi({
+    url: '/quizz-themes-packs'
+  })
 export const getQuizzTheme = (quizzThemeId) =>
   callApi({
     url: `/quizzs/${quizzThemeId}`
@@ -186,4 +190,32 @@ export const getAchievements = () =>
 export const getUserAchievements = () =>
   callApi({
     url: '/user-achievements'
+  })
+
+// Payment chekout
+export const createStripeCheckoutSession = (product) =>
+  callApi({
+    url: '/payment/checkout',
+    method: 'POST',
+    data: product
+  })
+
+
+// Inventory
+export const updateInventory = ({sessionId,itemType}) =>
+  callApi({
+    url: `/payment/update-inventory?session_id=${sessionId}&item_type=${itemType}`,
+    method: 'POST'
+  })
+
+export const getInventory = (inventoryId) =>
+  callApi({
+    url: `/inventory/${inventoryId}`,
+    method: 'GET'
+  })
+
+export const getCheckout = (checkoutId) =>
+  callApi({
+    url: `/payment/checkout/${checkoutId}`,
+    method: 'GET'
   })
