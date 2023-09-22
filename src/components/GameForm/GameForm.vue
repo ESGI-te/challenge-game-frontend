@@ -8,11 +8,13 @@ import styled from 'vue3-styled-components'
 import InputRadio from 'components/InputRadio'
 import Text from 'components/Text'
 import Button from '../Button'
-import { useQuizzThemesQuery } from 'queries/quizzTheme/useQuizzThemesQuery'
 import InputCheckboxCard from 'components/InputCheckboxCard'
 import gameIcon from '/img/history-game.svg'
+import { getRandomColor } from '@/utils/helpers'
+import { useInventoryThemesQuery } from '@/queries/inventory/useInventoryThemesQuery'
 
-const { data: quizzThemes } = useQuizzThemesQuery()
+const { data: quizzThemes } = useInventoryThemesQuery()
+
 const { handleSubmit, meta } = useForm({
   initialValues: {
     playersMax: 5,
@@ -32,12 +34,6 @@ const onSubmit = handleSubmit((values) => {
   })
 })
 
-const inputCheckboxBgColors = [' --yellow', ' --primary', '--blue']
-
-const getCheckboxColor = (index) => {
-  const colorIndex = index % inputCheckboxBgColors.length
-  return inputCheckboxBgColors[colorIndex]
-}
 
 const Form = styled.form`
   display: flex;
@@ -153,15 +149,8 @@ const RadioButton = styled(InputRadio)`
       <ThemeWrapper>
         <Text>Themes</Text>
         <Themes>
-          <CheckboxCard
-            v-for="(theme, i) in quizzThemes"
-            name="themes"
-            :value="theme._id"
-            :key="theme._id"
-            :color="getCheckboxColor(i)"
-            :icon="gameIcon"
-            ><Text color="--white" bold>{{ theme.name }}</Text></CheckboxCard
-          >
+          <CheckboxCard v-for="(theme, i) in quizzThemes" name="themes" :value="theme._id" :key="theme._id"
+            :color="getRandomColor(i)" :icon="gameIcon"><Text color="--white" bold>{{ theme.name }}</Text></CheckboxCard>
         </Themes>
       </ThemeWrapper>
     </InnerWrapper>
