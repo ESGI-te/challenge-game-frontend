@@ -52,25 +52,18 @@ const Block = styled.div`
     padding: 2.5rem;
   }
 `
-const AvatarWrapper = styled(Block)`
-  background-color: var(--yellow);
-`
-const InformationWrapper = styled(Block)`
+const InformationOuterWrapper = styled(Block)`
   background-color: var(--blue);
   background-image: url('/img/pen.png');
 `
-const ResponsiveWrapper = styled.div`
-  display: flex;
-  align-self: stretch;
-  flex-direction: column;
+const InformationWrapper = styled.div`
   width: 100%;
   flex: 1;
-
+  
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    flex-direction: row;
-    align-items: start;
-    column-gap: 2rem;
     padding-inline: 1.5rem;
+    flex: none;
+    max-width: 800px;
   }
 `
 const InformationInnerWrapper = styled.div`
@@ -101,11 +94,11 @@ const InformationLine = styled.div`
 const AchievementsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 2rem;
   padding-left: 1rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    padding-left: 1.5rem;
+    padding: 1.5rem;
   }
 `
 const AchievementsList = styled.div`
@@ -114,6 +107,12 @@ const AchievementsList = styled.div`
   column-gap: 0.5rem;
   width: 100%;
   overflow-x: auto;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    flex-wrap: wrap;
+    overflow-x: unset;
+    gap: 1rem;
+  }
 `
 const AchievementsTitleWrapper = styled.div`
   display: flex;
@@ -129,16 +128,13 @@ const AchievementsTitleWrapper = styled.div`
 `
 </script>
 
-<template lang="">
+<template>
   <Container>
     <HeaderWrapper>
       <Text variant="h3">Profile</Text>
     </HeaderWrapper>
-    <ResponsiveWrapper>
-      <AvatarWrapper>
-        <Text variant="h4">Avatar</Text>
-      </AvatarWrapper>
-      <InformationWrapper>
+    <InformationWrapper>
+      <InformationOuterWrapper>
         <Text color="--white" variant="h4">Information</Text>
         <InformationInnerWrapper>
           <InformationLine>
@@ -150,24 +146,18 @@ const AchievementsTitleWrapper = styled.div`
             <Text color="--white" variant="p">{{ user?.email }}</Text>
           </InformationLine>
         </InformationInnerWrapper>
-      </InformationWrapper>
-    </ResponsiveWrapper>
+      </InformationOuterWrapper>
+    </InformationWrapper>
     <AchievementsWrapper>
       <AchievementsTitleWrapper>
         <Text variant="h4">My achievements</Text>
         <Link :to="{ name: 'achievements' }">See all</Link>
       </AchievementsTitleWrapper>
       <AchievementsList v-if="userAchievementsUnlocked?.length > 0">
-        <AchievementCard
-          :as="Link"
-          :to="{ name: 'achievements' }"
-          v-for="achievement in userAchievementsUnlocked"
-          :key="achievement.id"
-          :label="achievements?.find((a) => a._id === achievement.id)?.label"
-          :description="achievements?.find((a) => a._id === achievement.id)?.description"
-          isUnlocked
-        /> </AchievementsList
-      ><Text v-else>No achievement unlocked yet</Text>
+        <AchievementCard :as="Link" :to="{ name: 'achievements' }" v-for="achievement in userAchievementsUnlocked"
+          :key="achievement.id" :label="achievements?.find((a) => a._id === achievement.id)?.label"
+          :description="achievements?.find((a) => a._id === achievement.id)?.description" isUnlocked />
+      </AchievementsList><Text v-else>No achievement unlocked yet</Text>
     </AchievementsWrapper>
   </Container>
 </template>

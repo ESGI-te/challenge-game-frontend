@@ -200,22 +200,23 @@ export const createStripeCheckoutSession = (product) =>
     data: product
   })
 
-
 // Inventory
-export const updateInventory = ({sessionId,itemType}) =>
+export const updateInventory = ({ sessionId, itemType }) =>
   callApi({
     url: `/payment/update-inventory?session_id=${sessionId}&item_type=${itemType}`,
     method: 'POST'
   })
 
-export const getInventory = (inventoryId) =>
+export const getInventoryThemes = () =>
   callApi({
-    url: `/inventory/${inventoryId}`,
-    method: 'GET'
+    url: '/inventory/themes'
+  })
+export const getInventoryThemePacks = () =>
+  callApi({
+    url: '/inventory/theme-packs'
   })
 
 export const getCheckout = (checkoutId) =>
   callApi({
-    url: `/payment/checkout/${checkoutId}`,
-    method: 'GET'
+    url: `/payment/checkout/${checkoutId}`
   })
