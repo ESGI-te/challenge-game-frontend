@@ -6,10 +6,12 @@ import { userInvitationKeys } from './userInvitation/userInvitationKeys'
 import { userFriendsKeys } from './userFriends/userFriendsKeys'
 import { gameInvitationKeys } from './gameInvitation/gameInvitationKeys'
 import { quizzThemeKeys } from './quizzTheme/quizzThemeKeys'
+import { quizzThemePackKeys } from './quizzThemePack/quizzThemePackKeys'
 import { historyKeys } from './history/historykeys'
 import { statsKeys } from './stats/statsKeys'
 import { quizzKeys } from './quizz/quizzKeys'
 import { achievementKeys } from './achievement/achievementKeys'
+import { inventoryKeys } from './inventory/inventoryKeys'
 
 export const queryKeys = mergeQueryKeys(
   userKeys,
@@ -19,8 +21,10 @@ export const queryKeys = mergeQueryKeys(
   userFriendsKeys,
   gameInvitationKeys,
   quizzThemeKeys,
+  quizzThemePackKeys,
   historyKeys,
   statsKeys,
   quizzKeys,
-  achievementKeys
+  achievementKeys,
+  inventoryKeys
 )
