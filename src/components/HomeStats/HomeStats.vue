@@ -1,11 +1,11 @@
 <script setup>
 import styled from 'vue3-styled-components'
-import { useStatsQuery } from 'queries/stats/useStatsQuery'
+import { useAverageGameStatsQuery } from 'queries/gameStats/useAverageGameStatsQuery'
 import StatsCard from 'components/StatsCard'
 import Text from 'components/Text'
 
-const { data: weeklyStats } = useStatsQuery(7)
-const { data: monthlyStats } = useStatsQuery(30)
+const { data: weeklyStats } = useAverageGameStatsQuery(7)
+const { data: monthlyStats } = useAverageGameStatsQuery(30)
 
 const Wrapper = styled.div`
   width: 100%;

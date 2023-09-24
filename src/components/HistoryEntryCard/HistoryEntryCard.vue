@@ -4,6 +4,7 @@ import styled from 'vue3-styled-components'
 import gameIcon from '/img/history-game.svg'
 import scoreIcon from '/icons/score.svg'
 import rankIcon from '/icons/rank.svg'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   data: Object
@@ -18,6 +19,8 @@ const formatDate = (dateString) => {
   return `${month}/${day} - ${hour}h:${minute}`
 }
 
+const router = useRouter()
+
 const Card = styled.div`
   height: 6.5rem;
   width: 100%;
@@ -29,6 +32,7 @@ const Card = styled.div`
   gap: 1.5rem;
   border: 2px solid #000;
   background: var(--white);
+  cursor: pointer;
 `
 const GameInfo = styled.div`
   display: flex;
@@ -57,7 +61,7 @@ const GameIcon = styled.img`
   background: var(--black, #111);
 `
 
-const Icone = styled.img`
+const Icon = styled.img`
   width: 1.5rem;
   height: 1.5rem;
 `
@@ -81,17 +85,25 @@ const row = styled.div`
 </script>
 
 <template>
-  <Card>
+  <Card
+    @click="
+      router.push({
+        name: 'game-stats',
+        params: { gameCode: data.code },
+        state: { gameStatsId: data.gameStatsId }
+      })
+    "
+  >
     <GameIcon :src="gameIcon" />
     <GameInfo>
-      <Text variant="h4"> Game : {{ formatDate(data.createdAt) }} </Text>
+      <Text variant="h5"> Game : {{ formatDate(data.createdAt) }} </Text>
       <Wrapper>
         <row>
-          <Icone :src="rankIcon"></Icone>
+          <Icon :src="rankIcon"></Icon>
           <Text variant="p"> Rank : {{ data.rank }} </Text>
         </row>
         <row>
-          <Icone :src="scoreIcon"></Icone>
+          <Icon :src="scoreIcon"></Icon>
           <Text variant="p"> Score : {{ data.score }} </Text>
         </row>
       </Wrapper>

@@ -31,7 +31,6 @@ const handlePayment = () => {
   }
   createCheckoutSession(theme, {
     onSuccess: (session) => {
-      console.log(session);
       stripe.redirectToCheckout({ sessionId: session.id })
     }
   })
@@ -66,7 +65,6 @@ const Box = styled.button`
   `}
 `
 
-console.log(props.isOwned)
 </script>
 
 <template>

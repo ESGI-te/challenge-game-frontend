@@ -1,9 +1,9 @@
 <script setup>
 import InputText from '@/components/InputText'
 import Button from '@/components/Button'
-import { ref } from 'vue'
 import { useInviteUserMutation } from 'queries/userInvitation/useInviteUserMutation'
 import styled from 'vue3-styled-components'
+import { useForm } from 'vee-validate'
 
 const props = defineProps({
   onCloseModal: {
@@ -11,17 +11,22 @@ const props = defineProps({
     required: true
   }
 })
-const username = ref('')
+
+const { handleSubmit, meta, resetForm } = useForm({
+  initialValues: {
+    username: ''
+  }
+})
 const inviteUser = useInviteUserMutation()
 
-const sendInvitation = () => {
-  inviteUser.mutate(username.value, {
+const onSubmit = handleSubmit(({ username }) => {
+  inviteUser.mutate(username, {
     onSuccess: () => {
-      username.value = ''
+      resetForm()
       props.onCloseModal()
     }
   })
-}
+})
 
 const AddInput = styled(InputText)`
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
@@ -45,13 +50,14 @@ const AddButton = styled(Button)`
 </script>
 
 <template>
-  <Form @submit.prevent="sendInvitation">
+  <Form @submit.prevent="onSubmit">
     <AddInput
       :disabled="inviteUser.isLoading"
-      v-model="username"
+      :value="username"
       placeholder="username"
       type="text"
+      name="username"
     />
-    <AddButton :disabled="inviteUser.isLoading" type="submit">Search</AddButton>
+    <AddButton :disabled="!meta.dirty || !meta.valid" type="submit">Search</AddButton>
   </Form>
 </template>

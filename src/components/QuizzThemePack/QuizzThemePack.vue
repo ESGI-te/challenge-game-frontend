@@ -8,48 +8,43 @@ import Button from '../Button'
 import { defineProps, computed } from 'vue'
 
 const props = defineProps({
-  themePack : Object,
-  isOwned : Boolean
+  themePack: Object,
+  isOwned: Boolean
 })
-
-console.log(props.themePack);
 
 const computedPrice = computed(() => {
   return props.themePack.price / 100
 })
-
-
 const SUCCESS_URL = `http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=themepack`;
 const CANCEL_URL = 'http://localhost:5173/payment/cancel';
-
 const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
 
 const handlePayment = () => {
   if (!props.themePack) return;
   const themePack = {
     ...props.themePack,
-    itemType : "thempack", 
-    quantity : 1,
+    itemType: "thempack",
+    quantity: 1,
     successUrl: SUCCESS_URL,
     cancelUrl: CANCEL_URL
   }
   createCheckoutSession(themePack, {
     onSuccess: (session) => {
-      console.log(session);
       stripe.redirectToCheckout({ sessionId: session.id })
     }
   })
 }
 
 const Card = styled('div', props)`
+  max-width: 700px;
   width: 100%;
-  height: 100%;
+  height: 8rem;
   display: flex;
   max-width : 550px
   flex-direction: column;
   border: 2px solid var(--black);
   background: center / contain no-repeat url('/img/themepack-illustration.png'), var(--white);
-  padding: 1rem 2.5rem;
+  padding: 1rem;
   gap: 0.5rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
@@ -81,18 +76,18 @@ const BuyButton = styled(Button)`
 </script>
 
 <template>
-    <Card :isOwned="props.isOwned">
-      <InnerBox>
-        <Text variant="h4">
-          <b>{{ props.themePack.name }}</b>
-        </Text>
-        <Text variant="h4">
-          <b> {{ computedPrice }}$</b>
-        </Text>
-      </InnerBox>
-      <Text color="--primary" v-if="props.isOwned" bold>owned</Text>
-      <BuyButton v-else bgColor="--yellow" @Click="handlePayment" :disabled="isLoading">
-        <Text variant="p"> <b>Buy</b> </Text>
-      </BuyButton>
-    </Card>
+  <Card :isOwned="props.isOwned">
+    <InnerBox>
+      <Text variant="h4">
+        <b>{{ props.themePack.name }}</b>
+      </Text>
+      <Text variant="h4">
+        <b> {{ computedPrice }}$</b>
+      </Text>
+    </InnerBox>
+    <Text color="--primary" v-if="props.isOwned" bold>owned</Text>
+    <BuyButton v-else bgColor="--yellow" @Click="handlePayment" :disabled="isLoading">
+      <Text variant="p"> <b>Buy</b> </Text>
+    </BuyButton>
+  </Card>
 </template>

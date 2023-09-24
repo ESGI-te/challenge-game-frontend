@@ -50,16 +50,13 @@ export const createLobby = (formData) =>
   })
 
 /* Quizz Theme */
-// export const getQuizzThemes = (ids) => {
-//   const params = new URLSearchParams()
-//   params.append('ids', ids.join(','))
-//   return callApi({
-//     url: `/quizz-themes/search?${params.toString()}`
-//   })
-// }
 export const getQuizzThemes = () =>
   callApi({
     url: '/quizz-themes'
+  })
+export const getPublicQuizzThemes = () =>
+  callApi({
+    url: '/quizz-themes/public'
   })
 export const getQuizzThemesPack = () =>
   callApi({
@@ -67,7 +64,7 @@ export const getQuizzThemesPack = () =>
   })
 export const getQuizzTheme = (quizzThemeId) =>
   callApi({
-    url: `/quizzs/${quizzThemeId}`
+    url: `/quizz-themes/${quizzThemeId}`
   })
 export const createQuizzTheme = (data) =>
   callApi({
@@ -171,11 +168,15 @@ export const getHistory = () =>
   })
 export const getHistoryLastEntries = () =>
   callApi({
-    url: '/history/stats/last-entries'
+    url: '/history/last-entries'
   })
-export const getStatsAverage = (days) =>
+export const getGameStatsAverage = (days) =>
   callApi({
-    url: `/stats/average?days=${days}`
+    url: `/game-stats/average?days=${days}`
+  })
+export const getGameStats = (gameStatsId) =>
+  callApi({
+    url: `/game-stats/${gameStatsId}`
   })
 export const getGameByCode = (code) =>
   callApi({

@@ -3,7 +3,7 @@ import { computed, onMounted, onUnmounted } from 'vue'
 import LobbyChat from 'components/LobbyChat'
 import { useRouter } from 'vue-router'
 import LobbyFriendsInvitation from 'components/LobbyFriendsInvitation'
-import socket, { state } from '@/websockets/lobby.ws'
+import socket, { clearLobbySocketState, state } from '@/websockets/lobby.ws'
 import { useLobbyByCodeQuery } from 'queries/lobby/useLobbyByCodeQuery'
 import LobbyQuizzThemeVote from 'components/LobbyQuizzThemeVote'
 import { useUserQuery } from 'queries/user/useUserQuery'
@@ -38,7 +38,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  socket.disconnect()
+  socket.disconnect();
+  clearLobbySocketState();
 })
 
 const onOpenFriendsInvitationModal = () => {
@@ -54,13 +55,12 @@ const startValidation = () => {
 }
 
 const handleLeaveLobby = () => {
-  socket.disconnect()
-  replace({ name: 'home' })
+  socket.disconnect();
+  replace({ name: 'home' });
 }
 
 socket.on('game_created', (gameCode) => {
-  console.log(gameCode)
-  replace({ name: 'game', params: { code: gameCode } })
+  replace({ name: 'game', params: { code: gameCode } });
 })
 
 const LeaveButton = styled(Button)`
@@ -183,12 +183,12 @@ const ChatWrapper = styled.div`
     </ThemesWrapper>
     <PlayersChatWrapper>
       <PlayersWrapper>
-        <Cluster gap="0.5rem" align="center" justify="space-between"
-          ><Text variant="h3">Players</Text>
+        <Cluster gap="0.5rem" align="center" justify="space-between"><Text variant="h3">Players</Text>
           <PlayersConnected>
             <Text variant="h4">{{ playersConnected }}</Text>
-            <img :src="usersIcon" alt="users icon" /> </PlayersConnected
-        ></Cluster>
+            <img :src="usersIcon" alt="users icon" />
+          </PlayersConnected>
+        </Cluster>
 
         <LobbyPlayerList />
       </PlayersWrapper>
@@ -197,18 +197,12 @@ const ChatWrapper = styled.div`
       </ChatWrapper>
     </PlayersChatWrapper>
     <StartGameButtonWrapper>
-      <StartGameButton v-if="isOwner" :disabled="!votedTheme" @click="startValidation"
-        >Start game</StartGameButton
-      >
+      <StartGameButton v-if="isOwner" :disabled="!votedTheme" @click="startValidation">Start game</StartGameButton>
     </StartGameButtonWrapper>
     <Modal :isOpen="state.isValidationInProgress" title="Are you ready?">
       <LobbyValidation :isOwner="isOwner" :lobbyId="lobby.id" />
     </Modal>
-    <Modal
-      :isOpen="isFriendsInvitationModalOpen"
-      :onClose="onCloseFriendsInvitationModal"
-      title="Invite friends"
-    >
+    <Modal :isOpen="isFriendsInvitationModalOpen" :onClose="onCloseFriendsInvitationModal" title="Invite friends">
       <LobbyFriendsInvitation />
     </Modal>
   </Container>

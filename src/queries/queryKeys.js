@@ -8,7 +8,7 @@ import { gameInvitationKeys } from './gameInvitation/gameInvitationKeys'
 import { quizzThemeKeys } from './quizzTheme/quizzThemeKeys'
 import { quizzThemePackKeys } from './quizzThemePack/quizzThemePackKeys'
 import { historyKeys } from './history/historykeys'
-import { statsKeys } from './stats/statsKeys'
+import { gameStatsKeys } from './gameStats/gameStatsKeys'
 import { quizzKeys } from './quizz/quizzKeys'
 import { achievementKeys } from './achievement/achievementKeys'
 import { inventoryKeys } from './inventory/inventoryKeys'
@@ -23,7 +23,7 @@ export const queryKeys = mergeQueryKeys(
   quizzThemeKeys,
   quizzThemePackKeys,
   historyKeys,
-  statsKeys,
+  gameStatsKeys,
   quizzKeys,
   achievementKeys,
   inventoryKeys
