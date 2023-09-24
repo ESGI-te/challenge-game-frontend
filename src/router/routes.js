@@ -80,6 +80,12 @@ const routes = [
     component: () => import('views/HistoryView.vue')
   },
   {
+    path: '/game-stats/:gameCode',
+    name: 'game-stats',
+    meta: { layout: DefaultLayout },
+    component: () => import('views/GameStatsView.vue')
+  },
+  {
     path: '/achievements',
     name: 'achievements',
     meta: { layout: DefaultLayout },
@@ -88,6 +94,7 @@ const routes = [
   {
     path: '/game/:code',
     name: 'game',
+    meta: { layout: PublicLayout },
     component: () => import('views/GameView.vue')
   },
   {
@@ -128,7 +135,7 @@ const routes = [
     name: 'payment_cancel',
     meta: { layout: DefaultLayout },
     component: () => import('views/PaymentCancelView.vue')
-  },
+  }
 ]
 
 export default routes

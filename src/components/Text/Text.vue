@@ -13,6 +13,10 @@ const props = defineProps({
   bold: {
     type: Boolean,
     default: false
+  },
+  textAlign: {
+    type: String,
+    default: 'left'
   }
 })
 
@@ -62,6 +66,12 @@ const textVariants = {
     font-weight: 400;
     line-height: 34.75px;
   `,
+  h5: `
+    font-size: 1.125rem;
+    font-family: 'Dela Gothic One', cursive;
+    font-weight: 400;
+    line-height: 30px;
+  `,
   footnote: `
     font-size: 0.875rem;
     font-family: 'Catamaran', sans- serif;
@@ -74,11 +84,12 @@ const Text = styled('p', props)`
   ${({ variant }) => textVariants[variant]};
   color: ${({ color }) => `var(${color})`};
   ${({ bold }) => bold && 'font-weight: 800;'}
+  ${({ textAlign }) => textAlign && `text-align: ${textAlign};`}
 `
 </script>
 
 <template>
-  <Text :as="VARIANTS[props.variant]" :variant="variant" :color="color" :bold="props.bold">
+  <Text :as="VARIANTS[props.variant]" :variant="variant" :color="color" :bold="props.bold" :textAlign="props.textAlign">
     <slot />
   </Text>
 </template>

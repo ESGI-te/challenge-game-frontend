@@ -1,8 +1,9 @@
 <script setup>
 import styled from 'vue3-styled-components'
 import Text from '@/components/Text'
+import Stack from '@/components/layout/Stack'
 
-const props = defineProps({
+defineProps({
   stats: Object
 })
 
@@ -26,40 +27,32 @@ const Card = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1rem 2.5rem;
-  gap: 0.5rem;
+  row-gap: 0.5rem;
+
+  & > * {
+    flex: 1;
+    width: 100%;
+  }
+
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     flex-direction: row;
-
     justify-content: space-between;
+
+    & > * {
+      flex: 1;
+      width: 50%;
+    }
   }
 `
+const Line = styled(Stack)`
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 1rem;
 
-const HorizontalBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-`
-
-const VerticalBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    flex-direction: column;
-  }
-`
-
-const Line = styled.div`
-  height: 0.125rem;
-  width: 90%;
-  background: var(--black);
-  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    width: 0.08rem;
-    height: 90%;
+    padding-bottom: 0;
+    padding-right: 1rem;
+    border-bottom: none;
+    border-right: 1px solid var(--black);
   }
 `
 </script>
@@ -67,39 +60,15 @@ const Line = styled.div`
 <template>
   <Wrapper>
     <Card>
-      <HorizontalBox>
+      <Line gap="0.25rem" align="center">
         <Text variant="title" color="--primary">{{ toInt(stats?.AverageRank) }}</Text>
-        <Text variant="p"
-          ><b>
-            éme au classement en <br />
-            moyenne
-          </b>
-        </Text>
-      </HorizontalBox>
-      <Line></Line>
-      <VerticalBox>
+        <Text bold> rang moyen </Text>
+      </Line>
+      <!-- <Line></Line> -->
+      <Stack gap="0.25rem" align="center">
         <Text variant="title" color="--primary">{{ toInt(stats?.AverageScore) }}pt</Text>
-        <Text variant="p"> <b>de score moyen</b> </Text>
-      </VerticalBox>
-      <Line></Line>
-      <!-- <HorizontalBox>
-        <Text variant="title" color="--primary">{{
-          toInt(stats?.AverageLivesRemained)
-        }}</Text>
-        <Text variant="p"><b> remaining lives </b> </Text>
-      </HorizontalBox> -->
+        <Text bold> score moyen </Text>
+      </Stack>
     </Card>
   </Wrapper>
 </template>
-
-<style scoped>
-.card {
-  border: 1px black solid;
-  padding: 10px;
-  margin: 10px;
-  width: 200px;
-}
-.title {
-  padding: 10px;
-}
-</style>

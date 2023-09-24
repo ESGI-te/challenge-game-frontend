@@ -3,7 +3,7 @@ import styled from 'vue3-styled-components'
 import { defineProps } from 'vue'
 
 const props = defineProps({
-  gap: Number || String,
+  gap: String,
   justify: String,
   align: String
 })

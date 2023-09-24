@@ -1,503 +1,250 @@
-<template>
-  <div class="game-view">
-    <h1 v-if="game.data">{{ game.data.name }}</h1>
-    <div class="current-question" v-if="game.currentQuestion">
-      <p>GAME{{ game.code }}</p>
-
-      <div class="codeButton">
-        <LeaveButton @click="handleLeaveLobby"> QUITTER LA ROOM </LeaveButton>
-        <img
-          src="../../public/img/Friend.png"
-          alt="friends"
-          class="friends-list"
-          @click="togglePlayerColumn"
-        />
-      </div>
-      <p>{{ game.currentQuestion.question }}</p>
-      <div class="question-info">
-        <div class="time-zone">
-          <img src="../../public/icons/chrono.png" alt="Chronometer" class="chrono" />
-          <p>{{ game.remainingTime }}</p>
-        </div>
-        <p>? {{ game.currentQuestion.id }} /30</p>
-      </div>
-      <div class="time-bar-container">
-        <div class="time-bar" :style="{ width: timeBarWidth }"></div>
-      </div>
-      <div class="propositions">
-        <div
-          class="proposition"
-          v-for="(proposition, index) in game.currentQuestion.propositions"
-          :key="index"
-          @click="updateSelectedProposition(index)"
-        >
-          <input
-            type="checkbox"
-            :id="`checkbox${index}`"
-            :value="proposition"
-            :checked="selectedProposition === proposition"
-            @change="handleCheckboxChange"
-          />
-          <label :for="`checkbox${index}`">{{ proposition }}</label>
-        </div>
-      </div>
-      <button @click="submitAnswer" :disabled="isAnswered" :class="{ answered: isAnswered }">
-        {{ isAnswered ? 'Réponse envoyée!' : 'Valider' }}
-      </button>
-    </div>
-    <div v-if="isModalVisible" class="modal">
-      <div class="modal-content">
-        <h3>Winners:</h3>
-        <ul>
-          <li v-for="winner in winners" :key="winner.id">
-            {{ winner.username }} - {{ winner.score }} points
-          </li>
-        </ul>
-        <button @click="closeModal">Close</button>
-      </div>
-    </div>
-    <div class="players" v-if="game.data" v-show="isPlayerColumnVisible" :key="refreshKey">
-      <div class="playerBoard">
-        <h2>Joueurs</h2>
-        <h2>({{ game.data.players?.length }})</h2>
-      </div>
-      <div
-        class="player-card"
-        v-for="player in game.data.players"
-        :key="player.id + player.score + player.lives"
-      >
-        <img src="../../public/img/avatar-1.svg" alt="Player Image" class="player-image" />
-        <div class="player-info">
-          <h3>{{ player.username }}</h3>
-          <p>{{ player.score }} P</p>
-          <p>
-            <span
-              :class="{
-                online: player.status === 'En ligne',
-                offline: player.status !== 'En ligne'
-              }"
-              >{{ player.status }}</span
-            >
-          </p>
-          <div class="lives">
-            <img
-              v-for="(life, index) in Array(player.lives).fill()"
-              :key="index"
-              src="../../public/icons/heart-solid.svg"
-              alt="Heart"
-              class="heart"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import Button from 'components/Button'
+import Text from 'components/Text'
 import styled from 'vue3-styled-components'
-import { onMounted, onUnmounted, reactive, watchEffect } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGameByCodeQuery } from 'queries/game/useGameByCodeQuery'
-import socket, { refreshSocketConnection } from '@/websockets/game.ws'
-import { state as socketState } from '@/websockets/game.ws'
-import { ref } from 'vue'
-import { getCurrentInstance } from 'vue'
-const { forceUpdate } = getCurrentInstance()
+import socket, { clearGameSocketState, state, sendAnswer } from '@/websockets/game.ws'
+import GameQuestionAnswers from 'components/GameQuestionAnswers'
+import GameRanking from 'components/GameRanking'
+import { useResponsive } from '@/composables/useResponsive'
+import Modal from 'components/Modal'
+import Stack from '@/components/layout/Stack'
+import { computed } from 'vue'
+import Cluster from '@/components/layout/Cluster'
+import GameEliminatedModal from '@/components/GameEliminatedModal'
+import { useUserQuery } from '@/queries/user/useUserQuery'
+import UserLives from '@/components/UserLives'
 
-const refreshKey = ref(0)
-const winners = ref([])
-const isModalVisible = ref(false)
-const isAnswered = ref(false)
-const timeBarWidth = ref('100%')
 const { currentRoute, replace } = useRouter()
 const code = currentRoute.value.params.code
-const game = reactive({ data: {}, currentQuestion: {}, remainingTime: null })
-const { data: gameData } = useGameByCodeQuery(code)
-const selectedProposition = ref(null)
-const handleCheckboxChange = () => {}
-const updateSelectedProposition = (index) => {
-  const clickedProposition = game.currentQuestion.propositions[index]
-
-  if (selectedProposition.value === clickedProposition) {
-    selectedProposition.value = null
-  } else {
-    selectedProposition.value = clickedProposition
-  }
-}
-const isPlayerColumnVisible = ref(true)
-const togglePlayerColumn = () => {
-  isPlayerColumnVisible.value = !isPlayerColumnVisible.value
-}
-const LeaveButton = styled(Button)`
-  width: 100% !important;
-  margin-bottom: 1rem;
-  background-color: var(--red) !important;
-`
-const submitAnswer = () => {
-  if (selectedProposition.value) {
-    socket.emit('answer', {
-      gameId: game.data._id,
-      questionId: game.currentQuestion.id,
-      answer: selectedProposition.value
-    })
-    isAnswered.value = true
-    console.log(selectedProposition.value)
-  }
-}
-socket.on('game_over', (winnersData) => {
-  game.currentQuestion = null
-  winners.value = winnersData
-  isModalVisible.value = true
-  console.log('Game has ended. Winners:', winnersData)
-})
-const closeModal = () => {
-  isModalVisible.value = false
-}
-watchEffect(() => {
-  if (gameData.value) {
-    Object.assign(game.data, gameData.value)
-    // Game data is ready, request remaining time
-    socket.emit('request_remaining_time', {
-      gameId: game.data._id
-    })
-  }
-  game.currentQuestion = socketState.currentQuestion
-  if (game.currentQuestion && game.remainingTime !== null) {
-    const totalTime = 15
-    const remainingTimePercentage = (game.remainingTime / totalTime) * 100
-    timeBarWidth.value = `${remainingTimePercentage}%`
-  }
-})
+const { data: game } = useGameByCodeQuery(code)
+const { isDesktopAndUp } = useResponsive()
+const isRankingModalOpen = ref(false)
+const themeName = computed(() => game.value?.settings?.theme?.name)
+const { data: user } = useUserQuery()
+const userLives = computed(() => state.players.find((p) => p.userId === user.value._id)?.lives)
+const userScore = computed(() => state.players.find((p) => p.userId === user.value._id)?.score)
 
 onMounted(() => {
   if (!code) return
   socket.io.opts.query = { code }
-  console.log('voici le code', code)
   socket.connect()
-
-  socket.emit('start_game')
-
-  socket.on('question', (question) => {
-    console.log('Received question from socket: ', question)
-
-    if (question) {
-      game.currentQuestion = question
-      game.remainingTime = question.remainingTime
-      isAnswered.value = false
-
-      if (question.remainingTime === null) {
-        console.log('Remaining time is null, requesting remaining time from server...')
-        socket.emit('request_remaining_time', {
-          gameId: game.data._id,
-          questionId: game.currentQuestion.id
-        })
-      }
-    } else {
-      console.log('Received null question from socket')
-    }
-  })
-
-  socket.on('notification', (notification) => {
-    console.log(notification)
-  })
-
-  socket.on('score_updated', (updatedScore) => {
-    game.data.players = game.data.players.map((player) => {
-      if (player.id === updatedScore.playerId) {
-        return {
-          ...player,
-          score: updatedScore.score
-        }
-      }
-      return player
-    })
-    console.log('Updated players:', game.data.players)
-    refreshKey.value++
-    forceUpdate()
-  })
-
-  let remainingTimeRetryCount = 0
-
-  socket.on('remaining_time', (remainingTime) => {
-    console.log('Received remaining time from socket: ', remainingTime)
-
-    if (remainingTime === null) {
-      console.log('Received null for remaining time, requesting again...')
-      if (remainingTimeRetryCount < 3) {
-        remainingTimeRetryCount++
-        refreshSocketConnection()
-      } else {
-        console.log('Failed to get remaining time after several retries. Please handle this case.')
-      }
-    } else {
-      game.remainingTime = remainingTime
-      remainingTimeRetryCount = 0
-    }
-  })
 })
 
-socket.on('error', (error) => {
-  console.error('Socket Error:', error)
+onUnmounted(() => {
+  socket.disconnect()
+  clearGameSocketState()
 })
 
-const handleLeaveLobby = () => {
+socket.on('game_over', (gameStatsId) => {
+  replace({ name: 'game-stats', params: { gameCode: code }, state: { gameStatsId } })
+})
+
+const handleLeaveGame = () => {
   socket.disconnect()
   replace({ name: 'home' })
 }
 
-onUnmounted(() => {
-  socket.disconnect()
-})
-</script>
-
-<style scoped>
-.question-info {
-  display: flex;
-  justify-content: center;
-}
-.time-zone {
-  width: 25%;
-  display: flex;
-  max-height: 39px;
-  display: flex;
-  align-items: center;
-}
-.codeButton {
-  display: flex;
-}
-.proposition {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 5px;
+const handleAnswer = (e) => {
+  if (state.currentAnswer || state.isEliminated) return
+  const answer = e.target.value
+  state.currentAnswer = answer
+  const answerTime = Date.now() - state.currentQuestionTime
+  sendAnswer({ answer, answerTime })
 }
 
-.heart {
-  height: 20px;
-  width: 20px;
+const onOpenRankingModal = () => {
+  isRankingModalOpen.value = true
 }
-.time-bar-container {
-  width: 100%;
-  height: 10px;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-.friends-list {
-  margin-left: 17px;
-  height: 58px;
-}
-.time-bar {
-  height: 100%;
-  background-color: #467966;
-  border-radius: 5px;
-  transition: width 1s linear;
+const onCloseRankingModal = () => {
+  isRankingModalOpen.value = false
 }
 
-input[type='checkbox'] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid black;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.playerBoard {
-  display: flex;
-  justify-content: space-between;
-}
-input[type='checkbox']:checked {
-  background-color: #467966;
-}
-
-label {
-  color: #000;
-}
-
-.propositions {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-}
-
-button {
-  background-color: #466d79;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 0px;
-  width: 100%;
-  height: 58px;
-  cursor: pointer;
-}
-
-.chrono {
-  height: 25px;
-  width: 25px;
-  margin-right: 5px;
-}
-button.answered {
-  background-color: #88c9a7;
-  cursor: default;
-}
-.current-question {
-  margin-bottom: 20px;
-  border-radius: 10px;
-}
-
-.current-question h2 {
-  margin-bottom: 10px;
-  text-wrap: balance;
-  color: black;
-  font-size: 24px;
-  display: flex;
-  justify-content: center;
-}
-.current-question h2 {
-  margin-bottom: 1rem;
-}
-.current-question p {
-  color: black;
-  font-size: 24px;
-  font-weight: bold;
-  display: flex;
-  text-align: center;
-}
-.game-view {
-  padding: 20px;
-}
-.proposition {
-  background-color: white;
-  color: #fff;
-  padding: 10px 10px;
-  display: flex;
-  border: black solid 1px;
-  height: 58px;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.players {
-  border-radius: 10px;
-  color: black;
-}
-
-.players h2 {
-  margin-bottom: 10px;
-}
-
-.player-card {
-  background-color: #f0f0f0;
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 5px;
-}
-
-.player-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  border: #000 1px solid;
-}
-
-.player-image {
-  width: 30%;
-}
-
-.player-info {
+const AnswersWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-}
+  gap: 1rem;
 
-.online {
-  color: green;
-}
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    display: grid;
+    grid-template-columns: repeat(2, 250px);
+    grid-template-rows: repeat(2, 1fr);
+  }
 
-.offline {
-  color: green;
-}
-@media (min-width: 1024px) {
-  .game-view {
+  ${({ isEliminated }) =>
+    isEliminated &&
+    `
+    opacity: 0.8;
+    filter: grayscale(100%);
+    cursor: not-allowed;
+    pointer-events: none;
+  `}
+`
+const LeaveButton = styled(Button)`
+  border: solid 2px var(--red) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white) !important;
+  width: fit-content !important;
+
+  & > img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+`
+const RankingButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  background-color: var(--white) !important;
+  border: solid 2px var(--black) !important;
+  flex: 1;
+
+  & > img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    flex: none;
+    width: fit-content !important;
+  }
+`
+const ButtonsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+`
+const Container = styled.div`
+  padding: 2.5rem 1.5rem;
+  width: 100%;
+  height: 100%;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     display: flex;
-    justify-content: space-between;
-    height: 100vh;
-    padding: 20px;
+    justify-content: center;
   }
-  .friends-list {
-    display: none;
-  }
-  .player-card {
-    margin: 0;
-    margin-bottom: 1rem;
-  }
-  .current-question {
-    width: 70%;
-    margin-right: 20px;
-  }
+`
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
 
-  .players {
-    flex: 1;
-    margin-top: 0.2rem;
-    max-width: 40%;
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
-}
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+`
+const PlayerInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    justify-content: flex-start;
+    column-gap: 2rem;
+  }
+`
+const GameInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self: center
+  row-gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+
+  ${({ theme }) => theme.mediaQueries.tabletAndUp} {
+    row-gap: 6rem;
+  }
+`
+const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-}
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 500px;
-}
-.modal-content button {
-  display: block;
-  background-color: #2196f3;
-  color: white;
+  flex: 1;
+`
+const Iframe = styled.iframe`
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 20px;
   align-self: center;
-}
-.modal-content button:hover {
-  background-color: #1976d2;
-}
-.modal-content ul {
-  list-style-type: none;
-  padding-left: 0;
-}
 
-@media (max-width: 768px) {
-  .modal-content {
-    width: 90%;
+  ${({ theme }) => theme.mediaQueries.tabletAndUp} {
+    width: 300px;
+    height: 300px;
   }
-}
-@media (min-width: 769px) {
-  .modal-content {
-    width: 50%;
-    max-width: 600px;
-  }
-}
-</style>
+`
+</script>
+
+<template>
+  <Container>
+    <GameInnerWrapper>
+      <Header>
+        <PlayerInfoWrapper>
+          <UserLives
+            v-if="game?.settings?.lives && userLives"
+            size="1.5rem"
+            :nbLives="game?.settings?.lives"
+            :playerLives="userLives"
+          />
+          <Text v-if="isDesktopAndUp" variant="h2">|</Text>
+          <Text variant="h3">{{ userScore }}pt</Text>
+        </PlayerInfoWrapper>
+        <ButtonsWrapper>
+          <RankingButton @click="onOpenRankingModal">
+            <img src="/icons/achievement.svg" alt="achievement" />
+            <Text bold>Ranking</Text>
+          </RankingButton>
+          <LeaveButton @click="handleLeaveGame">
+            <img src="/icons/leave.svg" alt="exit" />
+          </LeaveButton>
+        </ButtonsWrapper>
+      </Header>
+      <Stack v-if="!!state.currentQuestion" gap="2rem">
+        <Cluster align="center" justify="space-between">
+          <Text variant="h4">{{ themeName }}</Text>
+          <Cluster gap="0.5rem" align="center">
+            <Text variant="h3">?</Text>
+            <Text variant="h5"
+              >{{ state.currentQuestion.index || '?' }} / {{ game?.settings?.nbQuestions }}</Text
+            >
+          </Cluster>
+        </Cluster>
+        <Text variant="h5" textAlign="center">{{ state.currentQuestion.question.question }}</Text>
+        <v-progress-linear
+          color="var(--primary)"
+          height="10"
+          :max="game.settings.questionTime * 1000"
+          :model-value="state.questionTimeLeft"
+        ></v-progress-linear>
+        <AnswersWrapper :isEliminated="state.isEliminated">
+          <GameQuestionAnswers
+            :hasAnswered="state.hasAnswered"
+            :currentAnswer="state.currentAnswer"
+            :isAnswerCorrect="state.isAnswerCorrect"
+            :answers="state.currentQuestion.question.propositions"
+            :handleAnswer="handleAnswer"
+          />
+        </AnswersWrapper>
+      </Stack>
+      <LoaderWrapper v-else>
+        <Iframe
+          src="https://lottie.host/?file=bf8c3633-0982-4b80-a0e3-60c12fefe74a/lA0i0rH0AU.json"
+        ></Iframe>
+      </LoaderWrapper>
+    </GameInnerWrapper>
+  </Container>
+  <Modal :isOpen="isRankingModalOpen" :onClose="onCloseRankingModal" title="Ranking" size="md">
+    <GameRanking :nbLives="game?.settings?.lives" :players="state.players" />
+  </Modal>
+  <GameEliminatedModal
+    :isOpen="state.isEliminated && !state.gameOver"
+    :onClose="() => (state.isEliminated = false)"
+    :score="userScore"
+    :handleLeaveGame="handleLeaveGame"
+  />
+</template>
