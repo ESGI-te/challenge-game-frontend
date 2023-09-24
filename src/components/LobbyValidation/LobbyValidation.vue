@@ -19,9 +19,8 @@ const nbValidatedUsers = computed(
 )
 
 const updateProgressBar = () => {
-  if (state.validationTime > 0) {
-    state.validationTime -= 1
-  }
+  if (state.validationTime <= 0) return
+  state.validationTime -= 1
 }
 
 const intervalId = setInterval(updateProgressBar, 1000)
@@ -58,12 +57,8 @@ const ButtonsWrapper = styled('div')`
 <template>
   <Stack>
     <Text variant="h4">The game is about to start, please confirm</Text>
-    <v-progress-linear
-      color="var(--primary)"
-      height="10"
-      max="30"
-      :model-value="state.validationTime"
-    ></v-progress-linear>
+    <v-progress-linear color="var(--primary)" height="10" max="30"
+      :model-value="state.validationTime"></v-progress-linear>
     <Text>{{ nbValidatedUsers }}</Text>
     <ButtonsWrapper>
       <Button bgColor="--red" v-if="isOwner" @click="cancelValidation">Cancel</Button>

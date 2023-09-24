@@ -12,8 +12,13 @@ import InputCheckboxCard from 'components/InputCheckboxCard'
 import gameIcon from '/img/history-game.svg'
 import { getRandomColor } from '@/utils/helpers'
 import { useInventoryThemesQuery } from '@/queries/inventory/useInventoryThemesQuery'
+import { usePublicQuizzThemesQuery } from '@/queries/quizzTheme/usePublicQuizzThemesQuery'
+import { computed } from 'vue'
 
 const { data: quizzThemes } = useInventoryThemesQuery()
+const { data: publicThemes } = usePublicQuizzThemesQuery()
+
+const themes = computed(() => publicThemes.value?.concat(quizzThemes.value || []))
 
 const { handleSubmit, meta } = useForm({
   initialValues: {
@@ -21,7 +26,8 @@ const { handleSubmit, meta } = useForm({
     questionTime: 30,
     difficulty: 1,
     themes: [],
-    lives: 3
+    lives: 3,
+    nbQuestions: 15
   },
   validationSchema: schema
 })
@@ -34,13 +40,11 @@ const onSubmit = handleSubmit((values) => {
   })
 })
 
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  row-gap: 1rem;
-  height: 100%;
+  row-gap: 2rem;
 `
 const Stack = styled.div`
   width: 100%;
@@ -142,15 +146,23 @@ const RadioButton = styled(InputRadio)`
             <RadioButton name="lives" :value="2"><Text>2</Text></RadioButton>
             <RadioButton name="lives" :value="3"><Text>3</Text></RadioButton>
             <RadioButton name="lives" :value="6"><Text>6</Text></RadioButton>
-            <RadioButton name="lives" :value="100"><Text>100</Text></RadioButton>
+            <RadioButton name="lives" :value="10"><Text>10</Text></RadioButton>
           </Cluster>
         </Stack>
+        <InputText name="nbQuestions" label="Questions number" type="number" />
       </Stack>
       <ThemeWrapper>
         <Text>Themes</Text>
         <Themes>
-          <CheckboxCard v-for="(theme, i) in quizzThemes" name="themes" :value="theme._id" :key="theme._id"
-            :color="getRandomColor(i)" :icon="gameIcon"><Text color="--white" bold>{{ theme.name }}</Text></CheckboxCard>
+          <CheckboxCard
+            v-for="(theme, i) in themes"
+            name="themes"
+            :value="theme._id"
+            :key="theme._id"
+            :color="getRandomColor(i)"
+            :icon="gameIcon"
+            ><Text color="--white" bold>{{ theme.name }}</Text></CheckboxCard
+          >
         </Themes>
       </ThemeWrapper>
     </InnerWrapper>

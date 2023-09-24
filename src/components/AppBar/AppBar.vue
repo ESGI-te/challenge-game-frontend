@@ -3,15 +3,20 @@ import styled from 'vue3-styled-components'
 import { RouterLink, useRoute } from 'vue-router'
 import headerLogo from '/img/header-logo.svg'
 import homeIcon from '/icons/home.svg'
-import profileIcon from '/icons/profile.svg'
 import friendsIcon from '/icons/friends.svg'
 import shopIcon from '/icons/shop.svg'
 import { useResponsive } from 'composables/useResponsive'
 import Text from 'components/Text'
+import avatarIcon from '/img/avatar-1.svg'
+import { useUserQuery } from '@/queries/user/useUserQuery'
+import { useAuthStore } from '@/stores/auth.store'
+import { VMenu, VListItem, VList } from 'vuetify/lib/components/index.mjs'
 
 const route = useRoute()
+const { logout } = useAuthStore()
 const isRouteActive = (to) => route.path.startsWith(to) || route.name.startsWith(to.name)
 const { isDesktopAndUp } = useResponsive()
+const { data: user } = useUserQuery()
 
 const Wrapper = styled.header`
   display: flex;
@@ -84,6 +89,41 @@ const Logo = styled.img`
     display: initial;
   }
 `
+const Avatar = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    width: 2rem;
+    height: 2rem;
+  }
+`
+const ProfileButton = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  cursor: pointer;
+
+  & > p {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--white);
+  }
+`
+const MenuItem = styled(VList)`
+  width: 100%;
+  padding: 0.75rem;
+  & > p,
+  > a {
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  & > a {
+    color: var(--black);
+  }
+  cursor: pointer;
+`
 </script>
 
 <template>
@@ -104,8 +144,23 @@ const Logo = styled.img`
         <img v-if="!isDesktopAndUp" :src="friendsIcon" alt="Friends" />
         <LinkText as="span">Friends</LinkText>
       </Link>
-      <Link to="/profile">
-        <img v-if="!isDesktopAndUp" :src="profileIcon" alt="Profile" />
+      <ProfileButton v-if="isDesktopAndUp">
+        <Avatar :src="avatarIcon" alt="avatar" />
+        <Text>{{ user?.username }}</Text>
+        <VMenu offset="10" width="12rem" activator="parent">
+          <VList>
+            <MenuItem>
+              <Link to="/profile">Profile</Link>
+            </MenuItem>
+            <MenuItem>
+              <Text color="--red" textAlign="center" @click="logout">Logout</Text>
+            </MenuItem>
+          </VList>
+        </VMenu>
+      </ProfileButton>
+
+      <Link v-else to="/profile">
+        <Avatar :src="avatarIcon" alt="avatar" />
         <LinkText as="span">Profile</LinkText>
       </Link>
     </Nav>

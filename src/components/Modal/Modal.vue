@@ -59,7 +59,6 @@ const ModalInner = styled.div`
   top: 50%;
   left: 50%;
   width: 100%;
-  max-width: ${MODAL_SIZE[props.size]};
   transform: translate(-50%, -50%);
   background-color: var(--beige);
   border-color: solid 2px var(--black);
@@ -70,6 +69,7 @@ const ModalInner = styled.div`
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     row-gap: 2rem;
     height: initial;
+    max-width: ${MODAL_SIZE[props.size]};
   }
 `
 const ModalHeader = styled.div`

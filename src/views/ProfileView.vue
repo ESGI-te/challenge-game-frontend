@@ -7,11 +7,15 @@ import AchievementCard from 'components/AchievementCard'
 import { computed } from 'vue'
 import { useAchievementsQuery } from '@/queries/achievement/useAchievementsQuery'
 import Link from '@/components/Link'
+import Button from '@/components/Button'
+import { useAuthStore } from '@/stores/auth.store'
+import { useResponsive } from '@/composables/useResponsive'
 
+const { isDesktopAndUp } = useResponsive()
 const { data: achievements } = useAchievementsQuery()
 const { data: userAchievements } = useUserAchievementsQuery()
 const { data: user } = useUserQuery()
-
+const { logout } = useAuthStore()
 const userAchievementsUnlocked = computed(() =>
   userAchievements.value?.achievements?.filter((achievement) => achievement.achieved === true)
 )
@@ -32,6 +36,9 @@ const HeaderWrapper = styled.div`
   width: 100%;
   padding-inline: 1rem;
   padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     padding-top: 2.5rem;
@@ -59,7 +66,7 @@ const InformationOuterWrapper = styled(Block)`
 const InformationWrapper = styled.div`
   width: 100%;
   flex: 1;
-  
+
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
     padding-inline: 1.5rem;
     flex: none;
@@ -126,12 +133,19 @@ const AchievementsTitleWrapper = styled.div`
     padding-right: 1.5rem;
   }
 `
+const LogoutButton = styled(Button)`
+  border: none !important;
+  padding: 0 !important;
+  color: var(--red) !important;
+  background-color: transparent !important;
+`
 </script>
 
 <template>
   <Container>
     <HeaderWrapper>
       <Text variant="h3">Profile</Text>
+      <LogoutButton v-if="!isDesktopAndUp" @click="logout">Logout</LogoutButton>
     </HeaderWrapper>
     <InformationWrapper>
       <InformationOuterWrapper>
@@ -154,10 +168,16 @@ const AchievementsTitleWrapper = styled.div`
         <Link :to="{ name: 'achievements' }">See all</Link>
       </AchievementsTitleWrapper>
       <AchievementsList v-if="userAchievementsUnlocked?.length > 0">
-        <AchievementCard :as="Link" :to="{ name: 'achievements' }" v-for="achievement in userAchievementsUnlocked"
-          :key="achievement.id" :label="achievements?.find((a) => a._id === achievement.id)?.label"
-          :description="achievements?.find((a) => a._id === achievement.id)?.description" isUnlocked />
-      </AchievementsList><Text v-else>No achievement unlocked yet</Text>
+        <AchievementCard
+          :as="Link"
+          :to="{ name: 'achievements' }"
+          v-for="achievement in userAchievementsUnlocked"
+          :key="achievement.id"
+          :label="achievements?.find((a) => a._id === achievement.id)?.label"
+          :description="achievements?.find((a) => a._id === achievement.id)?.description"
+          isUnlocked
+        /> </AchievementsList
+      ><Text v-else>No achievement unlocked yet</Text>
     </AchievementsWrapper>
   </Container>
 </template>

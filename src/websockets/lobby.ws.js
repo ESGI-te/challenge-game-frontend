@@ -86,4 +86,15 @@ socket.on('game_created', () => {
   state.gameCreationInProgress = false
 })
 
+export const clearLobbySocketState = () => {
+  state.notification = null
+  state.error = null
+  state.messages = []
+  state.themes = []
+  state.votedTheme = null
+  state.isValidationInProgress = false
+  state.validatedUsers = []
+  state.gameCreationInProgress = false
+}
+
 export default socket
