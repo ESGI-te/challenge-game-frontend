@@ -89,8 +89,7 @@ const row = styled.div`
     @click="
       router.push({
         name: 'game-stats',
-        params: { gameCode: data.code },
-        state: { gameStatsId: data.gameStatsId }
+        params: { gameCode: data.code }
       })
     "
   >

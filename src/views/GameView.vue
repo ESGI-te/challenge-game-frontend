@@ -38,8 +38,8 @@ onUnmounted(() => {
   clearGameSocketState()
 })
 
-socket.on('game_over', (gameStatsId) => {
-  replace({ name: 'game-stats', params: { gameCode: code }, state: { gameStatsId } })
+socket.on('game_over', () => {
+  replace({ name: 'game-stats', params: { gameCode: code } })
 })
 
 const handleLeaveGame = () => {
