@@ -15,8 +15,8 @@ const props = defineProps({
 const computedPrice = computed(() => {
   return props.themePack.price / 100
 })
-const SUCCESS_URL = `http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=themepack`
-const CANCEL_URL = 'http://localhost:5173/payment/cancel'
+const SUCCESS_URL = '/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=themepack'
+const CANCEL_URL = '/payment/cancel'
 const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
 
 const handlePayment = () => {

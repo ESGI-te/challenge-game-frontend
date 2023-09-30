@@ -15,10 +15,8 @@ const computedPrice = computed(() => {
   return props.theme.price / 100
 })
 
-const SUCCESS_URL = `${
-  import.meta.VITE_CLIENT_URL
-}/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=theme`
-const CANCEL_URL = `${import.meta.VITE_CLIENT_URL}/payment/cancel`
+const SUCCESS_URL = '/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=theme'
+const CANCEL_URL = '/payment/cancel'
 
 const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
 
