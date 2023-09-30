@@ -1,6 +1,6 @@
 <script setup>
 import { useCreateStripeCheckoutSessionMutation } from 'queries/stripeCheckoutSession/useCreateStripeCheckoutSessionMutation'
-import stripe from 'utils/stripe';
+import stripe from 'utils/stripe'
 import styled from 'vue3-styled-components'
 import Text from '@/components/Text'
 import Button from '../Button'
@@ -15,15 +15,15 @@ const props = defineProps({
 const computedPrice = computed(() => {
   return props.themePack.price / 100
 })
-const SUCCESS_URL = `http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=themepack`;
-const CANCEL_URL = 'http://localhost:5173/payment/cancel';
+const SUCCESS_URL = `http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=themepack`
+const CANCEL_URL = 'http://localhost:5173/payment/cancel'
 const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
 
 const handlePayment = () => {
-  if (!props.themePack) return;
+  if (!props.themePack) return
   const themePack = {
     ...props.themePack,
-    itemType: "thempack",
+    itemType: 'thempack',
     quantity: 1,
     successUrl: SUCCESS_URL,
     cancelUrl: CANCEL_URL
@@ -38,22 +38,18 @@ const handlePayment = () => {
 const Card = styled('div', props)`
   max-width: 700px;
   width: 100%;
-  height: 8rem;
   display: flex;
   max-width : 550px
-  flex-direction: column;
   border: 2px solid var(--black);
   background: center / contain no-repeat url('/img/themepack-illustration.png'), var(--white);
   padding: 1rem;
-  gap: 0.5rem;
+  column-gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
 
-  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  ${({ isOwned }) => isOwned && `
+  ${({ isOwned }) =>
+    isOwned &&
+    `
     opacity: 0.8;
     pointer-events: none;
     background-color: lightgrey;
@@ -78,10 +74,10 @@ const BuyButton = styled(Button)`
 <template>
   <Card :isOwned="props.isOwned">
     <InnerBox>
-      <Text variant="h4">
+      <Text variant="h5">
         <b>{{ props.themePack.name }}</b>
       </Text>
-      <Text variant="h4">
+      <Text variant="h5">
         <b> {{ computedPrice }}$</b>
       </Text>
     </InnerBox>
