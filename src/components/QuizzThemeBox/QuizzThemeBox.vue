@@ -1,6 +1,6 @@
 <script setup>
 import { useCreateStripeCheckoutSessionMutation } from 'queries/stripeCheckoutSession/useCreateStripeCheckoutSessionMutation'
-import stripe from 'utils/stripe';
+import stripe from 'utils/stripe'
 import styled from 'vue3-styled-components'
 import Text from '@/components/Text'
 import { defineProps, computed } from 'vue'
@@ -11,20 +11,22 @@ const props = defineProps({
   backgroundColor: String
 })
 
-const computedPrice = computed(
-  () => { return props.theme.price / 100 }
-)
+const computedPrice = computed(() => {
+  return props.theme.price / 100
+})
 
-const SUCCESS_URL = `http://localhost:5173/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=theme`;
-const CANCEL_URL = 'http://localhost:5173/payment/cancel';
+const SUCCESS_URL = `${
+  import.meta.VITE_CLIENT_URL
+}/payment/succes?session_id={CHECKOUT_SESSION_ID}&item_type=theme`
+const CANCEL_URL = `${import.meta.VITE_CLIENT_URL}/payment/cancel`
 
 const { mutate: createCheckoutSession, isLoading } = useCreateStripeCheckoutSessionMutation()
 
 const handlePayment = () => {
-  if (!props.theme) return;
+  if (!props.theme) return
   const theme = {
     ...props.theme,
-    itemType: "them",
+    itemType: 'them',
     quantity: 1,
     successUrl: SUCCESS_URL,
     cancelUrl: CANCEL_URL
@@ -35,7 +37,6 @@ const handlePayment = () => {
     }
   })
 }
-
 
 const Box = styled.button`
   width: 8.75rem;
@@ -58,20 +59,29 @@ const Box = styled.button`
     cursor: pointer;
   }
 
-  ${({ isOwned }) => isOwned && `
+  ${({ isOwned }) =>
+    isOwned &&
+    `
     opacity: 0.8;
     pointer-events: none;
     background-color: lightgrey;
   `}
 `
-
 </script>
 
 <template>
-  <Box @Click="handlePayment" :disabled="isLoading || props.isOwned" :isOwned="props.isOwned"
-    :backgroundColor="props.backgroundColor">
-    <Text variant="p" color="--white"> <b> {{ props.theme.name }} </b> </Text>
+  <Box
+    @Click="handlePayment"
+    :disabled="isLoading || props.isOwned"
+    :isOwned="props.isOwned"
+    :backgroundColor="props.backgroundColor"
+  >
+    <Text variant="p" color="--white">
+      <b> {{ props.theme.name }} </b>
+    </Text>
     <Text color="--primary" bold v-if="props.isOwned">Owned</Text>
-    <Text v-else variant="p" color="--white"> <b> {{ computedPrice }}$ </b> </Text>
+    <Text v-else variant="p" color="--white">
+      <b> {{ computedPrice }}$ </b>
+    </Text>
   </Box>
 </template>
