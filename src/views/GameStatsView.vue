@@ -1,18 +1,13 @@
 <script setup>
 import GameRanking from '@/components/GameRanking'
 import { useRouter } from 'vue-router'
-import { useGameStatsQuery } from '@/queries/gameStats/useGameStatsQuery'
-import { useGameByCodeQuery } from '@/queries/game/useGameByCodeQuery'
-import { computed } from 'vue'
 import Text from '@/components/Text'
 import styled from 'vue3-styled-components'
+import { useGameStatsByCodeQuery } from '@/queries/gameStats/useGameStatsQueryByCode'
 
 const router = useRouter()
 const gameCode = router.currentRoute.value.params.gameCode
-const gameStatsId = router.options.history.state.gameStatsId
-const { data: gameStats } = useGameStatsQuery(gameStatsId)
-const { data: game } = useGameByCodeQuery(gameCode)
-const isLoading = computed(() => !gameStats.value || !game.value)
+const { data: gameStats, isLoading } = useGameStatsByCodeQuery(gameCode)
 
 const Container = styled.div`
   display: flex;
@@ -36,7 +31,7 @@ const GameRankingWrapper = styled.div`
       <GameRanking
         v-if="!isLoading"
         :players="gameStats?.players"
-        :nbLives="game?.settings?.lives"
+        :nbLives="gameStats?.gameSettings?.lives"
         noOpacity
       />
     </GameRankingWrapper>

@@ -178,6 +178,10 @@ export const getGameStats = (gameStatsId) =>
   callApi({
     url: `/game-stats/${gameStatsId}`
   })
+export const getGameStatsByCode = (code) =>
+  callApi({
+    url: `/game-stats/code/${code}`
+  })
 export const getGameByCode = (code) =>
   callApi({
     url: `/games/${code}`

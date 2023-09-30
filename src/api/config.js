@@ -20,7 +20,11 @@ export const callApi = async ({ url, method = 'GET', data = null, headers = {} }
   const responseData = await response.json()
 
   if (!response.ok) {
-    throw new Error('Request failed')
+    if (response.status === 401 || response.status === 403) {
+      // auto logout if 401 response returned from api
+      localStorage.removeItem('token')
+      location.reload()
+    }
   }
 
   return responseData
