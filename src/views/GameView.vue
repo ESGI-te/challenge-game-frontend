@@ -19,7 +19,7 @@ import UserLives from '@/components/UserLives'
 
 const { currentRoute, replace } = useRouter()
 const code = currentRoute.value.params.code
-const { data: game } = useGameByCodeQuery(code)
+const { data: game, isError, isLoading } = useGameByCodeQuery(code)
 const { isDesktopAndUp } = useResponsive()
 const isRankingModalOpen = ref(false)
 const themeName = computed(() => game.value?.settings?.theme?.name)
@@ -36,6 +36,12 @@ onMounted(() => {
 onUnmounted(() => {
   socket.disconnect()
   clearGameSocketState()
+})
+
+socket.on('error', (error) => {
+  if (error === 'Game not found') {
+    replace('/home')
+  }
 })
 
 socket.on('game_over', () => {

@@ -2,14 +2,19 @@
 import styled from 'vue3-styled-components'
 import Text from '@/components/Text'
 import Stack from '@/components/layout/Stack'
+import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   stats: Object
 })
 
-const toInt = (number) => {
-  return parseInt(number)
-}
+const averangeRank = computed(() => {
+  return parseInt(props.stats?.AverageRank) || 'No data'
+})
+
+const averageScore = computed(() => {
+  return parseInt(props.stats?.AverageScore || 0)
+})
 
 const Wrapper = styled.div`
   width: 100%;
@@ -61,12 +66,12 @@ const Line = styled(Stack)`
   <Wrapper>
     <Card>
       <Line gap="0.25rem" align="center">
-        <Text variant="title" color="--primary">{{ toInt(stats?.AverageRank) }}</Text>
+        <Text variant="title" color="--primary">{{ averangeRank }}</Text>
         <Text bold> rang moyen </Text>
       </Line>
       <!-- <Line></Line> -->
       <Stack gap="0.25rem" align="center">
-        <Text variant="title" color="--primary">{{ toInt(stats?.AverageScore) }}pt</Text>
+        <Text variant="title" color="--primary">{{ averageScore }}pt</Text>
         <Text bold> score moyen </Text>
       </Stack>
     </Card>
