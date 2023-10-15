@@ -125,8 +125,8 @@ const routes = [
     ]
   },
   {
-    path: '/payment/succes',
-    name: 'payment_succes',
+    path: '/payment/success',
+    name: 'payment_success',
     meta: { layout: DefaultLayout },
     component: () => import('views/PaymentSuccesView.vue')
   },

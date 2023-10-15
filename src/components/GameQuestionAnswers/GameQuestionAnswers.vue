@@ -63,10 +63,6 @@ const AnswerLabel = styled.label`
     `
         cursor: not-allowed;
     `}
-
-    ${({ theme }) => theme.mediaQueries.desktopAndUp} {
-    max-width: 250px;
-  }
 `
 const HiddenInput = styled.input`
   display: none;

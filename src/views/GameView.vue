@@ -74,8 +74,10 @@ const AnswersWrapper = styled.div`
   gap: 1rem;
 
   ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    width: 100%;
+    align-self: center;
     display: grid;
-    grid-template-columns: repeat(2, 250px);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
   }
 
@@ -156,7 +158,7 @@ const PlayerInfoWrapper = styled.div`
     column-gap: 2rem;
   }
 `
-const GameInnerWrapper = styled.div`
+const GameWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center
@@ -167,6 +169,15 @@ const GameInnerWrapper = styled.div`
 
   ${({ theme }) => theme.mediaQueries.tabletAndUp} {
     row-gap: 6rem;
+  }
+`
+const GameInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+
+  ${({ theme }) => theme.mediaQueries.tabletAndUp} {
+    row-gap: 4rem;
   }
 `
 const LoaderWrapper = styled.div`
@@ -188,7 +199,7 @@ const Iframe = styled.iframe`
 
 <template>
   <Container>
-    <GameInnerWrapper>
+    <GameWrapper>
       <Header>
         <PlayerInfoWrapper>
           <UserLives
@@ -210,7 +221,7 @@ const Iframe = styled.iframe`
           </LeaveButton>
         </ButtonsWrapper>
       </Header>
-      <Stack v-if="!!state.currentQuestion" gap="2rem">
+      <GameInnerWrapper v-if="!!state.currentQuestion">
         <Cluster align="center" justify="space-between">
           <Text variant="h4">{{ themeName }}</Text>
           <Cluster gap="0.5rem" align="center">
@@ -236,13 +247,13 @@ const Iframe = styled.iframe`
             :handleAnswer="handleAnswer"
           />
         </AnswersWrapper>
-      </Stack>
+      </GameInnerWrapper>
       <LoaderWrapper v-else>
         <Iframe
           src="https://lottie.host/?file=bf8c3633-0982-4b80-a0e3-60c12fefe74a/lA0i0rH0AU.json"
         ></Iframe>
       </LoaderWrapper>
-    </GameInnerWrapper>
+    </GameWrapper>
   </Container>
   <Modal :isOpen="isRankingModalOpen" :onClose="onCloseRankingModal" title="Ranking" size="md">
     <GameRanking :nbLives="game?.settings?.lives" :players="state.players" />

@@ -94,6 +94,14 @@ const Themes = styled.div`
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
+
+  ${({ theme }) => theme.mediaQueries.desktopAndUp} {
+    flex-direction: row;
+    height: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow-y: auto;
+  }
 `
 const ThemeWrapper = styled.div`
   width: 100%;
@@ -101,14 +109,6 @@ const ThemeWrapper = styled.div`
   flex-direction: column;
   align-items: start;
   row-gap: 0.5rem;
-
-  ${({ theme }) => theme.mediaQueries.desktopLargeAndUp} {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
 `
 const RadioButton = styled(InputRadio)`
   ${({ theme }) => theme.mediaQueries.desktopLargeAndUp} {
